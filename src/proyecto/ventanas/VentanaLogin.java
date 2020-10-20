@@ -20,7 +20,6 @@ public class VentanaLogin extends JFrame {
     private JPanel contenido;
     static Thread hiloActual;
 
-
     public VentanaLogin() {
 
     	// Creación de componentes/contenedores de swing
