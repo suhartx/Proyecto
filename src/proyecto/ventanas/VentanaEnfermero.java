@@ -15,7 +15,7 @@ import javax.swing.JMenu;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 
-public class VentanaMedico extends JFrame {
+public class VentanaEnfermero extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField panelBusqueda;
@@ -27,7 +27,7 @@ public class VentanaMedico extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaMedico frame = new VentanaMedico();
+					VentanaEnfermero frame = new VentanaEnfermero();
 					frame.setVisible(true);
 
 				} catch (Exception e) {
@@ -40,8 +40,8 @@ public class VentanaMedico extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaMedico() {
-		setTitle("Ventana principal medico");
+	public VentanaEnfermero() {
+		setTitle("Ventana principal enfermero");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("src\\imagenes\\osakidetza.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds((int) (Toolkit.getDefaultToolkit().getScreenSize().width*0.2), (int) (Toolkit.getDefaultToolkit().getScreenSize().height*0.15),//establezco el tamaño de la ventana adapado para
