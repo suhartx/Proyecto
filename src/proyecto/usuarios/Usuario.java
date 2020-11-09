@@ -1,11 +1,33 @@
 package proyecto.usuarios;
 
-public class Usuario {
+import java.util.ArrayList;
+
+import proyecto.contenido.Cita;
+import proyecto.contenido.Prueba;
+import proyecto.contenido.Tratamiento;
+import sun.security.util.Password;
+
+public abstract class Usuario {
 
 	private String nombre;
-	private String comunismo;
+	private String apellido;
 	private String dni;
 	private char sexo;
+	private Password contraseña;
+	private float peso;
+	private float altura;
+	private String Alergias;
+	private float colesterol;
+	private float tension;
+	private String enfermedades;
+	private String tipoSangre;
+	private Medico medicoCabecera;
+
+
+	
+	ArrayList<Cita> citas = new ArrayList<Cita>();
+	ArrayList<Tratamiento> tratamientos = new ArrayList<Tratamiento>();
+	ArrayList<Prueba> pruebas = new ArrayList<Prueba>();
 	
 	public Usuario() {
 		
@@ -19,12 +41,12 @@ public class Usuario {
 		this.nombre = nombre;
 	}
 
-	public String getComunismo() {
-		return comunismo;
+	public String getApellido() {
+		return apellido;
 	}
 
-	public void setComunismo(String comunismo) {
-		this.comunismo = comunismo;
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
 	}
 
 	public String getDni() {
@@ -41,6 +63,14 @@ public class Usuario {
 
 	public void setSexo(char sexo) {
 		this.sexo = sexo;
+	}
+
+	public Password getContraseña() {
+		return contraseña;
+	}
+
+	public void setContraseña(Password contraseña) {
+		this.contraseña = contraseña;
 	}
 	
 }

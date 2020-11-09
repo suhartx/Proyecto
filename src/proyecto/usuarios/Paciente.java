@@ -1,18 +1,20 @@
 package proyecto.usuarios;
 
+import java.util.ArrayList;
+
+import proyecto.contenido.Cita;
+import proyecto.contenido.Prueba;
+import proyecto.contenido.Tratamiento;
+import sun.security.util.Password;
+
 public class Paciente extends Usuario {
 
-	private float peso;
-	private float altura;
-	private String[] Alergias;
-	private float colesterol;
-	private float tension;
-	private String[] enfermedades;
-	private String[] tipoSangre;
-	
 	
 	public Paciente() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
+
+
 
 }

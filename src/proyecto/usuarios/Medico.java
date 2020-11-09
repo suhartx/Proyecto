@@ -1,6 +1,8 @@
 package proyecto.usuarios;
 
-public class Medico extends Usuario {
+import interfaces.ICita;
+
+public class Medico extends Usuario implements ICita {
 
 	
 	public Medico() {
@@ -8,14 +10,22 @@ public class Medico extends Usuario {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void crear() {
+
+	@Override
+	public void crearCita() {
+		// TODO Auto-generated method stub
 		
 	}
-	public void modificar(){
+
+	@Override
+	public void mofificarCita() {
+		// TODO Auto-generated method stub
 		
 	}
-	
-	public void eliminar() {
+
+	@Override
+	public void eliminarCita() {
+		// TODO Auto-generated method stub
 		
 	}
 	
