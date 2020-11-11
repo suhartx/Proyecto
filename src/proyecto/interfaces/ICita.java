@@ -1,4 +1,4 @@
-package interfaces;
+package proyecto.interfaces;
 
 public interface ICita {
 

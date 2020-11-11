@@ -1,6 +1,6 @@
 package proyecto.usuarios;
 
-import interfaces.ICita;
+import proyecto.interfaces.ICita;
 import sun.security.util.Password;
 
 public class Enfermero extends Usuario implements ICita {

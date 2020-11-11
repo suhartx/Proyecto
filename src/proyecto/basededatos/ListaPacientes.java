@@ -1,4 +1,4 @@
-package basededatos;
+package proyecto.basededatos;
 
 import java.util.ArrayList;
 import java.util.HashMap;

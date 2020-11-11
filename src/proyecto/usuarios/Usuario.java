@@ -9,6 +9,9 @@ import sun.security.util.Password;
 
 public abstract class Usuario {
 
+
+
+
 	private String nombre;
 	private String apellido;
 	private String dni;
@@ -221,5 +224,12 @@ public abstract class Usuario {
 		this.pruebas = pruebas;
 	}
 	
+	@Override
+	public String toString() {
+		return "Usuario [nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", sexo=" + sexo
+				+ ", contraseña=" + contraseña + ", peso=" + peso + ", altura=" + altura + ", Alergias=" + Alergias
+				+ ", colesterol=" + colesterol + ", tension=" + tension + ", enfermedades=" + enfermedades
+				+ ", tipoSangre=" + tipoSangre + "]";
+	}
 
 }

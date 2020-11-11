@@ -1,4 +1,4 @@
-package basededatos;
+package proyecto.basededatos;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ public class UsuariosBD {
 	public static void main(String[] args) {
 		UsuariosBD bd = new UsuariosBD();
 	}
-	ArrayList<Usuario> usuariosBD = new ArrayList<Usuario>();
+	ArrayList<Usuario> listaUsuariosBD = new ArrayList<Usuario>();
 	
 	
 	public UsuariosBD() {
@@ -44,14 +44,21 @@ public class UsuariosBD {
 //					System.out.print(mirResultSet.getString(i)+" ");
 //				}
 //					System.out.println();
-				Medico m = new Medico(mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
-								mirResultSet.getString("sexo").charAt(0),mirResultSet.getString("contraseña"), mirResultSet.getFloat("peso"),
-								(int)mirResultSet.getInt("altura"), mirResultSet.getString("alergias"), mirResultSet.getInt("colesterol"),
-								(int)mirResultSet.getInt("tension"), mirResultSet.getString("enfermedades"), mirResultSet.getString("tipo_sangre"));
-					if(mirResultSet.getString("tipo")=="medico") {//SI EL USUARIO ES DE TIPO MEDICO
-						usuariosBD.add(m);
+				System.out.println("vaa  ");
+
+
+					if(mirResultSet.getString("tipo").equals("medico")) {//SI EL USUARIO ES DE TIPO MEDICO
+						System.out.println("hay medico");
+						
+					Medico m = new Medico(mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
+							mirResultSet.getString("sexo").charAt(0),mirResultSet.getString("contraseña"), mirResultSet.getFloat("peso"),
+							(int)mirResultSet.getInt("altura"), mirResultSet.getString("alergias"), mirResultSet.getInt("colesterol"),
+							(int)mirResultSet.getInt("tension"), mirResultSet.getString("enfermedades"), mirResultSet.getString("tipo_sangre"));
+						listaUsuariosBD.add(m);
+						System.out.println(listaUsuariosBD.toString());
 					
-					System.out.println(mirResultSet.toString());
+
+
 			}
 				}
 		} catch (Exception e) {
