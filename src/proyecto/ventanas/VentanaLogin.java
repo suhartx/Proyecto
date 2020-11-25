@@ -9,9 +9,9 @@ import java.awt.image.ImageProducer;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-/** Ventana de logueo de la aplicación
+/** Ventana de logueo de la aplicaciï¿½n
  * @author Suhar Txabarri Aurrekoetxea
- * Facultad de Ingeniería - Universidad de Deusto
+ * Facultad de Ingenierï¿½a - Universidad de Deusto
  */
 
 
@@ -29,7 +29,7 @@ public class VentanaLogin extends JFrame {
 
     public VentanaLogin() {
 
-    	// Creación de componentes/contenedores de swing
+    	// Creaciï¿½n de componentes/contenedores de swing
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle( "Ventana Login" );
         setSize( 400, 350 );
@@ -57,7 +57,7 @@ public class VentanaLogin extends JFrame {
 		userText.setBounds(140, 100, 160, 25);
 		contenido.add(userText);
 		
-		JLabel passwordLabel = new JLabel("Contraseña:");
+		JLabel passwordLabel = new JLabel("Contrasenya:");
 		passwordLabel.setBounds(50, 150, 80, 25);
 		contenido.add(passwordLabel);
 

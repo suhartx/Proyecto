@@ -11,12 +11,21 @@ public abstract class Usuario {
 
 
 
+	public int getCodUsuario() {
+		return codUsuario;
+	}
 
+
+	public void setCodUsuario(int codUsuario) {
+		this.codUsuario = codUsuario;
+	}
+
+	private int codUsuario;
 	private String nombre;
 	private String apellido;
 	private String dni;
 	private char sexo;
-	private String contraseña;
+	private String contrasenya;
 	private float peso;
 	private int altura;
 	private String Alergias;
@@ -38,7 +47,7 @@ public abstract class Usuario {
 	 * @param apellido
 	 * @param dni
 	 * @param sexo
-	 * @param contraseña
+	 * @param contraseï¿½a
 	 * @param peso
 	 * @param altura
 	 * @param alergias
@@ -47,14 +56,15 @@ public abstract class Usuario {
 	 * @param enfermedades
 	 * @param tipoSangre
 	 */
-	public Usuario(String nombre, String apellido, String dni, char sexo, String contraseña, float peso, int altura,
+	public Usuario(int codusuario, String nombre, String apellido, String dni, char sexo, String contrasenya, float peso, int altura,
 			String alergias, int colesterol, int tension, String enfermedades, String tipoSangre) {
-		super();
+
+		this.codUsuario=codusuario;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.dni = dni;
 		this.sexo = sexo;
-		this.contraseña = contraseña;
+		this.contrasenya = contrasenya;
 		this.peso = peso;
 		this.altura = altura;
 		Alergias = alergias;
@@ -105,13 +115,13 @@ public abstract class Usuario {
 	}
 
 
-	public String getContraseña() {
-		return contraseña;
+	public String getContrasenya() {
+		return contrasenya;
 	}
 
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setContrasenya(String contrasenya) {
+		this.contrasenya = contrasenya;
 	}
 
 
@@ -227,7 +237,7 @@ public abstract class Usuario {
 	@Override
 	public String toString() {
 		return "Usuario [nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", sexo=" + sexo
-				+ ", contraseña=" + contraseña + ", peso=" + peso + ", altura=" + altura + ", Alergias=" + Alergias
+				+ ", contrasenya=" + contrasenya + ", peso=" + peso + ", altura=" + altura + ", Alergias=" + Alergias
 				+ ", colesterol=" + colesterol + ", tension=" + tension + ", enfermedades=" + enfermedades
 				+ ", tipoSangre=" + tipoSangre + "]";
 	}
