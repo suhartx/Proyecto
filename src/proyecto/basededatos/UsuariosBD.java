@@ -93,11 +93,16 @@ public class UsuariosBD {
 					}
 			}
 			
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("NO CONECTAAA!!");
 			
-			e.printStackTrace();
+			//5. CERRAMOS LA CONEXION
+			miConexion.close();
+			
+			
+		} catch (SQLException e) {
+
+		    System.out.println("Error en las operaciones a base de datos.");
+		    
+		    e.printStackTrace(System.out);
 			
 		}
 		//FUNCION QUE ASIGNA EL MÉDICO DE CABECERA A CADA USUARIO
