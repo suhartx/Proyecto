@@ -213,6 +213,7 @@ public abstract class Usuario {
 	public void setCitas(ArrayList<Cita> citas) {
 		this.citas = citas;
 	}
+	
 
 
 	public ArrayList<Tratamiento> getTratamientos() {

@@ -16,19 +16,12 @@ import sun.security.util.Password;
  *
  */
 public class UsuariosBD {
-	public static void main(String[] args) {
-		UsuariosBD bd = new UsuariosBD();
-	}
+
 	ArrayList<Usuario> listaUsuariosBD = new ArrayList<Usuario>();
 	
 	ArrayList<Integer> medicosC = new ArrayList<Integer>();
-	
 
-	
 	//TODO meter lista de citas pruebas y tratamientos en cada usuario buscar cual es el metodo mas corto
-	
-	
-
 
 	public UsuariosBD() {
 		try {
@@ -49,9 +42,7 @@ public class UsuariosBD {
 			
 			while (mirResultSet.next()){
 
-
 				//System.out.println("vaa  ");
-
 
 					if(mirResultSet.getString("tipo").equals("medico")) {//SI EL USUARIO ES DE TIPO MEDICO
 						System.out.println("hay medico");
@@ -63,8 +54,6 @@ public class UsuariosBD {
 						listaUsuariosBD.add(m);
 						medicosC.add(mirResultSet.getInt("medico_cabecera"));
 						System.out.println(m.toString());
-					
-
 
 					}else if(mirResultSet.getString("tipo").equals("enfermero")) {//SI EL USUARIO ES DE TIPO ENFERMERO
 						System.out.println("hay enfermero");
@@ -76,8 +65,7 @@ public class UsuariosBD {
 						listaUsuariosBD.add(m);
 						medicosC.add(mirResultSet.getInt("medico_cabecera"));
 						System.out.println(m.toString());
-					
-							
+
 					}else if(mirResultSet.getString("tipo").equals("paciente")) {//SI EL USUARIO ES DE TIPO PACIENTE
 						System.out.println("hay paciente");
 						
@@ -92,12 +80,10 @@ public class UsuariosBD {
 						System.out.println("ALGUN DATO ESTA MAL EN LA BASE DE DATOS");
 					}
 			}
-			
-			
+
 			//5. CERRAMOS LA CONEXION
 			miConexion.close();
-			
-			
+
 		} catch (SQLException e) {
 
 		    System.out.println("Error en las operaciones a base de datos.");
@@ -110,7 +96,6 @@ public class UsuariosBD {
 	        
 	    	listaUsuariosBD.get(i).setMedicoCabecera(asignaMedicoC(listaUsuariosBD, medicosC.get(i)));
 			System.out.println("Añadiendo medico " +listaUsuariosBD.get(i).getMedicoCabecera().getNombre() +" al usuario " + listaUsuariosBD.get(i).getNombre());
-	    	
 
 	      }
 	}
@@ -166,7 +151,10 @@ public class UsuariosBD {
 				return asignaMedicoCRecursivo( array, valor, mitad+1, fin );
 			}
 		}	
+	}	
+	public static ArrayList<Usuario> getUsuarios() {
+		UsuariosBD usuarios = new UsuariosBD();
+		return usuarios.listaUsuariosBD;
 	}
-	
-	
 }
+
