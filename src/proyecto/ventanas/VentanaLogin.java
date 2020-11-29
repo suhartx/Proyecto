@@ -3,11 +3,19 @@ package proyecto.ventanas;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import proyecto.basededatos.DatosUsuariosBD;
+import proyecto.usuarios.Enfermero;
+import proyecto.usuarios.Medico;
+import proyecto.usuarios.Usuario;
 
 /** Ventana de logueo de la aplicaci�n
  * @author Suhar Txabarri Aurrekoetxea
@@ -24,11 +32,11 @@ public class VentanaLogin extends JFrame {
     
     private JTextField userText;
     private JPasswordField passwordText;
-    
-    
+    ArrayList<Usuario> usuarios;
 
-    public VentanaLogin() {
-
+    public VentanaLogin(ArrayList<Usuario> usuarios) {
+    	
+    	this.usuarios=usuarios;
     	// Creaci�n de componentes/contenedores de swing
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle( "Ventana Login" );
@@ -78,55 +86,96 @@ public class VentanaLogin extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 
-
-				loginButtonActionPerformed(evt);
+				loguearse();
+				
+			}
+		});
+		cerrarButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				System.exit(0);
 				
 			}
 		});
 		
+		passwordText.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					loguearse();
+				} 
+				
+			}
+		});
+
+
+		
     }
     
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    private void loguearse() {
         String usuario = userText.getText();
         String paswd = passwordText.getText();
+		boolean encontrado = false;
+		System.out.println(usuarios.size());
         
         if(usuario.isEmpty() || paswd.isEmpty()){
             JOptionPane.showMessageDialog(null, "Algún campo esta vacio");
-            
+
         }else{
-             if(usuario.equals("usuario1") && paswd.equals("1234")){
-                 JOptionPane.showMessageDialog(null,"Bienvenido");
-                 VentanaMedico pc = new VentanaMedico();
-                 pc.setVisible(true);
-                 this.dispose();
-                 
-             }else{
-                 JOptionPane.showConfirmDialog(null,"Su usuario o contraseña es incorrecto");
-             }
+
+        	for(int i = 0; i<usuarios.size(); i++){
+        		System.out.println(usuarios.get(i));
+        		if((usuario.equals((usuarios.get(i).getNombre()))|| usuario.equals((usuarios.get(i).getNombre()).toLowerCase() )&& paswd.equals(usuarios.get(i).getContrasenya()))){
+        		
+            		encontrado = true;
+
+	                if(usuarios.get(i) instanceof Medico) {
+	                	
+		                JOptionPane.showMessageDialog(null,"Bienvenido Doctor/a " + usuarios.get(i).getApellido());
+		                VentanaMedico pc = new VentanaMedico(usuarios, i);
+		                pc.setVisible(true);
+		                this.dispose();
+
+		                
+	                }else if(usuarios.get(i) instanceof Enfermero) {
+	                	
+		                JOptionPane.showMessageDialog(null,"Bienvenido Enfermero/a " + usuarios.get(i).getApellido());
+		                VentanaEnfermero pc = new VentanaEnfermero(usuarios, i);
+		                pc.setVisible(true);
+		                this.dispose();
+
+		                
+	                }else {
+	                	
+		                JOptionPane.showMessageDialog(null,"Bienvenido Señor/a " + usuarios.get(i).getApellido());
+		                VentanaPaciente pc = new VentanaPaciente(usuarios, i);
+		                pc.setVisible(true);
+		                this.dispose();
+
+	                }
+        		}
+        	}
+
+			if(encontrado == false){
+				JOptionPane.showMessageDialog(null,"Su usuario o contraseña es incorrecto");
+			}
         }
     }
-    
-    
-    
-    
-    public static void main(String[] args) {
-    	
-        VentanaLogin frame = new VentanaLogin();
-        frame.setVisible(true);
-//    	hiloActual = new Thread() {
-//            public void run() {
-//                try {
-//                    VentanaLogin frame = new VentanaLogin();
-//                    frame.setVisible(true);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//    	};
-
-//    	hiloActual.start();
-    	}
-    
 }
 
 

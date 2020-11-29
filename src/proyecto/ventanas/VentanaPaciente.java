@@ -6,7 +6,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import proyecto.usuarios.Usuario;
+
 import java.awt.Toolkit;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
@@ -19,6 +24,8 @@ public class VentanaPaciente extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField panelBusqueda;
+    static ArrayList<Usuario> usuarios;
+    static int posPersona;
 
 	/**
 	 * Launch the application.
@@ -27,7 +34,7 @@ public class VentanaPaciente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaPaciente frame = new VentanaPaciente();
+					VentanaPaciente frame = new VentanaPaciente(usuarios, posPersona);
 					frame.setVisible(true);
 
 				} catch (Exception e) {
@@ -40,11 +47,12 @@ public class VentanaPaciente extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPaciente() {
-		setTitle("Ventana principal paciente");
+	public VentanaPaciente(ArrayList<Usuario> usuarios, int posPersona) {
+		this.usuarios=usuarios;
+		setTitle("Ventana principal paciente "+usuarios.get(posPersona).getNombre());
 		setIconImage(Toolkit.getDefaultToolkit().getImage("src\\imagenes\\osakidetza.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds((int) (Toolkit.getDefaultToolkit().getScreenSize().width*0.2), (int) (Toolkit.getDefaultToolkit().getScreenSize().height*0.15),//establezco el tamaño de la ventana adapado para
+		setBounds((int) (Toolkit.getDefaultToolkit().getScreenSize().width*0.2), (int) (Toolkit.getDefaultToolkit().getScreenSize().height*0.15),//establezco el tamaï¿½o de la ventana adapado para
 				(int) (Toolkit.getDefaultToolkit().getScreenSize().width*0.6), (int) (Toolkit.getDefaultToolkit().getScreenSize().height*0.6));//la pantalla de diferentes PCs
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
