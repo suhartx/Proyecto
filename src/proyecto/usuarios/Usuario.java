@@ -2,6 +2,8 @@ package proyecto.usuarios;
 
 import java.util.ArrayList;
 
+import javax.swing.JTree;
+
 import proyecto.contenido.Cita;
 import proyecto.contenido.Prueba;
 import proyecto.contenido.Tratamiento;
@@ -242,5 +244,6 @@ public abstract class Usuario {
 				+ ", colesterol=" + colesterol + ", tension=" + tension + ", enfermedades=" + enfermedades
 				+ ", tipoSangre=" + tipoSangre + "]";
 	}
+	public abstract JTree cargarJTree();
 
 }

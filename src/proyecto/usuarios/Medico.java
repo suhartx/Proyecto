@@ -1,5 +1,7 @@
 package proyecto.usuarios;
 
+import javax.swing.JTree;
+
 import proyecto.interfaces.ICita;
 import sun.security.util.Password;
 
@@ -11,27 +13,29 @@ public class Medico extends Usuario implements ICita {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public void crearCita() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mofificarCita() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void eliminarCita() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	
+	@Override
+	public void crearCita(Usuario u) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mofificarCita(Usuario u, int num) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void eliminarCita(Usuario u, int num) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
-
-
+	@Override
+	public JTree cargarJTree() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

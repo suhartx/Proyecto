@@ -20,21 +20,15 @@ import proyecto.usuarios.Usuario;
 /**
  * metodo que añade las listas de citas pruebas y tratamientos
  * @author Suhar
- *
  */
 public class DatosUsuariosBD {
-	
-//	public static void main(String[] args) {
-//		
-//		DatosUsuariosBD bd = new DatosUsuariosBD();
-//
-//	}
+
 	ArrayList<Usuario> usuarios = UsuariosBD.getUsuarios();	
 	ArrayList<Medicamento> med = new ArrayList<>();	
 	
 	
 	public DatosUsuariosBD() {
-		
+		//CON ESTOS MÉTODOS INTRODUCIMOS LOS DATOS EN LAS LISTAS
 		añadirCitas();
 		añadirPruebas();
 		añadirTratamientos();
@@ -44,7 +38,6 @@ public class DatosUsuariosBD {
 	}
 	
 	public void añadirCitas(){
-		
 
 		try {
 		
@@ -70,9 +63,9 @@ public class DatosUsuariosBD {
 				usuarios.get(mirResultSetDatos.getInt("paciente_asociado")-1).getCitas().add(C);
 				C.setSanitarioAsociado(usuarios.get(mirResultSetDatos.getInt("sanitario_asociado")-1));
 
-				System.out.println(usuarios.get(mirResultSetDatos.getInt("paciente_asociado")-1).getNombre());
-				System.out.println(C.toString());				
-				System.out.println("Sanitario asociado: "+C.getSanitarioAsociado().getNombre());
+				//System.out.println(usuarios.get(mirResultSetDatos.getInt("paciente_asociado")-1).getNombre());
+				//System.out.println(C.toString());				
+				//System.out.println("Sanitario asociado: "+C.getSanitarioAsociado().getNombre());
 				
 			}
 
@@ -93,7 +86,6 @@ public class DatosUsuariosBD {
 		
 		try {
 
-			
 			// REALIZAMOS LA MISMA OPERACION PARA LAS PRUEBAS
 			
 			//1. CREAMOS LA CONEXION
@@ -119,9 +111,9 @@ public class DatosUsuariosBD {
 				p.setSanitarioAsociado(usuarios.get(mirResultSetDatos.getInt("sanitario_asociado")-1));
 
 
-				System.out.println(usuarios.get(mirResultSetDatos.getInt("paciente_asociado")-1).getNombre());
-				System.out.println(p.toString());				
-				System.out.println("Sanitario asociado: "+p.getSanitarioAsociado().getNombre());
+				//System.out.println(usuarios.get(mirResultSetDatos.getInt("paciente_asociado")-1).getNombre());
+				//System.out.println(p.toString());				
+				//System.out.println("Sanitario asociado: "+p.getSanitarioAsociado().getNombre());
 				
 			}
 
@@ -142,8 +134,6 @@ public class DatosUsuariosBD {
 
 		try {
 
-
-		
 			//Y TAMBIEN CON LOS TRATAMIENTOS
 		
 			//1. CREAMOS LA CONEXION
@@ -169,9 +159,9 @@ public class DatosUsuariosBD {
 				t.setMedicoAsociado((Medico)usuarios.get(mirResultSetTratamientos.getInt("medico_asociado")-1));
 				
 				
-				System.out.println(usuarios.get(mirResultSetTratamientos.getInt("paciente_asociado")-1).getNombre());
-				System.out.println(t.toString());				
-				System.out.println("Sanitario asociado: "+t.getMedicoAsociado().getNombre());
+//				System.out.println(usuarios.get(mirResultSetTratamientos.getInt("paciente_asociado")-1).getNombre());
+//				System.out.println(t.toString());				
+//				System.out.println("Sanitario asociado: "+t.getMedicoAsociado().getNombre());
 				
 			}
 
@@ -180,17 +170,13 @@ public class DatosUsuariosBD {
 			
 		
 
-	}catch (SQLException e) {
-
-	    System.out.println("Error en las operaciones a base de datos.");
-	    
-	    e.printStackTrace(System.out);
-		
-	}
-
-
-	//TODO meter lista de citas pruebas y tratamientos en cada usuario buscar cual es el metodo mas corto
-
+		}catch (SQLException e) {
+	
+		    System.out.println("Error en las operaciones a base de datos.");
+		    
+		    e.printStackTrace(System.out);
+			
+		}
 	}		
 	
 	public void añadirMedicamentos(){
@@ -234,7 +220,6 @@ public class DatosUsuariosBD {
 		    e.printStackTrace(System.out);
 			
 		}
-
 	}
 				
 
@@ -289,8 +274,7 @@ public class DatosUsuariosBD {
 		    System.out.println("Error en las operaciones a base de datos.");
 		    
 		    e.printStackTrace(System.out);
-	
-	
+
 		}
 	}
 	public static ArrayList<Usuario> iniciaDatos(){

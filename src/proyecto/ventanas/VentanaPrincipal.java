@@ -2,25 +2,21 @@ package proyecto.ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import proyecto.usuarios.Usuario;
-
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.JToolBar;
-import javax.swing.JTree;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
+import javax.swing.JTree;
+import javax.swing.border.EmptyBorder;
 
-public class VentanaPaciente extends JFrame {
+import proyecto.usuarios.Usuario;
+
+public class VentanaPrincipal extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField panelBusqueda;
@@ -32,9 +28,9 @@ public class VentanaPaciente extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPaciente(ArrayList<Usuario> usuarios, int posPersona) {
+	public VentanaPrincipal(ArrayList<Usuario> usuarios, int posPersona) {
 		this.usuarios=usuarios;
-		setTitle("Ventana principal paciente "+usuarios.get(posPersona).getNombre());
+		setTitle("Ventana principal medico "+usuarios.get(posPersona).getNombre());
 		setIconImage(Toolkit.getDefaultToolkit().getImage("src\\imagenes\\osakidetza.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds((int) (Toolkit.getDefaultToolkit().getScreenSize().width*0.2), (int) (Toolkit.getDefaultToolkit().getScreenSize().height*0.15),//establezco el tama�o de la ventana adapado para
@@ -72,18 +68,14 @@ public class VentanaPaciente extends JFrame {
 		
 		JButton btnCrear = new JButton("Crear");
 		panelBotonera.add(btnCrear);
-		btnCrear.setEnabled(false);
 		
 		JButton btnModificar = new JButton("Modificar");
 		panelBotonera.add(btnModificar);
-		btnModificar.setEnabled(false);
 		
 		JButton btnEliminar = new JButton("Eliminar");
 		panelBotonera.add(btnEliminar);
-		btnEliminar.setEnabled(false);
 		
 		
 	}
 
 }
-

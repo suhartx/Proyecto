@@ -45,7 +45,7 @@ public class UsuariosBD {
 				//System.out.println("vaa  ");
 
 					if(mirResultSet.getString("tipo").equals("medico")) {//SI EL USUARIO ES DE TIPO MEDICO
-						System.out.println("hay medico");
+						//System.out.println("hay medico");
 						
 					Usuario m = new Medico(mirResultSet.getInt("cod_usuario"),mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
 							mirResultSet.getString("sexo").charAt(0),mirResultSet.getString("contrasenya"), mirResultSet.getFloat("peso"),
@@ -53,10 +53,10 @@ public class UsuariosBD {
 							(int)mirResultSet.getInt("tension"), mirResultSet.getString("enfermedades"), mirResultSet.getString("tipo_sangre"));
 						listaUsuariosBD.add(m);
 						medicosC.add(mirResultSet.getInt("medico_cabecera"));
-						System.out.println(m.toString());
+						//System.out.println(m.toString());
 
 					}else if(mirResultSet.getString("tipo").equals("enfermero")) {//SI EL USUARIO ES DE TIPO ENFERMERO
-						System.out.println("hay enfermero");
+						//System.out.println("hay enfermero");
 						
 						Usuario m = new Enfermero(mirResultSet.getInt("cod_usuario"), mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
 							mirResultSet.getString("sexo").charAt(0),mirResultSet.getString("contrasenya"), mirResultSet.getFloat("peso"),
@@ -64,10 +64,10 @@ public class UsuariosBD {
 							(int)mirResultSet.getInt("tension"), mirResultSet.getString("enfermedades"), mirResultSet.getString("tipo_sangre"));
 						listaUsuariosBD.add(m);
 						medicosC.add(mirResultSet.getInt("medico_cabecera"));
-						System.out.println(m.toString());
+						//System.out.println(m.toString());
 
 					}else if(mirResultSet.getString("tipo").equals("paciente")) {//SI EL USUARIO ES DE TIPO PACIENTE
-						System.out.println("hay paciente");
+						//System.out.println("hay paciente");
 						
 						Usuario m = new Paciente(mirResultSet.getInt("cod_usuario"), mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
 								mirResultSet.getString("sexo").charAt(0),mirResultSet.getString("contrasenya"), mirResultSet.getFloat("peso"),
@@ -75,7 +75,7 @@ public class UsuariosBD {
 								(int)mirResultSet.getInt("tension"), mirResultSet.getString("enfermedades"), mirResultSet.getString("tipo_sangre"));
 							listaUsuariosBD.add(m);
 							medicosC.add(mirResultSet.getInt("medico_cabecera"));
-							System.out.println(m.toString());
+							//System.out.println(m.toString());
 					}else{
 						System.out.println("ALGUN DATO ESTA MAL EN LA BASE DE DATOS");
 					}
@@ -95,7 +95,7 @@ public class UsuariosBD {
 	    for (int i=0;i<listaUsuariosBD.size();i++) {
 	        
 	    	listaUsuariosBD.get(i).setMedicoCabecera(asignaMedicoC(listaUsuariosBD, medicosC.get(i)));
-			System.out.println("Añadiendo medico " +listaUsuariosBD.get(i).getMedicoCabecera().getNombre() +" al usuario " + listaUsuariosBD.get(i).getNombre());
+			//System.out.println("Añadiendo medico " +listaUsuariosBD.get(i).getMedicoCabecera().getNombre() +" al usuario " + listaUsuariosBD.get(i).getNombre());
 
 	      }
 	}
