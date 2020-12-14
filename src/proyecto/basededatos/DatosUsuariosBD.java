@@ -6,12 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import jdk.internal.dynalink.beans.StaticClass;
 import proyecto.contenido.Cita;
 import proyecto.contenido.Medicamento;
 import proyecto.contenido.Prueba;
 import proyecto.contenido.Tratamiento;
+import proyecto.ficheros.Ficheros;
 import proyecto.usuarios.Enfermero;
 import proyecto.usuarios.Medico;
 import proyecto.usuarios.Paciente;
@@ -26,6 +28,11 @@ public class DatosUsuariosBD {
 	ArrayList<Usuario> usuarios = UsuariosBD.getUsuarios();	
 	ArrayList<Medicamento> med = new ArrayList<>();	
 	
+	HashMap<Integer, Usuario> usuariosMapID =  new HashMap<>();
+	HashMap<String, Usuario> usuariosMapNombre =  new HashMap<>();
+	
+	
+	
 	
 	public DatosUsuariosBD() {
 		//CON ESTOS MÉTODOS INTRODUCIMOS LOS DATOS EN LAS LISTAS
@@ -34,6 +41,9 @@ public class DatosUsuariosBD {
 		añadirTratamientos();
 		añadirMedicamentos();
 		añadirMedicamentosAsociados();
+		cargaUsuariosMapa();
+		Ficheros.Escribeficheros(usuarios, "Usuarios.csv");
+		
 
 	}
 	
@@ -280,5 +290,11 @@ public class DatosUsuariosBD {
 	public static ArrayList<Usuario> iniciaDatos(){
 		DatosUsuariosBD inicia = new DatosUsuariosBD();
 		return inicia.usuarios;
+	}
+	public void cargaUsuariosMapa() {
+		for (Usuario u : usuarios) {
+			usuariosMapID.put(u.getCodUsuario(), u);
+			usuariosMapNombre.put(u.getNombre()+u.getApellido(), u);
+		}
 	}
 }

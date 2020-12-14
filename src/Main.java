@@ -20,6 +20,12 @@ public class Main {
 		
         VentanaLogin frame = new VentanaLogin(usuarios);
         frame.setVisible(true);
+        
+        for (Usuario u : usuarios) {
+			System.out.println(u.toString());
+		}
+        
+//        System.out.println(usuarios.toString());
 
 	}
 }

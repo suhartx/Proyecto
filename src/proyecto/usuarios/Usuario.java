@@ -236,14 +236,29 @@ public abstract class Usuario {
 	public void setPruebas(ArrayList<Prueba> pruebas) {
 		this.pruebas = pruebas;
 	}
+
+
+	public String GetValoresPAraCSV() {
+		return codUsuario + "," + nombre + "," + apellido + "," + dni + "," + sexo + "," + contrasenya + "," + peso
+				+ "," + altura + "," + Alergias + "," + colesterol + "," + tension + "," + enfermedades + ","
+				+ tipoSangre + "," + medicoCabecera.getCodUsuario();
+	}
 	
+	
+
+
+
 	@Override
 	public String toString() {
-		return "Usuario [nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", sexo=" + sexo
-				+ ", contrasenya=" + contrasenya + ", peso=" + peso + ", altura=" + altura + ", Alergias=" + Alergias
-				+ ", colesterol=" + colesterol + ", tension=" + tension + ", enfermedades=" + enfermedades
-				+ ", tipoSangre=" + tipoSangre + "]";
+		return "Usuario [codUsuario=" + codUsuario + ", nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni
+				+ ", sexo=" + sexo + ", contrasenya=" + contrasenya + ", peso=" + peso + ", altura=" + altura
+				+ ", Alergias=" + Alergias + ", colesterol=" + colesterol + ", tension=" + tension + ", enfermedades="
+				+ enfermedades + ", tipoSangre=" + tipoSangre + ", medicoCabecera=" + medicoCabecera + ", citas="
+				+ citas + ", tratamientos=" + tratamientos + ", pruebas=" + pruebas + "]";
 	}
+
+//TODO
 	public abstract JTree cargarJTree();
+
 
 }
