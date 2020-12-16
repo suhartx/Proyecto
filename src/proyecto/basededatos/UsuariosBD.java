@@ -88,7 +88,13 @@ public class UsuariosBD {
 
 		    System.out.println("Error en las operaciones a base de datos.");
 		    
-		    e.printStackTrace(System.out);
+		    //e.printStackTrace(System.out);
+		    
+		    System.out.println("Accediendo a los ficheros guardados en la cache...");	
+		    
+		    
+		    
+		    
 			
 		}
 		//FUNCION QUE ASIGNA EL MÉDICO DE CABECERA A CADA USUARIO

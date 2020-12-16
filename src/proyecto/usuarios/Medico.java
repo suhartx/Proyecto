@@ -13,7 +13,13 @@ public class Medico extends Usuario implements ICita {
 		// TODO Auto-generated constructor stub
 	}
 
-	
+	public Medico() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 	@Override
 	public void crearCita(Usuario u) {
 		// TODO Auto-generated method stub

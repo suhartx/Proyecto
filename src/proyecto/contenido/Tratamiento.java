@@ -4,11 +4,12 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 
+import proyecto.interfaces.ICSV;
 import proyecto.usuarios.Medico;
 
-public class Tratamiento {
+public class Tratamiento implements ICSV{
 
-	private int codtratamiento;
+	private int codTratamiento;
 	private String titulo;
 	private String descripcion;
 	private String ambito;
@@ -19,11 +20,16 @@ public class Tratamiento {
 	
 	private ArrayList<Medicamento> medicamentos= new ArrayList<Medicamento>();
 	
-
 	
-	public Tratamiento(int codtratamiento, String titulo, String descripcion, String ambito, Date fecha, Time hora) {
+	
+	public Tratamiento() {
+		super();
+	}
 
-		this.codtratamiento = codtratamiento;
+
+	public Tratamiento(int codTratamiento, String titulo, String descripcion, String ambito, Date fecha, Time hora) {
+
+		this.codTratamiento = codTratamiento;
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.ambito = ambito;
@@ -33,13 +39,26 @@ public class Tratamiento {
 	}
 
 
+	public Tratamiento(int codTratamiento, String titulo, String descripcion, String ambito, Date fecha, Time hora,
+			Medico medicoAsociado) {
+		super();
+		this.codTratamiento = codTratamiento;
+		this.titulo = titulo;
+		this.descripcion = descripcion;
+		this.ambito = ambito;
+		this.fecha = fecha;
+		this.hora = hora;
+		this.medicoAsociado = medicoAsociado;
+	}
+
+
 	public int getCodtratamiento() {
-		return codtratamiento;
+		return codTratamiento;
 	}
 
 
 	public void setCodtratamiento(int codtratamiento) {
-		this.codtratamiento = codtratamiento;
+		this.codTratamiento = codtratamiento;
 	}
 
 
@@ -112,11 +131,19 @@ public class Tratamiento {
 		this.medicamentos = medicamentos;
 	}
 
+	@Override
+	public String getCSV() {
+		return codTratamiento + ","+this.getClass().getSimpleName()+"," + titulo + "," + descripcion + "," + ambito + "," + fecha + "," + hora + ","
+				+ medicoAsociado.getCodUsuario();
+	}
 
 	@Override
 	public String toString() {
-		return "Tratamiento [codtratamiento=" + codtratamiento + ", titulo=" + titulo + ", descripcion=" + descripcion
+		return "Tratamiento [codtratamiento=" + codTratamiento + ", titulo=" + titulo + ", descripcion=" + descripcion
 				+ ", ambito=" + ambito + ", fecha=" + fecha + ", hora=" + hora + "]";
 	}
+
+
+
 
 }

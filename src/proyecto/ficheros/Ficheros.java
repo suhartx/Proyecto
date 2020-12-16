@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.ConnectException;
@@ -15,9 +17,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
-import java.nio.*; 
+import java.nio.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files; 
-import java.nio.file.Paths; 
+import java.nio.file.Paths;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,8 +32,15 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 
+import proyecto.basededatos.DatosUsuariosBD;
 import proyecto.basededatos.UsuariosBD;
+import proyecto.contenido.Cita;
+import proyecto.contenido.Medicamento;
+import proyecto.contenido.Prueba;
+import proyecto.contenido.Tratamiento;
+import proyecto.usuarios.Enfermero;
 import proyecto.usuarios.Medico;
+import proyecto.usuarios.Paciente;
 import proyecto.usuarios.Usuario;
 
 
@@ -36,26 +50,55 @@ import proyecto.usuarios.Usuario;
 
 
 public class Ficheros { 
-	Usuario u;
+	
+	
+	 static ArrayList<Usuario> usuariosFicheros =  new ArrayList<Usuario>();
+	static ArrayList<Integer> MedicosCabecera = new ArrayList<>();
+	
 	private static boolean LOG_CONSOLE_CSV = false;  // Log a consola de lo que se va leyendo en el CSV
 
-	public static void Escribeficheros(ArrayList<?> listaDatos, String nombreFichero ) {
+	public static void Escribeficheros(ArrayList<?> listaDatos) {
+
+
 		try {
-			FileWriter fw = new FileWriter(nombreFichero, false);
+			FileWriter fw = new FileWriter("Usuarios.csv", false);
 			BufferedWriter bw = new BufferedWriter(fw);
 			PrintWriter pw = new PrintWriter(bw);
-			
-			
-			
-			for (Object o : listaDatos) {
-			fw.append(o.toString()+","+o.getClass().getName()+"\n");
-			
-			
-			
-			pw.flush();			
-			
-			
-			}
+			FileWriter fw2 = new FileWriter("Procedimientos.csv", false);
+			//BufferedWriter bw2 = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("Procedimientos.csv", false), StandardCharsets.UTF_8));
+			BufferedWriter bw2 = new BufferedWriter(fw2);
+			PrintWriter pw2 = new PrintWriter(bw2);
+			FileWriter fw3 = new FileWriter("Medicamentos.csv", false);
+			BufferedWriter bw3 = new BufferedWriter(fw3);
+			PrintWriter pw3 = new PrintWriter(bw3);
+
+
+				for (Object o : listaDatos) {
+
+					Usuario u = (Usuario) o;
+					fw.append(u.getCSV());
+					for (Cita c: u.getCitas()) {
+						//System.out.println(c.getCSV());
+						fw2.append(c.getCSV()+","+u.getCodUsuario()+" \n");
+						pw2.flush();
+					}
+					for (Prueba c: u.getPruebas()){
+						fw2.append(c.getCSV()+","+u.getCodUsuario()+" \n");
+						pw2.flush();
+					}
+					for (Tratamiento c: u.getTratamientos()) {
+						fw2.append(c.getCSV()+","+u.getCodUsuario()+" \n");
+						pw2.flush();
+						for (Medicamento m: c.getMedicamentos()) {
+							fw3.append(m.getCSV()+","+c.getCodtratamiento()+","+u.getCodUsuario()+" \n");
+							pw3.flush();
+						}
+					}
+					
+				pw.flush();	
+				}
+			pw3.close();
+			pw2.close();	
 			pw.close();
 			
 			JOptionPane.showMessageDialog(null, "record saved");
@@ -99,13 +142,16 @@ public class Ficheros {
 		    	try {
 			    	ArrayList<Object> l = processCSVLine( input, line, numLine );
 			    	if (LOG_CONSOLE_CSV) System.out.println( "\t" + l.size() + "\t" + l );
-			    		if (!l.isEmpty())
+			    		if (!l.isEmpty()) {
 			    			procesaLineaDatos( l );
-			    	
+			    		}
 		    	} catch (StringIndexOutOfBoundsException e) {
 		    		/* if (LOG_CONSOLE_CSV) */ System.err.println( "\tError: " + e.getMessage() );
 		    	}
 		    }
+		    for(int i = 0; i < usuariosFicheros.size(); i++) {
+		    	usuariosFicheros.get(i).setMedicoCabecera((Medico) usuariosFicheros.get(MedicosCabecera.get(i)-1));
+			}
 
 		} finally {
 			try {
@@ -234,8 +280,8 @@ public class Ficheros {
 			private static Object getDato( String valor, boolean esString ) {
 				if (esString) return valor;
 				try {
-					long entero = Long.parseLong( valor );
-					return new Long( entero );
+					Integer entero = Integer.parseInt( valor );
+					return entero ;
 				} catch (Exception e) {}
 				try {
 					double doble = Double.parseDouble( valor );
@@ -249,17 +295,80 @@ public class Ficheros {
 	private static void procesaLineaDatos( ArrayList<Object> datos ) {
 		// TODO Cambiar este proceso si se quiere hacer algo con las cabeceras
 		numLin++;
-		Medico nuevoUser;
-		nuevoUser.setAlergias("askdjaskdjaskdj");
-//		nuevoUser = new Medico((Integer)datos.get(0), (String)datos.get(1), (String)datos.get(2),
-//				(String)datos.get(3),(char)datos.get(4), (String)datos.get(5), (float)datos.get(6),
-//				(Integer)datos.get(7), (String)datos.get(8), (Integer)datos.get(9), (Integer)datos.get(10), (String)datos.get(11), (String)datos.get(12));
 		
+		if (datos.size()==15) {
+		Usuario u= null;
+		if (datos.get(14).equals("Medico")) {
+			u =  new Medico();
+		}else if(datos.get(14).equals("Enfermero")) {
+			u = new Enfermero();
+		}else if(datos.get(14).equals("Paciente")){
+			u =  new Paciente();
+		}
+			u.setCodUsuario((Integer)datos.get(0));
+			
+			String s =  (String) datos.get(4);
+			
+			char c = s.charAt(0);
+			
+			Double  d =  (Double)datos.get(6);
+			float f = d.floatValue();
+			
+			u.setNombre((String)datos.get(1));u.setApellido((String)datos.get(2));u.setDni((String)datos.get(3));
+			u.setSexo(c);u.setContrasenya((String)datos.get(5));
+			u.setPeso(f);
+			
+			u.setAltura((Integer)datos.get(7));
+			u.setAlergias((String)datos.get(8));u.setColesterol((Integer)datos.get(9));u.setTension((Integer)datos.get(10));u.setEnfermedades((String)datos.get(11));
+			u.setTipoSangre((String)datos.get(12));
+			
+			usuariosFicheros.add(u);
+			MedicosCabecera.add((Integer) datos.get(13));
+		}else if(datos.get(1).equals("Cita")||datos.get(1).equals("Prueba")||datos.get(1).equals("Tratamiento")) {
+			int cod =  (Integer)datos.get(0);
+			String tit = (String) datos.get(2);
+			String desc = (String) datos.get(3);
+			String amb = (String) datos.get(4);
+			String f =(String) datos.get(5);
+			System.out.println(f);
+			Date fec = null;
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			fec = java.sql.Date.valueOf(f);
+			String t = (String)datos.get(6);
 
+		    Time ti = Time.valueOf(t);
+		    
+
+
+
+			if (datos.get(1).equals("Cita")) {
+				usuariosFicheros.get((int) datos.get(8)-1).getCitas().add(new Cita(cod, tit, desc, amb, fec, ti,usuariosFicheros.get((int) datos.get(7)-1)));
+
+			}else if(datos.get(1).equals("Prueba")) {
+				usuariosFicheros.get((int) datos.get(8)-1).getPruebas().add(new Prueba(cod, tit, desc, amb, fec, ti,usuariosFicheros.get((int) datos.get(7)-1)));
+
+			}else if(datos.get(1).equals("Tratamiento")){
+				usuariosFicheros.get((int) datos.get(8)-1).getTratamientos().add(new Tratamiento(cod, tit, desc, amb, fec, ti,(Medico) usuariosFicheros.get((int) datos.get(7)-1)));
+
+			}
+		}else {
+
+			for (Tratamiento t : usuariosFicheros.get((int) datos.get(6)-1).getTratamientos()) {
+				if (t.getCodtratamiento()==(int)datos.get(5)) {
+					usuariosFicheros.get((int) datos.get(6)-1).getTratamientos().get((int)datos.get(5)-1).getMedicamentos().add(new Medicamento((int) datos.get(0),
+							(String)datos.get(1), (String)datos.get(2), (String)datos.get(3), java.sql.Date.valueOf((String) datos.get(4))));
+				}
+			}
+
+		}
 
 		//System.out.println(nuevoUser.toString());
 		//System.out.println(Usuarios);
 
+	}
+	public static ArrayList<Usuario>devuelvelistaUsuarios(){
+		return Ficheros.usuariosFicheros;
+		
 	}
 	
 	/////////////////////////////////////////////////////////////////////

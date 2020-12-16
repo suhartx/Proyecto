@@ -1,5 +1,7 @@
 package proyecto.basededatos;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -26,6 +28,8 @@ import proyecto.usuarios.Usuario;
 public class DatosUsuariosBD {
 
 	ArrayList<Usuario> usuarios = UsuariosBD.getUsuarios();	
+	
+	
 	ArrayList<Medicamento> med = new ArrayList<>();	
 	
 	HashMap<Integer, Usuario> usuariosMapID =  new HashMap<>();
@@ -36,14 +40,41 @@ public class DatosUsuariosBD {
 	
 	public DatosUsuariosBD() {
 		//CON ESTOS MÉTODOS INTRODUCIMOS LOS DATOS EN LAS LISTAS
+
+
+		if (usuarios.isEmpty()) {
+			
+			
+			try {
+				System.out.println("añadiendocitas");
+				Ficheros.processCSV(new File("Usuarios.csv"));
+				Ficheros.processCSV(new File("Procedimientos.csv"));
+				Ficheros.processCSV(new File("Medicamentos.csv"));
+				
+				usuarios=Ficheros.devuelvelistaUsuarios();
+		        for (Usuario u : usuarios) {
+					System.out.println(u.getNombre() );
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+
+			
+			}else {
+		
 		añadirCitas();
 		añadirPruebas();
 		añadirTratamientos();
 		añadirMedicamentos();
 		añadirMedicamentosAsociados();
 		cargaUsuariosMapa();
-		Ficheros.Escribeficheros(usuarios, "Usuarios.csv");
 		
+			
+		
+		Ficheros.Escribeficheros(usuarios);
+		}
 
 	}
 	
@@ -67,7 +98,7 @@ public class DatosUsuariosBD {
 		
 			while (mirResultSetDatos.next()){
 
-				Cita C = new Cita(mirResultSetDatos.getString("titulo"), mirResultSetDatos.getString("descripción"),
+				Cita C = new Cita(mirResultSetDatos.getInt("cod_cita") ,mirResultSetDatos.getString("titulo"), mirResultSetDatos.getString("descripción"),
 						mirResultSetDatos.getString("ámbito") ,  mirResultSetDatos.getDate("fecha"),mirResultSetDatos.getTime("hora"));
 				
 				usuarios.get(mirResultSetDatos.getInt("paciente_asociado")-1).getCitas().add(C);
@@ -114,7 +145,7 @@ public class DatosUsuariosBD {
 		
 			while (mirResultSetDatos.next()){
 
-				Prueba p = new Prueba(mirResultSetDatos.getString("título"), mirResultSetDatos.getString("descripción"),
+				Prueba p = new Prueba(mirResultSetDatos.getInt("cod_prueba") ,mirResultSetDatos.getString("título"), mirResultSetDatos.getString("descripción"),
 						mirResultSetDatos.getString("ambito") ,  mirResultSetDatos.getDate("fecha"),mirResultSetDatos.getTime("hora"));
 				
 				usuarios.get(mirResultSetDatos.getInt("paciente_asociado")-1).getPruebas().add(p);

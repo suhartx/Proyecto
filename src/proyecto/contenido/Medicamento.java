@@ -3,7 +3,9 @@ package proyecto.contenido;
 import java.sql.Time;
 import java.util.Date;
 
-public class Medicamento {
+import proyecto.interfaces.ICSV;
+
+public class Medicamento implements ICSV{
 	
 	private int codMedicamento;
 	private String titulo;
@@ -73,6 +75,11 @@ public class Medicamento {
 		this.fechaLanzamiento = fechaLanzamiento;
 	}
 
+
+	@Override
+	public String getCSV() {
+		return codMedicamento + "," + titulo + "," + descripcion + "," + ambito + "," + fechaLanzamiento;
+	}	
 
 	@Override
 	public String toString() {

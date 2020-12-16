@@ -7,20 +7,12 @@ import javax.swing.JTree;
 import proyecto.contenido.Cita;
 import proyecto.contenido.Prueba;
 import proyecto.contenido.Tratamiento;
+import proyecto.interfaces.ICSV;
 import sun.security.util.Password;
 
-public abstract class Usuario {
+public abstract class Usuario implements ICSV{
 
 
-
-	public int getCodUsuario() {
-		return codUsuario;
-	}
-
-
-	public void setCodUsuario(int codUsuario) {
-		this.codUsuario = codUsuario;
-	}
 
 	private int codUsuario;
 	private String nombre;
@@ -43,6 +35,15 @@ public abstract class Usuario {
 	ArrayList<Tratamiento> tratamientos = new ArrayList<Tratamiento>();
 	ArrayList<Prueba> pruebas = new ArrayList<Prueba>();
 	
+	
+	/**
+	 * Objeto usuario vacio para inicializarlo
+	 */
+	public Usuario() {
+
+	}
+
+
 	/**
 	 * Clase principal donde vamos a partir todos los usuarios
 	 * @param nombre
@@ -58,6 +59,7 @@ public abstract class Usuario {
 	 * @param enfermedades
 	 * @param tipoSangre
 	 */
+	
 	public Usuario(int codusuario, String nombre, String apellido, String dni, char sexo, String contrasenya, float peso, int altura,
 			String alergias, int colesterol, int tension, String enfermedades, String tipoSangre) {
 
@@ -74,6 +76,19 @@ public abstract class Usuario {
 		this.tension = tension;
 		this.enfermedades = enfermedades;
 		this.tipoSangre = tipoSangre;
+	}
+
+
+
+
+
+	public int getCodUsuario() {
+		return codUsuario;
+	}
+
+
+	public void setCodUsuario(int codUsuario) {
+		this.codUsuario = codUsuario;
 	}
 
 
@@ -210,7 +225,13 @@ public abstract class Usuario {
 	public ArrayList<Cita> getCitas() {
 		return citas;
 	}
-
+	public ArrayList<String> getListaCitas() {
+		ArrayList<String> CitasLista = new ArrayList<String>();
+		for (Cita p : citas) {
+			CitasLista.add(p.getTitulo());
+		}
+		return CitasLista;
+	}
 
 	public void setCitas(ArrayList<Cita> citas) {
 		this.citas = citas;
@@ -221,7 +242,14 @@ public abstract class Usuario {
 	public ArrayList<Tratamiento> getTratamientos() {
 		return tratamientos;
 	}
-
+	
+	public ArrayList<String> getListaTratamientos() {
+		ArrayList<String> TratamientosLista = new ArrayList<String>();
+		for (Tratamiento p : tratamientos) {
+			TratamientosLista.add(p.getTitulo());
+		}
+		return TratamientosLista;
+	}
 
 	public void setTratamientos(ArrayList<Tratamiento> tratamientos) {
 		this.tratamientos = tratamientos;
@@ -231,30 +259,36 @@ public abstract class Usuario {
 	public ArrayList<Prueba> getPruebas() {
 		return pruebas;
 	}
+	public ArrayList<String> getListaPruebas() {
+		ArrayList<String> pruebasLista = new ArrayList<String>();
+		for (Prueba p : pruebas) {
+			pruebasLista.add(p.getTitulo());
+		}
+		return pruebasLista;
+	}
 
 
 	public void setPruebas(ArrayList<Prueba> pruebas) {
 		this.pruebas = pruebas;
 	}
 
-
-	public String GetValoresPAraCSV() {
+	@Override
+	public String getCSV() {
 		return codUsuario + "," + nombre + "," + apellido + "," + dni + "," + sexo + "," + contrasenya + "," + peso
 				+ "," + altura + "," + Alergias + "," + colesterol + "," + tension + "," + enfermedades + ","
-				+ tipoSangre + "," + medicoCabecera.getCodUsuario();
+				+ tipoSangre + "," + medicoCabecera.getCodUsuario() + "," + this.getClass().getSimpleName()+" \n";
 	}
 	
 	
-
-
+	
 
 	@Override
 	public String toString() {
 		return "Usuario [codUsuario=" + codUsuario + ", nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni
 				+ ", sexo=" + sexo + ", contrasenya=" + contrasenya + ", peso=" + peso + ", altura=" + altura
 				+ ", Alergias=" + Alergias + ", colesterol=" + colesterol + ", tension=" + tension + ", enfermedades="
-				+ enfermedades + ", tipoSangre=" + tipoSangre + ", medicoCabecera=" + medicoCabecera + ", citas="
-				+ citas + ", tratamientos=" + tratamientos + ", pruebas=" + pruebas + "]";
+				+ enfermedades + ", tipoSangre=" + tipoSangre + ", medicoCabecera=" + this.medicoCabecera.getNombre() + ", citas="
+				+ this.getListaCitas() + ", tratamientos=" + this.getListaTratamientos() + ", pruebas=" + this.getListaPruebas() + "]";
 	}
 
 //TODO

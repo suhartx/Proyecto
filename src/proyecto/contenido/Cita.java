@@ -3,10 +3,12 @@ package proyecto.contenido;
 import java.sql.Time;
 import java.util.Date;
 
+import proyecto.interfaces.ICSV;
 import proyecto.usuarios.Usuario;
 
-public class Cita {
+public class Cita implements ICSV{
 
+	private int codCita;
 	private String titulo;
 	private String descripcion;
 	private String ambito;
@@ -14,14 +16,49 @@ public class Cita {
 	private Time hora;
 	private Usuario sanitarioAsociado;
 	
-	public Cita(String titulo, String descripcion, String ambito, Date fecha, Time hora) {
+	public Cita() {
 		super();
+	}
+
+
+
+	public Cita(int codCita, String titulo, String descripcion, String ambito, Date fecha, Time hora) {
+		super();
+		this.codCita =  codCita;
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.ambito = ambito;
 		this.fecha = fecha;
 		this.hora = hora;
 	}
+
+	
+
+	public Cita(int codCita, String titulo, String descripcion, String ambito, Date fecha, Time hora,
+			Usuario sanitarioAsociado) {
+		super();
+		this.codCita = codCita;
+		this.titulo = titulo;
+		this.descripcion = descripcion;
+		this.ambito = ambito;
+		this.fecha = fecha;
+		this.hora = hora;
+		this.sanitarioAsociado = sanitarioAsociado;
+	}
+
+
+
+	public int getCodCita() {
+		return codCita;
+	}
+
+
+
+	public void setCodCita(int codCita) {
+		this.codCita = codCita;
+	}
+
+
 
 	public String getTitulo() {
 		return titulo;
@@ -72,10 +109,19 @@ public class Cita {
 	}
 
 	@Override
-	public String toString() {
-		return "Cita [titulo=" + titulo + ", descripcion=" + descripcion + ", ambito=" + ambito + ", fecha=" + fecha
-				+ ", hora=" + hora + ", sanitarioAsociado=" + sanitarioAsociado + "]";
+	public String getCSV() {
+		return codCita + "," +this.getClass().getSimpleName()+","  + titulo + "," + descripcion + "," + ambito + "," + fecha + "," + hora + ","
+				+ sanitarioAsociado.getCodUsuario();
 	}
+
+	@Override
+	public String toString() {
+		return "Cita [CodCita=" + codCita + ", titulo=" + titulo + ", descripcion=" + descripcion + ", ambito=" + ambito
+				+ ", fecha=" + fecha + ", hora=" + hora + ", sanitarioAsociado=" + sanitarioAsociado + "]";
+	}
+	
+	
+
 
 
 
