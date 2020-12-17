@@ -76,21 +76,21 @@ public class Ficheros {
 				for (Object o : listaDatos) {
 
 					Usuario u = (Usuario) o;
-					fw.append(u.getCSV());
+					fw.append(u.getCSV()+"\\\n");
 					for (Cita c: u.getCitas()) {
 						//System.out.println(c.getCSV());
-						fw2.append(c.getCSV()+","+u.getCodUsuario()+" \n");
+						fw2.append(c.getCSV()+","+u.getCodUsuario()+"\\\n");
 						pw2.flush();
 					}
 					for (Prueba c: u.getPruebas()){
-						fw2.append(c.getCSV()+","+u.getCodUsuario()+" \n");
+						fw2.append(c.getCSV()+","+u.getCodUsuario()+"\\\n");
 						pw2.flush();
 					}
 					for (Tratamiento c: u.getTratamientos()) {
-						fw2.append(c.getCSV()+","+u.getCodUsuario()+" \n");
+						fw2.append(c.getCSV()+","+u.getCodUsuario()+"\\\n");
 						pw2.flush();
 						for (Medicamento m: c.getMedicamentos()) {
-							fw3.append(m.getCSV()+","+c.getCodtratamiento()+","+u.getCodUsuario()+" \n");
+							fw3.append(m.getCSV()+","+c.getCodtratamiento()+","+u.getCodUsuario()+"\\\n");
 							pw3.flush();
 						}
 					}
@@ -201,7 +201,10 @@ public class Ficheros {
 								throw new StringIndexOutOfBoundsException( "\" after data in char " + posCar + " of line [" + line + "]" );
 							}
 						}
-					} else if (!inString && (car==' ' || car=='\t')) {  // separador fuera de string
+					} else if (!inString && (car == '\\'||car=='\t')) {  // separador fuera de string
+						//System.out.println("golpe de remo");
+					//} else if (!inString && (car=='\t')) {  // separador fuera de string
+						//stringActual += car;
 						// Nada que hacer
 					} else if (car==',' || car==';') {
 						if (inString) {  // separador dentro de string
@@ -291,10 +294,10 @@ public class Ficheros {
 			}
 
 
-	private static int numLin = 0;
+	//private static int numLin = 0;
 	private static void procesaLineaDatos( ArrayList<Object> datos ) {
 		// TODO Cambiar este proceso si se quiere hacer algo con las cabeceras
-		numLin++;
+		//numLin++;
 		
 		if (datos.size()==15) {
 		Usuario u= null;
@@ -330,7 +333,7 @@ public class Ficheros {
 			String desc = (String) datos.get(3);
 			String amb = (String) datos.get(4);
 			String f =(String) datos.get(5);
-			System.out.println(f);
+			//System.out.println(f);
 			Date fec = null;
 			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			fec = java.sql.Date.valueOf(f);
@@ -370,24 +373,4 @@ public class Ficheros {
 		return Ficheros.usuariosFicheros;
 		
 	}
-	
-	/////////////////////////////////////////////////////////////////////
-	//                      Logging                                    //
-	/////////////////////////////////////////////////////////////////////
-	
-	private static Logger logger = null;
-	
-	// Método local para loggear
-	private static void log( Level level, String msg, Throwable excepcion ) {
-		if (!LOG_CONSOLE_CSV) return;
-		if (logger==null) {  // Logger por defecto local:
-			logger = Logger.getLogger( Ficheros.class.getName() );  // Nombre del logger - el de la clase
-			logger.setLevel( Level.ALL );  // Loguea todos los niveles
-		}
-		if (excepcion==null)
-			logger.log( level, msg );
-		else
-			logger.log( level, msg, excepcion );
-	}
-
 } 

@@ -1,9 +1,17 @@
 package proyecto.basededatos;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import javax.sound.midi.MidiDeviceReceiver;
 
+import proyecto.ficheros.Ficheros;
 import proyecto.usuarios.Enfermero;
 import proyecto.usuarios.Medico;
 import proyecto.usuarios.Paciente;
@@ -20,82 +28,108 @@ public class UsuariosBD {
 	ArrayList<Usuario> listaUsuariosBD = new ArrayList<Usuario>();
 	
 	ArrayList<Integer> medicosC = new ArrayList<Integer>();
+	
+	private static boolean LOGGING = true;  // Log a consola de lo que se va leyendo en el CSV
+
 
 	//TODO meter lista de citas pruebas y tratamientos en cada usuario buscar cual es el metodo mas corto
 
 	public UsuariosBD() {
+		
+		Connection miConexion = null;
+		
 		try {
 			
 			//1. CREAMOS LA CONEXION
 			
-			Connection miConexion=DriverManager.getConnection("jdbc:mysql://localhost:3306/osabide","root","");
+			miConexion=DriverManager.getConnection("jdbc:mysql://localhost:3306/osabide","root","");
+			log( Level.INFO, "Conectada base de datos " + "osabide", null );
+
+		} catch (SQLException e) {
+			log( Level.SEVERE, "Error en conexión de base de datos " + "osabide", e );
+
+		}
 			
 			//2. CREAMOS EL OBJETO STATEMENT
-			
+		try {	
 			Statement usuariosBD = miConexion.createStatement();
+			log( Level.INFO, "Declaracion en la base de datos", null );
+
 			
 			//3. EJECUTAMOS LA INSTRUCCION SQL
 			
+			try {
 			ResultSet  mirResultSet= usuariosBD.executeQuery("SELECT * FROM USUARIOS");
-			
+			log( Level.INFO, "BD tipo buscado\t " + "SELECT * FROM USUARIOS", null );
+	
 			//4. RECORREMOS EL RESUTSET
 			
-			while (mirResultSet.next()){
-
-				//System.out.println("vaa  ");
-
-					if(mirResultSet.getString("tipo").equals("medico")) {//SI EL USUARIO ES DE TIPO MEDICO
-						//System.out.println("hay medico");
-						
-					Usuario m = new Medico(mirResultSet.getInt("cod_usuario"),mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
-							mirResultSet.getString("sexo").charAt(0),mirResultSet.getString("contrasenya"), mirResultSet.getFloat("peso"),
-							(int)mirResultSet.getInt("altura"), mirResultSet.getString("alergias"), mirResultSet.getInt("colesterol"),
-							(int)mirResultSet.getInt("tension"), mirResultSet.getString("enfermedades"), mirResultSet.getString("tipo_sangre"));
-						listaUsuariosBD.add(m);
-						medicosC.add(mirResultSet.getInt("medico_cabecera"));
-						//System.out.println(m.toString());
-
-					}else if(mirResultSet.getString("tipo").equals("enfermero")) {//SI EL USUARIO ES DE TIPO ENFERMERO
-						//System.out.println("hay enfermero");
-						
-						Usuario m = new Enfermero(mirResultSet.getInt("cod_usuario"), mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
-							mirResultSet.getString("sexo").charAt(0),mirResultSet.getString("contrasenya"), mirResultSet.getFloat("peso"),
-							(int)mirResultSet.getInt("altura"), mirResultSet.getString("alergias"), mirResultSet.getInt("colesterol"),
-							(int)mirResultSet.getInt("tension"), mirResultSet.getString("enfermedades"), mirResultSet.getString("tipo_sangre"));
-						listaUsuariosBD.add(m);
-						medicosC.add(mirResultSet.getInt("medico_cabecera"));
-						//System.out.println(m.toString());
-
-					}else if(mirResultSet.getString("tipo").equals("paciente")) {//SI EL USUARIO ES DE TIPO PACIENTE
-						//System.out.println("hay paciente");
-						
-						Usuario m = new Paciente(mirResultSet.getInt("cod_usuario"), mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
+				while (mirResultSet.next()){
+	
+					//System.out.println("vaa  ");
+	
+						if(mirResultSet.getString("tipo").equals("medico")) {//SI EL USUARIO ES DE TIPO MEDICO
+							//System.out.println("hay medico");
+							
+						Usuario m = new Medico(mirResultSet.getInt("cod_usuario"),mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
 								mirResultSet.getString("sexo").charAt(0),mirResultSet.getString("contrasenya"), mirResultSet.getFloat("peso"),
 								(int)mirResultSet.getInt("altura"), mirResultSet.getString("alergias"), mirResultSet.getInt("colesterol"),
 								(int)mirResultSet.getInt("tension"), mirResultSet.getString("enfermedades"), mirResultSet.getString("tipo_sangre"));
 							listaUsuariosBD.add(m);
 							medicosC.add(mirResultSet.getInt("medico_cabecera"));
 							//System.out.println(m.toString());
-					}else{
-						System.out.println("ALGUN DATO ESTA MAL EN LA BASE DE DATOS");
-					}
+	
+						}else if(mirResultSet.getString("tipo").equals("enfermero")) {//SI EL USUARIO ES DE TIPO ENFERMERO
+							//System.out.println("hay enfermero");
+							
+							Usuario m = new Enfermero(mirResultSet.getInt("cod_usuario"), mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
+								mirResultSet.getString("sexo").charAt(0),mirResultSet.getString("contrasenya"), mirResultSet.getFloat("peso"),
+								(int)mirResultSet.getInt("altura"), mirResultSet.getString("alergias"), mirResultSet.getInt("colesterol"),
+								(int)mirResultSet.getInt("tension"), mirResultSet.getString("enfermedades"), mirResultSet.getString("tipo_sangre"));
+							listaUsuariosBD.add(m);
+							medicosC.add(mirResultSet.getInt("medico_cabecera"));
+							//System.out.println(m.toString());
+	
+						}else if(mirResultSet.getString("tipo").equals("paciente")) {//SI EL USUARIO ES DE TIPO PACIENTE
+							//System.out.println("hay paciente");
+							
+							Usuario m = new Paciente(mirResultSet.getInt("cod_usuario"), mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
+									mirResultSet.getString("sexo").charAt(0),mirResultSet.getString("contrasenya"), mirResultSet.getFloat("peso"),
+									(int)mirResultSet.getInt("altura"), mirResultSet.getString("alergias"), mirResultSet.getInt("colesterol"),
+									(int)mirResultSet.getInt("tension"), mirResultSet.getString("enfermedades"), mirResultSet.getString("tipo_sangre"));
+								listaUsuariosBD.add(m);
+								medicosC.add(mirResultSet.getInt("medico_cabecera"));
+								//System.out.println(m.toString());
+						}else{
+							System.out.println("ALGUN DATO ESTA MAL EN LA BASE DE DATOS");
+						}
+				}
+			} catch (SQLException e) {
+				log( Level.SEVERE, "Error en BD\t " + "SELECT * FROM USUARIOS", e );
 			}
 
 			//5. CERRAMOS LA CONEXION
-			miConexion.close();
+
+			try {
+				if (usuariosBD!=null) usuariosBD.close();
+				if (miConexion!=null) miConexion.close();
+				log( Level.INFO, "Cierre de base de datos", null );
+			} catch (SQLException e) {
+				log( Level.SEVERE, "Error en cierre de base de datos", e );
+			}			
+
 
 		} catch (SQLException e) {
+			
+			log( Level.SEVERE, "Error en la declaracion de la base de datos", e );
+
 
 		    System.out.println("Error en las operaciones a base de datos.");
 		    
 		    //e.printStackTrace(System.out);
 		    
 		    System.out.println("Accediendo a los ficheros guardados en la cache...");	
-		    
-		    
-		    
-		    
-			
+
 		}
 		//FUNCION QUE ASIGNA EL MÉDICO DE CABECERA A CADA USUARIO
 	    for (int i=0;i<listaUsuariosBD.size();i++) {
@@ -162,5 +196,39 @@ public class UsuariosBD {
 		UsuariosBD usuarios = new UsuariosBD();
 		return usuarios.listaUsuariosBD;
 	}
+	/////////////////////////////////////////////////////////////////////
+	//                      Logging                                    //
+	/////////////////////////////////////////////////////////////////////
+	
+	private static Logger logger = null;
+	
+	// Método local para loggear
+	private static void log( Level level, String msg, Throwable excepcion ) {
+		if (!LOGGING) return;
+		if (logger==null) {  // Logger por defecto local:
+			logger = Logger.getLogger( UsuariosBD.class.getName() );  // Nombre del logger - el de la clase
+			logger.setLevel( Level.ALL );  // Loguea todos los niveles
+			logger.setUseParentHandlers(false);	//Quitamos la consola por defecto
+			try {
+				Handler h = new StreamHandler( System.out, new SimpleFormatter() );	
+				h.setLevel( Level.ALL );
+				logger.addHandler( h );  // Saca todos los errores a out
+				Handler h2 =  new FileHandler( "LoggerBDUsuarios.log.xml", false);//ESTO SE TIENE QUE ARREGLAR POQUE NO VA
+				h2.setLevel(Level.INFO);
+				logger.addHandler(h2);
+			} catch (SecurityException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		if (excepcion==null)
+			logger.log( level, msg );
+		else
+			logger.log( level, msg, excepcion );
+	}
+
 }
+
+	
 

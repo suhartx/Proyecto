@@ -276,7 +276,7 @@ public abstract class Usuario implements ICSV{
 	public String getCSV() {
 		return codUsuario + "," + nombre + "," + apellido + "," + dni + "," + sexo + "," + contrasenya + "," + peso
 				+ "," + altura + "," + Alergias + "," + colesterol + "," + tension + "," + enfermedades + ","
-				+ tipoSangre + "," + medicoCabecera.getCodUsuario() + "," + this.getClass().getSimpleName()+" \n";
+				+ tipoSangre + "," + medicoCabecera.getCodUsuario() + "," + this.getClass().getSimpleName();
 	}
 	
 	
