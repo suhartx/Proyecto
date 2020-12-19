@@ -46,98 +46,103 @@ public class UsuariosBD {
 			log( Level.INFO, "Conectada base de datos " + "osabide", null );
 
 		} catch (SQLException e) {
-			log( Level.SEVERE, "Error en conexión de base de datos " + "osabide", e );
+			
+			log( Level.SEVERE, "Error en conexión de base de datos " + "osabide", null);
+			System.out.println("conexión establecida con los ficheros de la cache");
+			
 
 		}
-			
+		if (miConexion!= null) {
 			//2. CREAMOS EL OBJETO STATEMENT
-		try {	
-			Statement usuariosBD = miConexion.createStatement();
-			log( Level.INFO, "Declaracion en la base de datos", null );
-
-			
-			//3. EJECUTAMOS LA INSTRUCCION SQL
-			
-			try {
-			ResultSet  mirResultSet= usuariosBD.executeQuery("SELECT * FROM USUARIOS");
-			log( Level.INFO, "BD tipo buscado\t " + "SELECT * FROM USUARIOS", null );
+			try {	
+				Statement usuariosBD = miConexion.createStatement();
+				log( Level.INFO, "Declaracion en la base de datos", null );
 	
-			//4. RECORREMOS EL RESUTSET
-			
-				while (mirResultSet.next()){
-	
-					//System.out.println("vaa  ");
-	
-						if(mirResultSet.getString("tipo").equals("medico")) {//SI EL USUARIO ES DE TIPO MEDICO
-							//System.out.println("hay medico");
-							
-						Usuario m = new Medico(mirResultSet.getInt("cod_usuario"),mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
-								mirResultSet.getString("sexo").charAt(0),mirResultSet.getString("contrasenya"), mirResultSet.getFloat("peso"),
-								(int)mirResultSet.getInt("altura"), mirResultSet.getString("alergias"), mirResultSet.getInt("colesterol"),
-								(int)mirResultSet.getInt("tension"), mirResultSet.getString("enfermedades"), mirResultSet.getString("tipo_sangre"));
-							listaUsuariosBD.add(m);
-							medicosC.add(mirResultSet.getInt("medico_cabecera"));
-							//System.out.println(m.toString());
-	
-						}else if(mirResultSet.getString("tipo").equals("enfermero")) {//SI EL USUARIO ES DE TIPO ENFERMERO
-							//System.out.println("hay enfermero");
-							
-							Usuario m = new Enfermero(mirResultSet.getInt("cod_usuario"), mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
-								mirResultSet.getString("sexo").charAt(0),mirResultSet.getString("contrasenya"), mirResultSet.getFloat("peso"),
-								(int)mirResultSet.getInt("altura"), mirResultSet.getString("alergias"), mirResultSet.getInt("colesterol"),
-								(int)mirResultSet.getInt("tension"), mirResultSet.getString("enfermedades"), mirResultSet.getString("tipo_sangre"));
-							listaUsuariosBD.add(m);
-							medicosC.add(mirResultSet.getInt("medico_cabecera"));
-							//System.out.println(m.toString());
-	
-						}else if(mirResultSet.getString("tipo").equals("paciente")) {//SI EL USUARIO ES DE TIPO PACIENTE
-							//System.out.println("hay paciente");
-							
-							Usuario m = new Paciente(mirResultSet.getInt("cod_usuario"), mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
+				
+				//3. EJECUTAMOS LA INSTRUCCION SQL
+				
+				try {
+				ResultSet  mirResultSet= usuariosBD.executeQuery("SELECT * FROM USUARIOS");
+				log( Level.INFO, "BD tipo buscado\t " + "SELECT * FROM USUARIOS", null );
+		
+				//4. RECORREMOS EL RESUTSET
+				
+					while (mirResultSet.next()){
+		
+						//System.out.println("vaa  ");
+		
+							if(mirResultSet.getString("tipo").equals("medico")) {//SI EL USUARIO ES DE TIPO MEDICO
+								//System.out.println("hay medico");
+								
+							Usuario m = new Medico(mirResultSet.getInt("cod_usuario"),mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
 									mirResultSet.getString("sexo").charAt(0),mirResultSet.getString("contrasenya"), mirResultSet.getFloat("peso"),
 									(int)mirResultSet.getInt("altura"), mirResultSet.getString("alergias"), mirResultSet.getInt("colesterol"),
 									(int)mirResultSet.getInt("tension"), mirResultSet.getString("enfermedades"), mirResultSet.getString("tipo_sangre"));
 								listaUsuariosBD.add(m);
 								medicosC.add(mirResultSet.getInt("medico_cabecera"));
 								//System.out.println(m.toString());
-						}else{
-							System.out.println("ALGUN DATO ESTA MAL EN LA BASE DE DATOS");
-						}
+		
+							}else if(mirResultSet.getString("tipo").equals("enfermero")) {//SI EL USUARIO ES DE TIPO ENFERMERO
+								//System.out.println("hay enfermero");
+								
+								Usuario m = new Enfermero(mirResultSet.getInt("cod_usuario"), mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
+									mirResultSet.getString("sexo").charAt(0),mirResultSet.getString("contrasenya"), mirResultSet.getFloat("peso"),
+									(int)mirResultSet.getInt("altura"), mirResultSet.getString("alergias"), mirResultSet.getInt("colesterol"),
+									(int)mirResultSet.getInt("tension"), mirResultSet.getString("enfermedades"), mirResultSet.getString("tipo_sangre"));
+								listaUsuariosBD.add(m);
+								medicosC.add(mirResultSet.getInt("medico_cabecera"));
+								//System.out.println(m.toString());
+		
+							}else if(mirResultSet.getString("tipo").equals("paciente")) {//SI EL USUARIO ES DE TIPO PACIENTE
+								//System.out.println("hay paciente");
+								
+								Usuario m = new Paciente(mirResultSet.getInt("cod_usuario"), mirResultSet.getString("nombre"), mirResultSet.getString("apellidos"),  mirResultSet.getString("dni"),
+										mirResultSet.getString("sexo").charAt(0),mirResultSet.getString("contrasenya"), mirResultSet.getFloat("peso"),
+										(int)mirResultSet.getInt("altura"), mirResultSet.getString("alergias"), mirResultSet.getInt("colesterol"),
+										(int)mirResultSet.getInt("tension"), mirResultSet.getString("enfermedades"), mirResultSet.getString("tipo_sangre"));
+									listaUsuariosBD.add(m);
+									medicosC.add(mirResultSet.getInt("medico_cabecera"));
+									//System.out.println(m.toString());
+							}else{
+								System.out.println("ALGUN DATO ESTA MAL EN LA BASE DE DATOS");
+							}
+					}
+				} catch (SQLException e) {
+					log( Level.SEVERE, "Error en BD\t " + "SELECT * FROM USUARIOS", e );
 				}
-			} catch (SQLException e) {
-				log( Level.SEVERE, "Error en BD\t " + "SELECT * FROM USUARIOS", e );
-			}
-
-			//5. CERRAMOS LA CONEXION
-
-			try {
-				if (usuariosBD!=null) usuariosBD.close();
-				if (miConexion!=null) miConexion.close();
-				log( Level.INFO, "Cierre de base de datos", null );
-			} catch (SQLException e) {
-				log( Level.SEVERE, "Error en cierre de base de datos", e );
-			}			
-
-
-		} catch (SQLException e) {
+	
+				//5. CERRAMOS LA CONEXION
+	
+				try {
+					if (usuariosBD!=null) usuariosBD.close();
+					if (miConexion!=null) miConexion.close();
+					log( Level.INFO, "Cierre de base de datos", null );
+				} catch (SQLException e) {
+					log( Level.SEVERE, "Error en cierre de base de datos", e );
+				}			
+	
 			
-			log( Level.SEVERE, "Error en la declaracion de la base de datos", e );
-
-
-		    System.out.println("Error en las operaciones a base de datos.");
-		    
-		    //e.printStackTrace(System.out);
-		    
-		    System.out.println("Accediendo a los ficheros guardados en la cache...");	
-
-		}
-		//FUNCION QUE ASIGNA EL MÉDICO DE CABECERA A CADA USUARIO
-	    for (int i=0;i<listaUsuariosBD.size();i++) {
-	        
-	    	listaUsuariosBD.get(i).setMedicoCabecera(asignaMedicoC(listaUsuariosBD, medicosC.get(i)));
-			//System.out.println("Añadiendo medico " +listaUsuariosBD.get(i).getMedicoCabecera().getNombre() +" al usuario " + listaUsuariosBD.get(i).getNombre());
-
-	      }
+			} catch (SQLException e) {
+				
+				log( Level.SEVERE, "Error en la declaracion de la base de datos", e );
+	
+	
+			    System.out.println("Error en las operaciones a base de datos.");
+			    
+			    //e.printStackTrace(System.out);
+			    
+			    System.out.println("Accediendo a los ficheros guardados en la cache...");	
+	
+			}
+			
+			//FUNCION QUE ASIGNA EL MÉDICO DE CABECERA A CADA USUARIO
+		    for (int i=0;i<listaUsuariosBD.size();i++) {
+		        
+		    	listaUsuariosBD.get(i).setMedicoCabecera(asignaMedicoC(listaUsuariosBD, medicosC.get(i)));
+				//System.out.println("Añadiendo medico " +listaUsuariosBD.get(i).getMedicoCabecera().getNombre() +" al usuario " + listaUsuariosBD.get(i).getNombre());
+	
+		    }
+	    }
 	}
 	/**
 	 * El llamamiento a la función recursiva simplificada
