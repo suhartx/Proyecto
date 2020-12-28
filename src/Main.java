@@ -26,7 +26,7 @@ public class Main {
 		
 		//INICIALIZAREMOS LOS USUARIOS DESDE LA BASE DE DATOS
 
-		ArrayList<Usuario> usuarios = DatosUsuariosBD.iniciaDatos();
+		DatosUsuariosBD datos = new DatosUsuariosBD();
 		
 //		for (Cita c: usuarios.get(0).getCitas()) {
 //			System.out.println(c.getCSV());
@@ -34,7 +34,7 @@ public class Main {
 		
 		//INICIALIZAMOS LA VENTANA
 		
-        VentanaLogin frame = new VentanaLogin(usuarios);
+        VentanaLogin frame = new VentanaLogin(datos);
         frame.setVisible(true);
 
 	}

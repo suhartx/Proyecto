@@ -37,11 +37,7 @@ public class Enfermero extends Usuario implements ICita {
 		
 	}
 
-	@Override
-	public JTree cargarJTree() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 
 

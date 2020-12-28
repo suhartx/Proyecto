@@ -29,13 +29,14 @@ public class VentanaLogin extends JFrame {
     private JTextField userText;
     private JPasswordField passwordText;
     ArrayList<Usuario> usuarios;
+    DatosUsuariosBD datos;
 /**
  * Método constructor de la ventana
  * @param usuarios parametro de usuarios que introduciremos
  */
-    public VentanaLogin(ArrayList<Usuario> usuarios) {
-    	
-    	this.usuarios=usuarios;
+    public VentanaLogin(DatosUsuariosBD datos) {
+    	this.datos=datos;
+    	this.usuarios=datos.devuelveUsuarios();
     	// CREACIONES DE USUARIOS
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle( "Ventana Login" );
@@ -146,7 +147,7 @@ public class VentanaLogin extends JFrame {
 		                JOptionPane.showMessageDialog(null,"Bienvenido Señor/a " + usuarios.get(i).getApellido());
 
 	                }
-	                VentanaPrincipal vp = new VentanaPrincipal(usuarios, i);
+	                VentanaPrincipal vp = new VentanaPrincipal(datos, i);
 	                vp.setVisible(true);
 	                this.dispose();
         		}

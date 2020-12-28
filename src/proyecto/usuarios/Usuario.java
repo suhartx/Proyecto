@@ -3,6 +3,10 @@ package proyecto.usuarios;
 import java.util.ArrayList;
 
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeNode;
 
 import proyecto.contenido.Cita;
 import proyecto.contenido.Prueba;
@@ -292,7 +296,55 @@ public abstract class Usuario implements ICSV{
 	}
 
 //TODO
-	public abstract JTree cargarJTree();
+	public JTree cargarJTree(ArrayList<Usuario> user) {
+		
+		JTree arbol = new JTree();
 
+		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("nodo raiz, no deberia ser visible");		
+		
+		DefaultTreeModel defaultTreeModel = new DefaultTreeModel( rootNode );		
+		
+		arbol.setModel( defaultTreeModel );		
 
+		
+		for (Usuario u : user) {
+			
+			DefaultMutableTreeNode t = new DefaultMutableTreeNode(u.getNombre()+" "+ u.getApellido());
+			DefaultMutableTreeNode cita = new DefaultMutableTreeNode("citas");
+			DefaultMutableTreeNode prueba = new DefaultMutableTreeNode("pruebas");
+			DefaultMutableTreeNode tratamiento = new DefaultMutableTreeNode("tratamientos");
+
+			
+			
+			defaultTreeModel.insertNodeInto(t, (MutableTreeNode) defaultTreeModel.getRoot(), ((DefaultMutableTreeNode) defaultTreeModel.getRoot()).getChildCount());
+			
+			defaultTreeModel.insertNodeInto(cita, t, t.getChildCount());
+			
+			defaultTreeModel.insertNodeInto(prueba, t, t.getChildCount());
+			
+			defaultTreeModel.insertNodeInto(tratamiento, t, t.getChildCount());
+			
+			
+			for (Cita c : u.getCitas()) {
+				defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(c.getTitulo()), cita, cita.getChildCount());
+			}
+			for (Prueba p : u.getPruebas()) {
+				defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(p.getTitulo()), prueba, prueba.getChildCount());
+			}			
+			for (Tratamiento tr : u.getTratamientos()) {
+				defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(tr.getTitulo()), tratamiento, tratamiento.getChildCount());
+			}			
+			
+			
+			
+		}
+		
+		arbol.expandRow(0);
+		
+		arbol.setRootVisible( false );
+		
+		//arbol.setShowsRootHandles(true);
+		
+		return arbol;
+	}
 }

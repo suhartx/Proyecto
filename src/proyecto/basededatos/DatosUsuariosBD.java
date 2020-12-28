@@ -74,7 +74,7 @@ public class DatosUsuariosBD {
 		añadirTratamientos();
 		añadirMedicamentos();
 		añadirMedicamentosAsociados();
-		cargaUsuariosMapa();
+		//cargaUsuariosMapa();
 		
 			
 		
@@ -424,16 +424,31 @@ public class DatosUsuariosBD {
 
 		}
 	}
-	public static ArrayList<Usuario> iniciaDatos(){
-		DatosUsuariosBD inicia = new DatosUsuariosBD();
-		return inicia.usuarios;
+	public ArrayList<Usuario> devuelveUsuarios(){
+		return this.usuarios;
 	}
-	public void cargaUsuariosMapa() {
+	/**
+	 * decuelve la lista de usuarios de la base de datos con clave nombre + apellido y valor usuario
+	 * @return
+	 */
+	public HashMap<String, Usuario> devuelveUsuariosMapNombre() {
+		for (Usuario u : usuarios) {
+			usuariosMapNombre.put(u.getNombre()+" "+u.getApellido(), u);
+		}
+		return usuariosMapNombre;
+	}
+	/**
+	 * devuelve la lista de la base de datos en forma de hashmap con clave id y valor usuario
+	 * @return
+	 */
+	public HashMap<Integer, Usuario> devuelveUsuariosMapID() {
 		for (Usuario u : usuarios) {
 			usuariosMapID.put(u.getCodUsuario(), u);
-			usuariosMapNombre.put(u.getNombre()+u.getApellido(), u);
 		}
-	}
+		return usuariosMapID;
+	}	
+	
+	
 	/////////////////////////////////////////////////////////////////////
 	//                      Logging                                    //
 	/////////////////////////////////////////////////////////////////////
