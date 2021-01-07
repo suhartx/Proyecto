@@ -31,7 +31,7 @@ public class TestUsuariosBD {
 			
 			usuariosFichero=Ficheros.devuelvelistaUsuarios();
 			
-			usuariosBD= DatosUsuariosBD.iniciaDatos();
+			usuariosBD= DatosUsuariosBD.devuelveUsuarios();
 			
 			
 	}

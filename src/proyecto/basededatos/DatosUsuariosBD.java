@@ -30,7 +30,7 @@ import proyecto.usuarios.Usuario;
  */
 public class DatosUsuariosBD {
 
-	ArrayList<Usuario> usuarios = UsuariosBD.getUsuarios();	
+	static ArrayList<Usuario> usuarios = UsuariosBD.getUsuarios();	
 
 	ArrayList<Medicamento> med = new ArrayList<>();	
 	
@@ -424,8 +424,8 @@ public class DatosUsuariosBD {
 
 		}
 	}
-	public ArrayList<Usuario> devuelveUsuarios(){
-		return this.usuarios;
+	public static ArrayList<Usuario> devuelveUsuarios(){
+		return usuarios;
 	}
 	/**
 	 * decuelve la lista de usuarios de la base de datos con clave nombre + apellido y valor usuario

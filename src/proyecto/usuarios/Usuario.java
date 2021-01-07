@@ -1,8 +1,18 @@
 package proyecto.usuarios;
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
 
+import javax.swing.Box;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTree;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
@@ -295,6 +305,68 @@ public abstract class Usuario implements ICSV{
 				+ this.getListaCitas() + ", tratamientos=" + this.getListaTratamientos() + ", pruebas=" + this.getListaPruebas() + "]";
 	}
 
+	/**
+	 * Este metodo devuelve un arraylist de los datos Importantes del usuario, 
+	 * frecuentemente usado para mostrar datos en la ventana de informacion del usuario
+	 * @return arraylist de datos
+	 */
+	public ArrayList<String> devuelveDatosPanel(){
+		return null;
+		
+		
+	}
+	
+	public JPanel devuelvePanelInformación() {
+		
+		  String[] keys = {"Nombre: ", "Apellidos: ", "DNI: ", "sexo: ",
+                  "Peso: ", "Altura: ", "Alergias: ",
+                  "Colesterol: ", "Tensión: ", "Enfermedades: ", "Tipo de sangre: ", 
+                  "Medico de cabecera: "};
+		  String[] values = {nombre , apellido, dni, Character.toString(sexo).toUpperCase(),
+                    Float.toString(peso)+ " kg", Integer.toString(altura)+" cm", Alergias.replace("-", ", "), Integer.toString(colesterol),
+                    Integer.toString(tension), enfermedades.replace("-", ", "), tipoSangre, medicoCabecera.getNombre()+" "+ medicoCabecera.getApellido()};
+
+		JPanel panel = new JPanel(new FlowLayout());
+		GridBagConstraints gbc;
+		JLabel valor = null;
+		int maxWidth = 0;
+		
+		JLabel[] labels = new JLabel[keys.length];
+		
+	    for (int i = 0; i < keys.length; i++)
+	    {
+	      labels[i] = new JLabel(keys[i]);
+	      maxWidth = Math.max(labels[i].getPreferredSize().width, maxWidth);
+	    }
+
+	    JPanel[] panels = new JPanel[keys.length];
+
+	    for (int i = 0; i < keys.length; i++)
+	    {
+	      panels[i] = new JPanel(new GridBagLayout());
+
+	      gbc = new GridBagConstraints();
+	      gbc.gridx = 0;
+	      gbc.gridy = 0;
+	      gbc.anchor = GridBagConstraints.LINE_START;
+	      gbc.insets = new Insets(1,1,1,1);
+	      panels[i].add(Box.createHorizontalStrut(maxWidth), gbc);
+
+	      gbc.gridy = 1;
+	      panels[i].add(labels[i], gbc);
+
+	      valor = new JLabel(values[i]);
+
+	      gbc.gridx = 1;
+	      panels[i].add(valor, gbc);
+
+	      panel.add(panels[i]);
+	    }
+	    panel.setPreferredSize(new Dimension(300, 300));
+		return panel;
+		
+	}
+	
 //TODO
 	public JTree cargarJTree(ArrayList<Usuario> user) {
 		
@@ -346,5 +418,17 @@ public abstract class Usuario implements ICSV{
 		//arbol.setShowsRootHandles(true);
 		
 		return arbol;
+	}
+	/**
+	 * Estr metodo devuelve una tabla con todos los los datos del usuario
+	 * @return
+	 */
+	public static JTable devuelveTablaUsuario() {
+		JTable tablaU = new JTable();
+		DefaultTableModel modelo = (DefaultTableModel)tablaU.getModel();
+		
+		
+		return null;
+		
 	}
 }

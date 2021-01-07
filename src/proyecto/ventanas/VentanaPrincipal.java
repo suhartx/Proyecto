@@ -1,11 +1,17 @@
 package proyecto.ventanas;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -34,13 +40,16 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 	private JTextField panelBusqueda;
     static ArrayList<Usuario> usuarios;
     static int posPersona;
-    private JPanel contentPane;
     
 	HashMap<Integer, Usuario> usuariosMapID =  new HashMap<>();
 	
 	HashMap<String, Usuario> usuariosMapNombre =  new HashMap<>();
 
 	JTree tree;
+	private JPanel contentPane;
+	private JPanel panelCentral;
+	private JScrollPane panelDatos;
+	//private JPanel panelDatos;
 
 
 
@@ -127,7 +136,7 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		panel.add(tree);
 		panel.setViewportView(tree);
 		
-		JPanel panelCentral = new JPanel();
+		panelCentral = new JPanel();
 		splitPane.setRightComponent(panelCentral);
 		panelCentral.setLayout(new BorderLayout(0, 0));
 		
@@ -135,8 +144,26 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		panelCentral.add(panelBusqueda, BorderLayout.NORTH);
 		panelBusqueda.setColumns(10);
 		
-		JTextPane textPane = new JTextPane();
-		panelCentral.add(textPane, BorderLayout.CENTER);
+//		panelDatos = new JPanel(new BorderLayout());
+		
+
+		panelDatos = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+	            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
+		
+		////////////////panelDatos.getViewport().setLayout(new BorderLayout());
+		
+
+		//panelDatos.getViewport().setBackground(Color.BLACK);
+		panelCentral.add(panelDatos, BorderLayout.CENTER);
+		
+		//panelDatos.setBounds(panelDatos.getBounds());
+		//scrollPane.set
+		
+		JScrollPane scrollPaneProc =  new JScrollPane();
+		
+		
+		
 		
 		JPanel panelBotonera = new JPanel();
 		contentPane.add(panelBotonera, BorderLayout.SOUTH);
@@ -146,11 +173,90 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		
 		JButton btnModificar = new JButton("Modificar");
 		panelBotonera.add(btnModificar);
+
 		
 		JButton btnEliminar = new JButton("Eliminar");
 		panelBotonera.add(btnEliminar);
 
 		
+	}
+	/**
+	 * Clase que genera un panel con la informacion medica de cada usuario
+	 * falta perfeccionar el voxlayout
+	 * @author Suhar
+	 *
+	 */
+	class InfoUsuario extends JPanel{
+		
+		
+		public InfoUsuario(Usuario u) {
+			
+			//setLayout(new FlowLayout());
+			setBorder(new TitledBorder(null, "Datos usuario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+
+
+			setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+
+			
+			JLabel rotuloNombre = new JLabel("Nombre: ");
+			
+			JLabel contenidoNombre =  new JLabel(u.getNombre());
+			
+			JLabel rotuloApellido = new JLabel("Apellido: ");
+			
+			JLabel contenidoApellido =  new JLabel(u.getApellido());
+			
+			JLabel rotuloDNI = new JLabel("DNI: ");
+			
+			JLabel contenidoDNI =  new JLabel(u.getDni());
+
+			
+			Box cajaH1 = Box.createHorizontalBox();
+			
+			Box cajaH11 =  Box.createHorizontalBox();
+			
+			Box cajaH12 =  Box.createHorizontalBox();
+			
+			Box cajaV1 =  Box.createVerticalBox();
+			
+			Box cajaH2 = Box.createHorizontalBox();
+			
+			
+			
+//
+//			cajaV1.add(rotuloNombre);
+//			cajaV1.add(Box.createHorizontalStrut(20));
+//			cajaV1.add(contenidoNombre);
+//			
+//			cajaV2.add(rotuloApellido);
+//			cajaV2.add(Box.createHorizontalStrut(20));
+//			cajaV2.add(contenidoApellido);
+//			
+//			cajaH1.add(Box.createHorizontalGlue());
+//			cajaH1.add(cajaV1);			
+//			cajaH1.add(Box.createHorizontalGlue());
+//			cajaH1.add(cajaV2);	
+//			cajaH1.add(Box.createHorizontalGlue());
+//			
+//			cajaH2.add(rotuloDNI);			
+//			cajaH2.add(Box.createHorizontalGlue());
+//			cajaH2.add(contenidoDNI);	
+//			
+//			
+//			
+//
+//			setBackground(Color.WHITE);
+//			cajaV3.add(cajaH1);
+//			cajaV3.add(cajaH2);
+////			add(cajaV3, BorderLayout.CENTER);
+//			add(cajaV3);
+
+
+			setVisible(true);
+			
+			
+			
+		}
 	}
 
 
@@ -174,6 +280,23 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		
 		if (usuariosMapNombre.containsKey(nodo.getUserObject()))
 		{
+//			panelDatos.removeAll();
+//			panelDatos.invalidate();
+//			JPanel j = usuariosMapNombre.get(nodo.getUserObject()).devuelvePanelInformación();
+//			panelDatos.add(j);
+//
+//			panelDatos.revalidate();
+//			//panelDatos.getViewport().setBackground(Color.BLACK);
+
+			panelDatos.getViewport().removeAll();
+			panelDatos.getViewport().invalidate();
+			JPanel j = usuariosMapNombre.get(nodo.getUserObject()).devuelvePanelInformación();
+			panelDatos.add(j);
+			panelDatos.setViewportView(j);
+			panelDatos.getViewport().getView().setBounds(panelDatos.getBounds());
+
+			panelDatos.getViewport().revalidate();
+			panelDatos.getViewport().setBackground(Color.BLACK);
 		  System.out.println("Selecciona : "+nodo.toString());
 		}
 	}
