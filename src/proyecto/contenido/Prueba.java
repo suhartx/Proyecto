@@ -8,7 +8,7 @@ import proyecto.interfaces.ICSV;
 import proyecto.usuarios.Medico;
 import proyecto.usuarios.Usuario;
 
-public class Prueba implements ICSV{
+public class Prueba implements ICSV, Comparable<Prueba>{
 
 	private int codPrueba;
 	private String titulo;
@@ -120,6 +120,15 @@ public class Prueba implements ICSV{
 	}
 
 
-
+	@Override
+	public int compareTo(Prueba c) {
+		int ret;
+		ret = c.fecha.compareTo(getFecha());
+				if(ret ==0) 
+			ret= c.hora.compareTo(hora);
+				if(ret ==0) 
+			ret= c.titulo.compareToIgnoreCase(titulo);
+			return ret;
+	}
 
 }

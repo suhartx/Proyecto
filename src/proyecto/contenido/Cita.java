@@ -6,7 +6,7 @@ import java.util.Date;
 import proyecto.interfaces.ICSV;
 import proyecto.usuarios.Usuario;
 
-public class Cita implements ICSV{
+public class Cita implements ICSV,  Comparable<Cita>{
 
 	private int codCita;
 	private String titulo;
@@ -120,7 +120,16 @@ public class Cita implements ICSV{
 				+ ", fecha=" + fecha + ", hora=" + hora + ", sanitarioAsociado=" + sanitarioAsociado + "]";
 	}
 	
-	
+	@Override
+	public int compareTo(Cita c) {
+		int ret;
+		ret = c.fecha.compareTo(getFecha());
+				if(ret ==0) 
+			ret= c.hora.compareTo(hora);
+				if(ret ==0) 
+			ret= c.titulo.compareToIgnoreCase(titulo);
+			return ret;
+	}
 
 
 

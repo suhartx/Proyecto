@@ -7,7 +7,7 @@ import java.util.Date;
 import proyecto.interfaces.ICSV;
 import proyecto.usuarios.Medico;
 
-public class Tratamiento implements ICSV{
+public class Tratamiento implements ICSV, Comparable<Tratamiento>{
 
 	private int codTratamiento;
 	private String titulo;
@@ -142,8 +142,14 @@ public class Tratamiento implements ICSV{
 		return "Tratamiento [codtratamiento=" + codTratamiento + ", titulo=" + titulo + ", descripcion=" + descripcion
 				+ ", ambito=" + ambito + ", fecha=" + fecha + ", hora=" + hora + "]";
 	}
-
-
-
-
+	@Override
+	public int compareTo(Tratamiento c) {
+		int ret;
+		ret = c.fecha.compareTo(getFecha());
+				if(ret ==0) 
+			ret= c.hora.compareTo(hora);
+				if(ret ==0) 
+			ret= c.titulo.compareToIgnoreCase(titulo);
+			return ret;
+	}
 }

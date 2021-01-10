@@ -6,6 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.TreeSet;
 
 import javax.swing.Box;
 import javax.swing.JLabel;
@@ -239,6 +241,16 @@ public abstract class Usuario implements ICSV{
 	public ArrayList<Cita> getCitas() {
 		return citas;
 	}
+	
+	public TreeSet<Cita> getCitasOrdenadas(){
+		TreeSet<Cita> citasOrdenadas =  new TreeSet<Cita>();
+		
+		for (Cita cita : getCitas()) {
+			citasOrdenadas.add(cita);
+		}
+		return citasOrdenadas;
+	}
+	
 	public ArrayList<String> getListaCitas() {
 		ArrayList<String> CitasLista = new ArrayList<String>();
 		for (Cita p : citas) {
@@ -255,6 +267,15 @@ public abstract class Usuario implements ICSV{
 
 	public ArrayList<Tratamiento> getTratamientos() {
 		return tratamientos;
+	}
+	
+	public TreeSet<Tratamiento> getTratamientosOrdenados(){
+		TreeSet<Tratamiento> tratamientosOrdenados =  new TreeSet<Tratamiento>();
+		
+		for (Tratamiento tratamiento : getTratamientos()) {
+			tratamientosOrdenados.add(tratamiento);
+		}
+		return tratamientosOrdenados;
 	}
 	
 	public ArrayList<String> getListaTratamientos() {
@@ -281,6 +302,14 @@ public abstract class Usuario implements ICSV{
 		return pruebasLista;
 	}
 
+	public TreeSet<Prueba> getPruebasOrdenadas(){
+		TreeSet<Prueba> pruebasOrdenadas =  new TreeSet<Prueba>();
+		
+		for (Prueba prueba : getPruebas()) {
+			pruebasOrdenadas.add(prueba);
+		}
+		return pruebasOrdenadas;
+	}
 
 	public void setPruebas(ArrayList<Prueba> pruebas) {
 		this.pruebas = pruebas;
@@ -316,56 +345,56 @@ public abstract class Usuario implements ICSV{
 		
 	}
 	
-	public JPanel devuelvePanelInformación() {
-		
-		  String[] keys = {"Nombre: ", "Apellidos: ", "DNI: ", "sexo: ",
-                  "Peso: ", "Altura: ", "Alergias: ",
-                  "Colesterol: ", "Tensión: ", "Enfermedades: ", "Tipo de sangre: ", 
-                  "Medico de cabecera: "};
-		  String[] values = {nombre , apellido, dni, Character.toString(sexo).toUpperCase(),
-                    Float.toString(peso)+ " kg", Integer.toString(altura)+" cm", Alergias.replace("-", ", "), Integer.toString(colesterol),
-                    Integer.toString(tension), enfermedades.replace("-", ", "), tipoSangre, medicoCabecera.getNombre()+" "+ medicoCabecera.getApellido()};
-
-		JPanel panel = new JPanel(new FlowLayout());
-		GridBagConstraints gbc;
-		JLabel valor = null;
-		int maxWidth = 0;
-		
-		JLabel[] labels = new JLabel[keys.length];
-		
-	    for (int i = 0; i < keys.length; i++)
-	    {
-	      labels[i] = new JLabel(keys[i]);
-	      maxWidth = Math.max(labels[i].getPreferredSize().width, maxWidth);
-	    }
-
-	    JPanel[] panels = new JPanel[keys.length];
-
-	    for (int i = 0; i < keys.length; i++)
-	    {
-	      panels[i] = new JPanel(new GridBagLayout());
-
-	      gbc = new GridBagConstraints();
-	      gbc.gridx = 0;
-	      gbc.gridy = 0;
-	      gbc.anchor = GridBagConstraints.LINE_START;
-	      gbc.insets = new Insets(1,1,1,1);
-	      panels[i].add(Box.createHorizontalStrut(maxWidth), gbc);
-
-	      gbc.gridy = 1;
-	      panels[i].add(labels[i], gbc);
-
-	      valor = new JLabel(values[i]);
-
-	      gbc.gridx = 1;
-	      panels[i].add(valor, gbc);
-
-	      panel.add(panels[i]);
-	    }
-	    panel.setPreferredSize(new Dimension(300, 300));
-		return panel;
-		
-	}
+//	public JPanel devuelvePanelInformación() {
+//		
+//		  String[] keys = {"Nombre: ", "Apellidos: ", "DNI: ", "sexo: ",
+//                  "Peso: ", "Altura: ", "Alergias: ",
+//                  "Colesterol: ", "Tensión: ", "Enfermedades: ", "Tipo de sangre: ", 
+//                  "Medico de cabecera: "};
+//		  String[] values = {nombre , apellido, dni, Character.toString(sexo).toUpperCase(),
+//                    Float.toString(peso)+ " kg", Integer.toString(altura)+" cm", Alergias.replace("-", ", "), Integer.toString(colesterol),
+//                    Integer.toString(tension), enfermedades.replace("-", ", "), tipoSangre, medicoCabecera.getNombre()+" "+ medicoCabecera.getApellido()};
+//
+//		JPanel panel = new JPanel(new FlowLayout());
+//		GridBagConstraints gbc;
+//		JLabel valor = null;
+//		int maxWidth = 0;
+//		
+//		JLabel[] labels = new JLabel[keys.length];
+//		
+//	    for (int i = 0; i < keys.length; i++)
+//	    {
+//	      labels[i] = new JLabel(keys[i]);
+//	      maxWidth = Math.max(labels[i].getPreferredSize().width, maxWidth);
+//	    }
+//
+//	    JPanel[] panels = new JPanel[keys.length];
+//
+//	    for (int i = 0; i < keys.length; i++)
+//	    {
+//	      panels[i] = new JPanel(new GridBagLayout());
+//
+//	      gbc = new GridBagConstraints();
+//	      gbc.gridx = 0;
+//	      gbc.gridy = 0;
+//	      gbc.anchor = GridBagConstraints.LINE_START;
+//	      gbc.insets = new Insets(1,1,1,1);
+//	      panels[i].add(Box.createHorizontalStrut(maxWidth), gbc);
+//
+//	      gbc.gridy = 1;
+//	      panels[i].add(labels[i], gbc);
+//
+//	      valor = new JLabel(values[i]);
+//
+//	      gbc.gridx = 1;
+//	      panels[i].add(valor, gbc);
+//
+//	      panel.add(panels[i]);
+//	    }
+//	    panel.setPreferredSize(new Dimension(300, 300));
+//		return panel;
+//		
+//	}
 	
 //TODO
 	public JTree cargarJTree(ArrayList<Usuario> user) {
