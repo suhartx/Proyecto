@@ -3,6 +3,8 @@ package proyecto.contenido;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 import proyecto.interfaces.ICSV;
 import proyecto.usuarios.Medico;
@@ -16,6 +18,8 @@ public class Tratamiento implements ICSV, Comparable<Tratamiento>{
 	private Date fecha;
 	private Time hora;
 	private Medico medicoAsociado;
+	
+	private TreeSet<Medicamento> medicamentosSet;
 	
 	
 	private ArrayList<Medicamento> medicamentos= new ArrayList<Medicamento>();
@@ -126,6 +130,15 @@ public class Tratamiento implements ICSV, Comparable<Tratamiento>{
 		return medicamentos;
 	}
 
+	public TreeSet<Medicamento> getMedicamentosSet(){
+		medicamentosSet= new TreeSet<>();
+		Iterator<Medicamento> iterador = getMedicamentos().iterator();
+		while (iterador.hasNext()){
+			medicamentosSet.add(iterador.next());
+			
+		}
+		return medicamentosSet;
+	}
 
 	public void setMedicamentos(ArrayList<Medicamento> medicamentos) {
 		this.medicamentos = medicamentos;

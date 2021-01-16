@@ -54,13 +54,13 @@ public class Paciente extends Usuario {
 		
 		
 		for (Cita c : this.getCitas()) {
-			defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(c.getTitulo()), cita, cita.getChildCount());
+			defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(c.getCodCita() +" " +c.getTitulo()), cita, cita.getChildCount());
 		}
 		for (Prueba p : this.getPruebas()) {
-			defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(p.getTitulo()), prueba, prueba.getChildCount());
+			defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(p.getCodPrueba() +" " +p.getTitulo()), prueba, prueba.getChildCount());
 		}			
 		for (Tratamiento tr : this.getTratamientos()) {
-			defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(tr.getTitulo()), tratamiento, tratamiento.getChildCount());
+			defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(tr.getCodtratamiento()+" "+ tr.getTitulo()), tratamiento, tratamiento.getChildCount());
 		}			
 		
 		

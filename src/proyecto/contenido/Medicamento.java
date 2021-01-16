@@ -1,17 +1,20 @@
 package proyecto.contenido;
 
 import java.sql.Time;
+import java.util.Comparator;
 import java.util.Date;
 
 import proyecto.interfaces.ICSV;
 
-public class Medicamento implements ICSV{
+public class Medicamento implements ICSV, Comparable<Medicamento>{
 	
 	private int codMedicamento;
 	private String titulo;
 	private String descripcion;
 	private String ambito;
 	private Date fechaLanzamiento;
+	private int contador;
+	
 
 	
 	
@@ -76,6 +79,16 @@ public class Medicamento implements ICSV{
 	}
 
 
+	public int getContador() {
+		return contador;
+	}
+
+
+	public void setContador(int contador) {
+		this.contador = contador;
+	}
+
+
 	@Override
 	public String getCSV() {
 		return codMedicamento + "," + titulo + "," + descripcion + "," + ambito + "," + fechaLanzamiento;
@@ -85,6 +98,18 @@ public class Medicamento implements ICSV{
 	public String toString() {
 		return "Medicamento [codMedicamento=" + codMedicamento + ", titulo=" + titulo + ", descripcion=" + descripcion
 				+ ", ambito=" + ambito + ", fechaLanzamiento=" + fechaLanzamiento + "]";
+	}
+
+
+
+	@Override
+	public int compareTo(Medicamento o) {
+		int ret;
+		ret = codMedicamento-o.codMedicamento;
+				if(ret ==0) {
+					o.contador++;
+				}
+			return ret;
 	}	
 
 }

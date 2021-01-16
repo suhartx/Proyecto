@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.TreeSet;
 
@@ -50,6 +51,9 @@ public abstract class Usuario implements ICSV{
 	ArrayList<Cita> citas = new ArrayList<Cita>();
 	ArrayList<Tratamiento> tratamientos = new ArrayList<Tratamiento>();
 	ArrayList<Prueba> pruebas = new ArrayList<Prueba>();
+	HashMap<String, Cita> mapaCitas;
+	HashMap<String, Prueba> mapaPruebas;
+	HashMap<String, Tratamiento> mapaTratamientos;
 	
 	
 	/**
@@ -92,10 +96,10 @@ public abstract class Usuario implements ICSV{
 		this.tension = tension;
 		this.enfermedades = enfermedades;
 		this.tipoSangre = tipoSangre;
+		
+
+
 	}
-
-
-
 
 
 	public int getCodUsuario() {
@@ -259,8 +263,25 @@ public abstract class Usuario implements ICSV{
 		return CitasLista;
 	}
 
+	public Cita getCitaSeleccionada(String cita){
+		
+		mapaCitas =  new HashMap<String, Cita>();
+		for (Cita c : citas) {
+			mapaCitas.put(c.getCodCita() + " " + c.getTitulo(), c);
+		}
+		if (mapaCitas.containsKey(cita)) {
+			return mapaCitas.get(cita);
+		}else {
+			System.out.println(mapaCitas.toString());
+			System.out.println("no encuentra la cita");
+			return null;
+		}
+		
+	}
+
 	public void setCitas(ArrayList<Cita> citas) {
 		this.citas = citas;
+
 	}
 	
 
@@ -284,6 +305,19 @@ public abstract class Usuario implements ICSV{
 			TratamientosLista.add(p.getTitulo());
 		}
 		return TratamientosLista;
+	}
+	
+	public Tratamiento getTratamientoSeleccionado(String tratamiento) {
+		mapaTratamientos = new HashMap<String, Tratamiento>();
+		for (Tratamiento t : tratamientos) {
+			mapaTratamientos.put(t.getCodtratamiento()+ " "+ t.getTitulo(), t);
+		}
+		if (mapaTratamientos.containsKey(tratamiento)) {
+			return mapaTratamientos.get(tratamiento);
+		}else {
+			System.out.println("no encuentra el tratamiento");
+			return null;
+		}
 	}
 
 	public void setTratamientos(ArrayList<Tratamiento> tratamientos) {
@@ -309,6 +343,18 @@ public abstract class Usuario implements ICSV{
 			pruebasOrdenadas.add(prueba);
 		}
 		return pruebasOrdenadas;
+	}
+	public Prueba getPruebaSeleccionada(String prueba) {
+		mapaPruebas =  new HashMap<String, Prueba>();
+		for (Prueba p : pruebas) {
+			mapaPruebas.put(p.getCodPrueba()+ " "+ p.getTitulo(), p);
+		}
+		if (mapaPruebas.containsKey(prueba)) {
+			return mapaPruebas.get(prueba);
+		}else {
+			System.out.println("no encuentra la prueba");
+			return null;
+		}
 	}
 
 	public void setPruebas(ArrayList<Prueba> pruebas) {
@@ -427,8 +473,10 @@ public abstract class Usuario implements ICSV{
 			
 			
 			for (Cita c : u.getCitas()) {
-				defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(c.getTitulo()), cita, cita.getChildCount());
+				defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(c.getCodCita() +" " +c.getTitulo()), cita, cita.getChildCount());
 			}
+
+
 			for (Prueba p : u.getPruebas()) {
 				defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(p.getTitulo()), prueba, prueba.getChildCount());
 			}			

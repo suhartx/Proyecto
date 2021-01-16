@@ -50,6 +50,7 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 
 	private PanelInfoUsuarios panelInfoUsuarios;
 	private PanelInfoProcedimientos panelInfoProcedimientos;
+	private  PanelInformeProcedimiento panelInformeProcedimiento;
 	private JScrollPane panelDatos;
 
 	private JButton btnCrear;
@@ -125,7 +126,7 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		panelBusqueda.setColumns(10);
 		panelCentral.add(panelBusqueda, BorderLayout.NORTH);
 		
-		panelDatos = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		panelDatos = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 	            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		panelCentral.add(panelDatos, BorderLayout.CENTER);
 
@@ -162,6 +163,8 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		panelInfoUsuarios =  new PanelInfoUsuarios();
 		
 		panelInfoProcedimientos =  new PanelInfoProcedimientos();
+		
+		panelInformeProcedimiento =  new PanelInformeProcedimiento();
 		
 		
 		
@@ -285,7 +288,7 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 
 
 			panelDatos.getViewport().revalidate();
-			panelDatos.getViewport().setBackground(Color.BLACK);
+			//panelDatos.getViewport().setBackground(Color.BLACK);
 		  System.out.println("Selecciona : "+nodo.toString());
 		}
 		
@@ -303,7 +306,7 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 			panelDatos.setViewportView(panelInfoProcedimientos);
 
 			panelDatos.getViewport().revalidate();
-			panelDatos.getViewport().setBackground(Color.BLACK);
+			//panelDatos.getViewport().setBackground(Color.BLACK);
 			
 		}
 		if (nodo.getUserObject().equals("pruebas")) {
@@ -320,7 +323,7 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 			panelDatos.setViewportView(panelInfoProcedimientos);
 
 			panelDatos.getViewport().revalidate();
-			panelDatos.getViewport().setBackground(Color.BLACK);
+			//panelDatos.getViewport().setBackground(Color.BLACK);
 			
 		}
 		if (nodo.getUserObject().equals("tratamientos")) {
@@ -337,7 +340,80 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 			panelDatos.setViewportView(panelInfoProcedimientos);
 
 			panelDatos.getViewport().revalidate();
-			panelDatos.getViewport().setBackground(Color.BLACK);
+			//panelDatos.getViewport().setBackground(Color.BLACK);
+			
+		}
+		
+		if (((DefaultMutableTreeNode)nodo.getParent()).getUserObject().equals("citas")) {
+			
+			panelDatos.getViewport().removeAll();
+			panelDatos.getViewport().invalidate();
+			
+			Usuario u =  usuariosMapNombre.get(((DefaultMutableTreeNode)nodo.getParent().getParent()).getUserObject());
+			
+			System.out.println(u.getNombre());
+			
+			System.out.println(u.getCitaSeleccionada((String) nodo.getUserObject()).getTitulo());
+			
+			panelInformeProcedimiento.limpiarInterior();
+			panelInformeProcedimiento.informeCitas(u,
+					u.getCitaSeleccionada((String) nodo.getUserObject()));
+
+			panelDatos.add(panelInformeProcedimiento);
+			panelDatos.setViewportView(panelInformeProcedimiento);
+
+			panelDatos.getViewport().revalidate();
+			//panelDatos.getViewport().setBackground(Color.BLACK);
+			
+			
+			
+		}
+		if (((DefaultMutableTreeNode)nodo.getParent()).getUserObject().equals("pruebas")) {
+			
+			panelDatos.getViewport().removeAll();
+			panelDatos.getViewport().invalidate();
+			
+			Usuario u =  usuariosMapNombre.get(((DefaultMutableTreeNode)nodo.getParent().getParent()).getUserObject());
+//			
+//			System.out.println(u.getNombre());
+//			
+//			System.out.println(u.getCitaSeleccionada((String) nodo.getUserObject()).getTitulo());
+			
+			panelInformeProcedimiento.limpiarInterior();
+			panelInformeProcedimiento.informePruebas(u,
+					u.getPruebaSeleccionada((String) nodo.getUserObject()));
+
+			panelDatos.add(panelInformeProcedimiento);
+			panelDatos.setViewportView(panelInformeProcedimiento);
+
+			panelDatos.getViewport().revalidate();
+			//panelDatos.getViewport().setBackground(Color.BLACK);
+			
+			
+			
+		}
+		if (((DefaultMutableTreeNode)nodo.getParent()).getUserObject().equals("tratamientos")) {
+			
+			panelDatos.getViewport().removeAll();
+			panelDatos.getViewport().invalidate();
+			
+			Usuario u =  usuariosMapNombre.get(((DefaultMutableTreeNode)nodo.getParent().getParent()).getUserObject());
+//			
+//			System.out.println(u.getNombre());
+//			
+//			System.out.println(u.getTratamientoSeleccionado((String) nodo.getUserObject()).getTitulo());
+//			
+			panelInformeProcedimiento.limpiarInterior();
+			panelInformeProcedimiento.informeTratamientos(u,
+					u.getTratamientoSeleccionado((String) nodo.getUserObject()));
+
+			panelDatos.add(panelInformeProcedimiento);
+			panelDatos.setViewportView(panelInformeProcedimiento);
+
+			panelDatos.getViewport().revalidate();
+			//panelDatos.getViewport().setBackground(Color.BLACK);
+			
+			
 			
 		}
 	}
