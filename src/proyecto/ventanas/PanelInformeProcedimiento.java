@@ -1,5 +1,6 @@
 package proyecto.ventanas;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -11,6 +12,9 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 
 import com.sun.java.swing.plaf.motif.MotifBorders.BevelBorder;
@@ -46,6 +50,8 @@ public class PanelInformeProcedimiento extends JPanel{
 	
 
 	public PanelInformeProcedimiento() {
+		
+		JScrollBar b = new JScrollBar();
 
 		
 	}
@@ -156,7 +162,7 @@ public class PanelInformeProcedimiento extends JPanel{
 		
 		JPanel p = new JPanel();
 		p.setLayout(new GridLayout(3, 2));
-
+		
 		JPanel codPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JLabel codLabel = new JLabel("Codigo de prueba: ");
 		JLabel codInfo = new JLabel();
@@ -249,6 +255,8 @@ public class PanelInformeProcedimiento extends JPanel{
 		
 		setLayout(layoutPrincipal);
 		
+		
+		
 		Border border = BorderFactory.createTitledBorder("Informe de cita " + u.getNombre()+" " + u.getApellido());
 		setBorder(border);
 		
@@ -330,16 +338,35 @@ public class PanelInformeProcedimiento extends JPanel{
 		
 		JPanel desc = new JPanel();
 		desc.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel descLabel = new JLabel("Sanitario asociado: ");
+		JTextArea descLabel = new JTextArea(2, 50);
 		
 		desc.add(descLabel);
+		descLabel.setWrapStyleWord(true);
+		descLabel.setLineWrap(true);
+		descLabel.setOpaque(false);
+		descLabel.setEditable(false);
+		descLabel.setFocusable(false);
+		descLabel.setBackground(UIManager.getColor("Label.background"));
+		descLabel.setFont(UIManager.getFont("Label.font"));
+		descLabel.setBorder(UIManager.getBorder("Label.border"));
 		
-		descLabel.setText("Descripcion:\n" + c.getDescripcion());
+		descLabel.setText("Descripcion: " + c.getDescripcion());
+		
+		
 
-		p.add(desc);
+		//String.format("<html><div WIDTH=%d>%s</div></html>", "Descripcion:<p>" + c.getDescripcion()+"<p>");
+		
+		add(desc);
 		
 		JPanel med =  new JPanel();
-		med.setLayout(new FlowLayout(FlowLayout.LEFT));
+		FlowLayout experimentLayout = new FlowLayout(FlowLayout.LEFT);
+		//experimentLayout.setAlignment(FlowLayout.TRAILING);
+		med.setLayout(experimentLayout);
+		
+		
+		
+		p.setPreferredSize(new Dimension(300, 150));
+		
 		Border bordeM = BorderFactory.createTitledBorder("Medicamentos");
 		med.setBorder(bordeM);
 		
@@ -375,7 +402,7 @@ public class PanelInformeProcedimiento extends JPanel{
 			tituloPanel1.add(tituloLabel1);
 			tituloPanel1.add(tituloInfo);
 			
-			pm.add(tituloPanel);
+			pm.add(tituloPanel1);
 			
 			tituloInfo.setText(m.getTitulo());
 			
@@ -405,21 +432,39 @@ public class PanelInformeProcedimiento extends JPanel{
 			
 			
 			JPanel descPanel1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-			JLabel descLabel1 = new JLabel("Desc.: ");
-			JLabel descInfo = new JLabel();
+
+			JTextArea descInfor = new JTextArea(3, 20);
+
+
+
+			descInfor.setWrapStyleWord(true);
+			descInfor.setLineWrap(true);
+			descInfor.setOpaque(false);
+			descInfor.setEditable(false);
+			descInfor.setFocusable(false);
+			descInfor.setBackground(UIManager.getColor("Label.background"));
+			descInfor.setFont(UIManager.getFont("Label.font"));
+			descInfor.setBorder(UIManager.getBorder("Label.border"));
 			
-			descPanel1.add(descLabel1);
-			descPanel1.add(descInfo);
+			descInfor.setText("Desc.:  "+m.getDescripcion());
+			
+			descPanel1.add(descInfor);
+			
 			
 			pm.add(descPanel1);
 
-			descInfo.setText(m.getDescripcion());
+
 
 			med.add(pm);
 			
 			
 		}
+		med.setPreferredSize(new Dimension(400,1000));
+		//med.setMinimumSize(new Dimension(400,400));
+		//med.setMaximumSize(new Dimension(400,2000 ));
+		
 		add(med);
+
 	}
 	
 

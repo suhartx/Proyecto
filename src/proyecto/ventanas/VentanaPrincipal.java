@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -82,9 +84,57 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		inicializarPaneles();
 		iniciaPanelDatos();
 		
-
+		DefaultMutableTreeNode nodoSeleccionado = (((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())));
+		
+		btnCrear.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("citas"))||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("citas")) {
+					
+					
+					
+				}
+				if (((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("pruebas"))||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("pruebas")) {
+					
+					
+					
+				}
+				if (((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("tratamientos"))||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("citas")) {
+					
+					
+					
+				}
+				
+			}
+		});
+		btnModificar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if ((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("pruebas")||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("pruebas")) {
+					
+					
+					
+				}
+				
+			}
+		});
+		btnEliminar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if ((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("procedimientos")||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("procedimientos")) {
+					
+					
+					
+				}
+			}
+		});
 		
 	}
+	
+	
 	
 	public void inicializarPaneles() {
 		
@@ -126,7 +176,7 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		panelBusqueda.setColumns(10);
 		panelCentral.add(panelBusqueda, BorderLayout.NORTH);
 		
-		panelDatos = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		panelDatos = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 	            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		panelCentral.add(panelDatos, BorderLayout.CENTER);
 
@@ -175,85 +225,6 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		
 	}
 	
-	
-	/**
-	 * Clase que genera un panel con la informacion medica de cada usuario
-	 * falta perfeccionar el voxlayout
-	 * @author Suhar
-	 *
-	 */
-//	class InfoUsuario extends JPanel{
-//		
-//		
-//		public InfoUsuario(Usuario u) {
-//			
-//			//setLayout(new FlowLayout());
-//			setBorder(new TitledBorder(null, "Datos usuario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-//
-//
-//			setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-//
-//			
-//			JLabel rotuloNombre = new JLabel("Nombre: ");
-//			
-//			JLabel contenidoNombre =  new JLabel(u.getNombre());
-//			
-//			JLabel rotuloApellido = new JLabel("Apellido: ");
-//			
-//			JLabel contenidoApellido =  new JLabel(u.getApellido());
-//			
-//			JLabel rotuloDNI = new JLabel("DNI: ");
-//			
-//			JLabel contenidoDNI =  new JLabel(u.getDni());
-//
-//			
-//			Box cajaH1 = Box.createHorizontalBox();
-//			
-//			Box cajaH11 =  Box.createHorizontalBox();
-//			
-//			Box cajaH12 =  Box.createHorizontalBox();
-//			
-//			Box cajaV1 =  Box.createVerticalBox();
-//			
-//			Box cajaH2 = Box.createHorizontalBox();
-//			
-//			
-//			
-////
-////			cajaV1.add(rotuloNombre);
-////			cajaV1.add(Box.createHorizontalStrut(20));
-////			cajaV1.add(contenidoNombre);
-////			
-////			cajaV2.add(rotuloApellido);
-////			cajaV2.add(Box.createHorizontalStrut(20));
-////			cajaV2.add(contenidoApellido);
-////			
-////			cajaH1.add(Box.createHorizontalGlue());
-////			cajaH1.add(cajaV1);			
-////			cajaH1.add(Box.createHorizontalGlue());
-////			cajaH1.add(cajaV2);	
-////			cajaH1.add(Box.createHorizontalGlue());
-////			
-////			cajaH2.add(rotuloDNI);			
-////			cajaH2.add(Box.createHorizontalGlue());
-////			cajaH2.add(contenidoDNI);	
-////			
-////			
-////			
-////
-////			setBackground(Color.WHITE);
-////			cajaV3.add(cajaH1);
-////			cajaV3.add(cajaH2);
-//////			add(cajaV3, BorderLayout.CENTER);
-////			add(cajaV3);
-//
-//
-//			setVisible(true);
-//			
-//			
-//			
-//		}
-//	}
 
 
 

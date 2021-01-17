@@ -20,8 +20,6 @@ public class Tratamiento implements ICSV, Comparable<Tratamiento>{
 	private Medico medicoAsociado;
 	
 	private TreeSet<Medicamento> medicamentosSet;
-	
-	
 	private ArrayList<Medicamento> medicamentos= new ArrayList<Medicamento>();
 	
 	
@@ -131,11 +129,15 @@ public class Tratamiento implements ICSV, Comparable<Tratamiento>{
 	}
 
 	public TreeSet<Medicamento> getMedicamentosSet(){
+		if (medicamentosSet==null) {
+			
+		
 		medicamentosSet= new TreeSet<>();
 		Iterator<Medicamento> iterador = getMedicamentos().iterator();
 		while (iterador.hasNext()){
 			medicamentosSet.add(iterador.next());
 			
+		}
 		}
 		return medicamentosSet;
 	}
