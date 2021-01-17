@@ -43,6 +43,8 @@ public class DatosUsuariosBD {
 	
 	HashMap<Integer, Usuario> usuariosMapID =  new HashMap<>();
 	HashMap<String, Usuario> usuariosMapNombre =  new HashMap<>();
+	
+	
 	//Ficheros ficheros;
 	
 
@@ -469,7 +471,7 @@ public class DatosUsuariosBD {
 	
 	
 	
-	public void añadirCita(String sentencia) {
+	public void anadirCita(String sentencia) {
 
 		if(bdConectada) {
 		
@@ -537,7 +539,70 @@ public class DatosUsuariosBD {
 		
 		
 	}
+	public void anadirPrueba(String sentencia) {
+
+		if(bdConectada) {
+		
+		Connection miConexionTratamiento = null;
+		
+		//1. CREAMOS LA CONEXION
+		
+	try {
+		miConexionTratamiento=DriverManager.getConnection("jdbc:mysql://localhost:3306/osabide","root","");
+		log( Level.INFO, "Conectada base de datos " + "osabide", null );
+
 	
+	
+		//2. CREAMOS EL OBJETO STATEMENT
+		try {	
+			Statement datosBD = miConexionTratamiento.createStatement();
+			log( Level.INFO, "Declaracion en la base de datos", null );
+	
+			//3. EJECUTAMOS LA INSTRUCCION SQL
+			try {
+				datosBD.executeUpdate("INSERT INTO PRUEBA VALUES "+sentencia);
+				log( Level.INFO, "BD tipo buscado\t " + "INSERT INTO PRUEBA VALUES "+sentencia, null );
+	
+				contCitas++;
+	
+	
+			} catch (SQLException e) {
+				log( Level.SEVERE, "Error en BD\t " + "INSERT INTO PRUEBA", e );
+			}
+			
+			try {
+				if (datosBD!=null) datosBD.close();
+				if (miConexionTratamiento!=null) miConexionTratamiento.close();
+				log( Level.INFO, "Cierre de base de datos", null );
+			} catch (SQLException e) {
+				log( Level.SEVERE, "Error en cierre de base de datos", e );
+			}
+		
+		} catch (SQLException e) {
+		log( Level.SEVERE, "Error en conexión de base de datos " + "osabide", e );
+
+	}
+		//5. CERRAMOS LA CONEXION
+
+
+	}catch (SQLException e) {
+		
+		log( Level.SEVERE, "Error en la declaracion de la base de datos", null );
+
+	    System.out.println("Error en las operaciones a base de datos.");
+	    
+	    //e.printStackTrace(System.out);
+		
+	}
+		}else {
+			
+			JOptionPane.showMessageDialog(null, "La conexion con la base de datos no esta establecida");
+
+			
+		}
+		
+		
+	}
 	
 	/////////////////////////////////////////////////////////////////////
 	//                      Logging                                    //
@@ -565,6 +630,35 @@ public class DatosUsuariosBD {
 
 	public static void setContTratamientos(int contTratamientos) {
 		DatosUsuariosBD.contTratamientos = contTratamientos;
+	}
+
+
+	public static ArrayList<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public ArrayList<Medicamento> getMed() {
+		return med;
+	}
+
+	public HashMap<Integer, Usuario> getUsuariosMapID() {
+		return usuariosMapID;
+	}
+
+	public HashMap<String, Usuario> getUsuariosMapNombre() {
+		return usuariosMapNombre;
+	}
+
+	public static boolean isLOGGING() {
+		return LOGGING;
+	}
+
+	public static boolean isBdConectada() {
+		return bdConectada;
+	}
+
+	public static Logger getLogger() {
+		return logger;
 	}
 
 

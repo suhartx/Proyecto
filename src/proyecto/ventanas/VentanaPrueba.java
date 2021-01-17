@@ -2,33 +2,12 @@ package proyecto.ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.GridLayout;
-import javax.swing.JTextField;
-import javax.swing.SpinnerDateModel;
-
 import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
-
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.JTextArea;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.Dimension;
-import java.awt.Component;
-import javax.swing.Box;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Time;
 import java.text.DateFormat;
@@ -37,7 +16,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Properties;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
@@ -49,10 +40,7 @@ import org.jdatepicker.impl.UtilDateModel;
 import herramientas.DateLabelFormatter;
 import proyecto.usuarios.Usuario;
 
-import java.awt.Toolkit;
-import java.awt.Dialog.ModalityType;
-
-public class VentanaCita extends JFrame {
+public class VentanaPrueba extends JFrame {
 
 	private JPanel contenedor;
 	private JScrollPane scroll;
@@ -83,11 +71,11 @@ public class VentanaCita extends JFrame {
 	 * @param posSanitario 
 	 * @param i 
 	 */
-	public VentanaCita(VentanaPrincipal v, Usuario posPersona, int posSanitario) {
+	public VentanaPrueba(VentanaPrincipal v, Usuario posPersona, int posSanitario) {
 
 		v.setEnabled(false);
-		setTitle("Creador de citas");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaCita.class.getResource("/imagenes/osakidetza.png")));
+		setTitle("Creador de pruebas");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrueba.class.getResource("/imagenes/osakidetza.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 350);
 		contenedor = new JPanel();
@@ -265,12 +253,10 @@ public class VentanaCita extends JFrame {
 					
 					
 					
-					v.anadirCitas(posPersona, textTitulo.getText(),textAmbito.getText(), fec, textArea.getText(),Time.valueOf(sdf.format(spinner.getValue())));
+					v.anadirPruebas(posPersona, textTitulo.getText(),textAmbito.getText(), fec, textArea.getText(),Time.valueOf(sdf.format(spinner.getValue())));
 					v.setEnabled(true);
 					setVisible(false);
-					//añadir dentro del arraylist del usuario seleccionado la cita correspondiente
-					//añadir a la base de datos el nuevop fichero si es que se puede
-					//añadir al fichero la nueva cita
+
 				}
 				
 				
@@ -291,5 +277,6 @@ public class VentanaCita extends JFrame {
 		});
 		panelBotones.add(btnNewButton);
 	}
+
 
 }

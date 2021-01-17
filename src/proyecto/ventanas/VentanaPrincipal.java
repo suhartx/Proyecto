@@ -105,7 +105,7 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("citas"))||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("citas")) {
-					llamarVentanaProc();
+					llamarVentanaCita();
 					
 					
 					
@@ -426,14 +426,19 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 			return usuariosMapNombre.get(((DefaultMutableTreeNode)((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getParent()).getUserObject());			
 		}
 	}
-	public void llamarVentanaProc() {
-		
-		//System.out.println(getPersonaSeleccionada().getCodUsuario()-1);
+	public void llamarVentanaCita() {
+
 		VentanaCita v = new VentanaCita(this, usuarios.get(getPersonaSeleccionada().getCodUsuario()-1), posPersona);
 		v.setVisible(true);
 	}
+	public void llamarVentanaPrueba() {
+
+		VentanaPrueba p = new VentanaPrueba(this, usuarios.get(getPersonaSeleccionada().getCodUsuario()-1), posPersona);
+		p.setVisible(true);
+	}
 	
-	public void añadirCitas(Usuario pac, String titulo, String ambito, Date fec, String descripcion, Time hora) {
+	
+	public void anadirCitas(Usuario pac, String titulo, String ambito, Date fec, String descripcion, Time hora) {
 		tree.getSelectionModel().removeTreeSelectionListener(this);
 			usuarios.get(pac.getCodUsuario()-1).getCitas().add(new Cita(datos.getContCitas()+1, titulo, descripcion, ambito, fec, hora, usuarios.get(posPersona)));
 
@@ -448,15 +453,32 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 			String sentencia = "('"+(datos.getContCitas()+1)+"',"+ "'" + titulo+"',"+"'" + descripcion+"',"+"'" + ambito+"',"+
 					"'" + (posPersona+1)+"',"+"'" + pac.getCodUsuario()+"',"+"'" + fec+"',"+"'" + hora+"')";
 			
-			datos.añadirCita(sentencia);
+			datos.anadirCita(sentencia);
 			
 			Ficheros.Escribeficheros(usuarios);
-			
-			
-			
-			
-			
+
+
 		
+	}
+	public void anadirPruebas(Usuario pac, String titulo, String ambito, Date fec, String descripcion, Time hora) {
+		
+		tree.getSelectionModel().removeTreeSelectionListener(this);
+		usuarios.get(pac.getCodUsuario()-1).getCitas().add(new Cita(datos.getContCitas()+1, titulo, descripcion, ambito, fec, hora, usuarios.get(posPersona)));
+
+
+		
+		inicializarArbol();
+		panelArbol.getViewport().removeAll();
+		panelArbol.getViewport().invalidate();
+		panelArbol.setViewportView(tree);
+		panelArbol.revalidate();
+		panelArbol.repaint();
+		String sentencia = "('"+(datos.getContCitas()+1)+"',"+ "'" + titulo+"',"+"'" + descripcion+"',"+"'" + ambito+"',"+
+				"'" + (posPersona+1)+"',"+"'" + pac.getCodUsuario()+"',"+"'" + fec+"',"+"'" + hora+"')";
+		
+		datos.anadirPrueba(sentencia);
+		
+		Ficheros.Escribeficheros(usuarios);
 	}
 	
 

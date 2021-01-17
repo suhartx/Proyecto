@@ -2,33 +2,12 @@ package proyecto.ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.GridLayout;
-import javax.swing.JTextField;
-import javax.swing.SpinnerDateModel;
-
 import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
-
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.JTextArea;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.Dimension;
-import java.awt.Component;
-import javax.swing.Box;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Time;
 import java.text.DateFormat;
@@ -37,7 +16,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Properties;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
@@ -48,11 +39,16 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import herramientas.DateLabelFormatter;
 import proyecto.usuarios.Usuario;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import javax.swing.JSlider;
+import java.awt.Dimension;
+import java.awt.List;
+import java.awt.Component;
+import javax.swing.Box;
 
-import java.awt.Toolkit;
-import java.awt.Dialog.ModalityType;
+public class VentanaTratamiento extends JFrame {
 
-public class VentanaCita extends JFrame {
 
 	private JPanel contenedor;
 	private JScrollPane scroll;
@@ -75,6 +71,10 @@ public class VentanaCita extends JFrame {
 	//private JTextField textField_4;
 	private JLabel labelDesc;
 	private JTextArea textArea;
+	private JPanel panelMed;
+	private JList list;
+	private JButton btnAnyadir;
+	private Component horizontalGlue;
 
 
 
@@ -83,13 +83,13 @@ public class VentanaCita extends JFrame {
 	 * @param posSanitario 
 	 * @param i 
 	 */
-	public VentanaCita(VentanaPrincipal v, Usuario posPersona, int posSanitario) {
+	public VentanaTratamiento(VentanaPrincipal v, Usuario posPersona, int posSanitario) {
 
 		v.setEnabled(false);
-		setTitle("Creador de citas");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaCita.class.getResource("/imagenes/osakidetza.png")));
+		setTitle("Creador de Tratamientos");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaTratamiento.class.getResource("/imagenes/osakidetza.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 400, 350);
+		setBounds(100, 100, 400, 457);
 		contenedor = new JPanel();
 		contenedor.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contenedor);
@@ -103,8 +103,9 @@ public class VentanaCita extends JFrame {
 		scroll.add(panelDatos);
 		scroll.setViewportView(panelDatos);
 		GridBagLayout gbl_panelDatos = new GridBagLayout();
-		gbl_panelDatos.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
-		gbl_panelDatos.rowHeights = new int[] {0, 0, 0, 0, 0};
+		gbl_panelDatos.columnWeights = new double[]{1.0};
+		gbl_panelDatos.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+		gbl_panelDatos.rowHeights = new int[] {0, 0, 0, 0, 0, 0};
 		panelDatos.setLayout(gbl_panelDatos);
 		
 		panelTitulo = new JPanel();
@@ -236,6 +237,36 @@ public class VentanaCita extends JFrame {
 		textArea.setLineWrap(true);
 		panelDesc.add(textArea);
 		
+		panelMed = new JPanel();
+		panelMed.setBorder(new TitledBorder(null, "Medicamentos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		FlowLayout flowLayout = (FlowLayout) panelMed.getLayout();
+		GridBagConstraints gbc_panelMed = new GridBagConstraints();
+		gbc_panelMed.fill = GridBagConstraints.BOTH;
+		gbc_panelMed.gridx = 0;
+		gbc_panelMed.gridy = 5;
+		panelDatos.add(panelMed, gbc_panelMed);
+		
+		list = new JList();
+		list.setPreferredSize(new Dimension(150, 90));
+		list.setModel(new AbstractListModel() {
+			String[] values = v.datos.getMed().toArray(new String[0]);
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		panelMed.add(list);
+		
+		
+		horizontalGlue = Box.createHorizontalGlue();
+		horizontalGlue.setPreferredSize(new Dimension(110, 0));
+		panelMed.add(horizontalGlue);
+		
+		btnAnyadir = new JButton("Añadir");
+		panelMed.add(btnAnyadir);
+		
 		panelBotones = new JPanel();
 		contenedor.add(panelBotones, BorderLayout.SOUTH);
 		
@@ -265,12 +296,10 @@ public class VentanaCita extends JFrame {
 					
 					
 					
-					v.anadirCitas(posPersona, textTitulo.getText(),textAmbito.getText(), fec, textArea.getText(),Time.valueOf(sdf.format(spinner.getValue())));
+					v.anadirPruebas(posPersona, textTitulo.getText(),textAmbito.getText(), fec, textArea.getText(),Time.valueOf(sdf.format(spinner.getValue())));
 					v.setEnabled(true);
 					setVisible(false);
-					//añadir dentro del arraylist del usuario seleccionado la cita correspondiente
-					//añadir a la base de datos el nuevop fichero si es que se puede
-					//añadir al fichero la nueva cita
+
 				}
 				
 				
