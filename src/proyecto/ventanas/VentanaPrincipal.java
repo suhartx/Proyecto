@@ -9,7 +9,9 @@ import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.swing.Box;
@@ -18,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -26,6 +29,8 @@ import javax.swing.JTree;
 import javax.swing.border.EmptyBorder;
 
 import proyecto.basededatos.DatosUsuariosBD;
+import proyecto.contenido.Cita;
+import proyecto.ficheros.Ficheros;
 import proyecto.usuarios.Paciente;
 import proyecto.usuarios.Usuario;
 import javax.swing.JLabel;
@@ -33,6 +38,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+
+import jdk.internal.dynalink.beans.StaticClass;
+
 import javax.swing.JSplitPane;
 import java.awt.Dimension;
 import java.awt.ComponentOrientation;
@@ -41,6 +49,7 @@ import java.awt.Rectangle;
 public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 
 
+	DatosUsuariosBD datos;
 	private static ArrayList<Usuario> usuarios;
     private static int posPersona;
     
@@ -60,6 +69,7 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 	private JButton btnEliminar;
 
 	private JTextField panelBusqueda;
+	private JScrollPane panelArbol;
 
 
 
@@ -68,11 +78,11 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 	 */
 	public VentanaPrincipal(DatosUsuariosBD datos, int posPersona) {
 		
-		
+		this.datos=datos;
 		this.usuariosMapNombre = datos.devuelveUsuariosMapNombre();
 		this.usuariosMapID = datos.devuelveUsuariosMapID();
-		this.usuarios=datos.devuelveUsuarios();
-		this.posPersona = posPersona;
+		VentanaPrincipal.usuarios=datos.devuelveUsuarios();
+		VentanaPrincipal.posPersona = posPersona;
 		setTitle("Ventana principal "+usuarios.get(posPersona).getClass().getSimpleName()+" "+usuarios.get(posPersona).getNombre());
 		setIconImage(Toolkit.getDefaultToolkit().getImage("src\\imagenes\\osakidetza.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -84,26 +94,35 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		inicializarPaneles();
 		iniciaPanelDatos();
 		
+		
+		
 		DefaultMutableTreeNode nodoSeleccionado = (((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())));
 		
 		btnCrear.addActionListener(new ActionListener() {
 			
+
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("citas"))||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("citas")) {
+					llamarVentanaProc();
 					
 					
 					
 				}
-				if (((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("pruebas"))||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("pruebas")) {
+				else if (((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("pruebas"))||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("pruebas")) {
 					
 					
 					
 				}
-				if (((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("tratamientos"))||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("citas")) {
+				else if (((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("tratamientos"))||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("citas")) {
 					
 					
 					
+				}else {
+					JOptionPane.showMessageDialog(
+							   panelDatos,
+							   "No puedes hacer eso");
 				}
 				
 			}
@@ -160,7 +179,7 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		splitPane.setLeftComponent(panelIzquierdo);
 		panelIzquierdo.setLayout(new BorderLayout(0, 0));
 		
-		JScrollPane panelArbol = new JScrollPane();
+		panelArbol = new JScrollPane();
 		panelArbol.setPreferredSize(new Dimension(150, 4));
 		panelArbol.setMinimumSize(new Dimension(40, 23));
 		panelIzquierdo.add(panelArbol, BorderLayout.CENTER);
@@ -192,6 +211,14 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		
 		btnEliminar = new JButton("Eliminar");
 		panelBotonera.add(btnEliminar);
+		//System.out.println(usuarios.get(posPersona).getClass().getSimpleName());
+		if (usuarios.get(posPersona).getClass().getSimpleName().equals("Paciente")) {
+			
+			btnCrear.setEnabled(false);
+			btnEliminar.setEnabled(false);
+			btnModificar.setEnabled(false);
+		}
+		
 		
 	}
 	
@@ -234,6 +261,7 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 	public void valueChanged(TreeSelectionEvent e) {
 		
 		 DefaultMutableTreeNode nodoSeleccionado = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+		 System.out.println(nodoSeleccionado.getUserObject());
 		 eventosNodoSeleccionado(nodoSeleccionado);
 
 		
@@ -388,6 +416,49 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 			
 		}
 	}
+	
+	public Usuario getPersonaSeleccionada() {
+		
+		if (usuariosMapNombre.containsKey(((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject())) {
+			return usuariosMapNombre.get(((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject());
+		}else {
+			//System.out.println(((DefaultMutableTreeNode)((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getParent()).getUserObject());
+			return usuariosMapNombre.get(((DefaultMutableTreeNode)((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getParent()).getUserObject());			
+		}
+	}
+	public void llamarVentanaProc() {
+		
+		//System.out.println(getPersonaSeleccionada().getCodUsuario()-1);
+		VentanaCita v = new VentanaCita(this, usuarios.get(getPersonaSeleccionada().getCodUsuario()-1), posPersona);
+		v.setVisible(true);
+	}
+	
+	public void añadirCitas(Usuario pac, String titulo, String ambito, Date fec, String descripcion, Time hora) {
+		tree.getSelectionModel().removeTreeSelectionListener(this);
+			usuarios.get(pac.getCodUsuario()-1).getCitas().add(new Cita(datos.getContCitas()+1, titulo, descripcion, ambito, fec, hora, usuarios.get(posPersona)));
+
+
+			
+			inicializarArbol();
+			panelArbol.getViewport().removeAll();
+			panelArbol.getViewport().invalidate();
+			panelArbol.setViewportView(tree);
+			panelArbol.revalidate();
+			panelArbol.repaint();
+			String sentencia = "('"+(datos.getContCitas()+1)+"',"+ "'" + titulo+"',"+"'" + descripcion+"',"+"'" + ambito+"',"+
+					"'" + (posPersona+1)+"',"+"'" + pac.getCodUsuario()+"',"+"'" + fec+"',"+"'" + hora+"')";
+			
+			datos.añadirCita(sentencia);
+			
+			Ficheros.Escribeficheros(usuarios);
+			
+			
+			
+			
+			
+		
+	}
+	
 
 
 }

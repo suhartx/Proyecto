@@ -13,6 +13,8 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
+
 import jdk.internal.dynalink.beans.StaticClass;
 import proyecto.contenido.Cita;
 import proyecto.contenido.Medicamento;
@@ -30,18 +32,24 @@ import proyecto.usuarios.Usuario;
  */
 public class DatosUsuariosBD {
 
+	private static  int contCitas= 0;
+	
+	private static int contPruebas=0;
+	
+	private static int contTratamientos=0;
 	static ArrayList<Usuario> usuarios = UsuariosBD.getUsuarios();	
 
 	ArrayList<Medicamento> med = new ArrayList<>();	
 	
 	HashMap<Integer, Usuario> usuariosMapID =  new HashMap<>();
 	HashMap<String, Usuario> usuariosMapNombre =  new HashMap<>();
+	//Ficheros ficheros;
 	
 
 
 	private static boolean LOGGING = true;  // Log a consola de lo que se va leyendo en el CSV
 
-	
+	private static boolean bdConectada = true;
 	
 	
 	public DatosUsuariosBD() {
@@ -49,7 +57,8 @@ public class DatosUsuariosBD {
 
 
 		if (usuarios.isEmpty()) {
-			
+				
+			bdConectada= false;
 			
 			try {
 				System.out.println("añadiendo usuarios...");
@@ -60,6 +69,13 @@ public class DatosUsuariosBD {
 				Ficheros.processCSV(new File("Medicamentos.csv"));				
 				usuarios=Ficheros.devuelvelistaUsuarios();
 				System.out.println("Usuarios añadidos con exito");
+				contCitas = Ficheros.getContCitas();
+				contPruebas = Ficheros.getContPruebas();
+				contTratamientos =  Ficheros.getContTratamientos();
+//				System.out.println(contCitas);
+//				System.out.println(contPruebas);
+//				System.out.println(contTratamientos);
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -112,7 +128,7 @@ public class DatosUsuariosBD {
 			//4. RECORREMOS LOS RESUTSET
 		
 				while (mirResultSetDatos.next()){
-	
+					contCitas++;
 					Cita C = new Cita(mirResultSetDatos.getInt("cod_cita") ,mirResultSetDatos.getString("titulo"), mirResultSetDatos.getString("descripción"),
 							mirResultSetDatos.getString("ámbito") ,  mirResultSetDatos.getDate("fecha"),mirResultSetDatos.getTime("hora"));
 					
@@ -180,7 +196,7 @@ public class DatosUsuariosBD {
 			//4. RECORREMOS LOS RESUTSET
 		
 				while (mirResultSetDatos.next()){
-	
+					contPruebas++;
 					Prueba p = new Prueba(mirResultSetDatos.getInt("cod_prueba") ,mirResultSetDatos.getString("título"), mirResultSetDatos.getString("descripción"),
 							mirResultSetDatos.getString("ambito") ,  mirResultSetDatos.getDate("fecha"),mirResultSetDatos.getTime("hora"));
 					
@@ -254,7 +270,7 @@ public class DatosUsuariosBD {
 			//4. RECORREMOS LOS RESUTSET
 		
 				while (mirResultSetTratamientos.next()){
-	
+					contTratamientos++;
 					Tratamiento t = new Tratamiento(mirResultSetTratamientos.getInt("cod_tratamiento"), mirResultSetTratamientos.getString("titulo"), mirResultSetTratamientos.getString("descripción"),
 							mirResultSetTratamientos.getString("ambito") ,  mirResultSetTratamientos.getDate("fecha"),mirResultSetTratamientos.getTime("hora"));
 					
@@ -450,10 +466,108 @@ public class DatosUsuariosBD {
 	}	
 	
 	
+	
+	
+	
+	public void añadirCita(String sentencia) {
+
+		if(bdConectada) {
+		
+		Connection miConexionTratamiento = null;
+		
+		//1. CREAMOS LA CONEXION
+		
+	try {
+		miConexionTratamiento=DriverManager.getConnection("jdbc:mysql://localhost:3306/osabide","root","");
+		log( Level.INFO, "Conectada base de datos " + "osabide", null );
+
+	
+	
+		//2. CREAMOS EL OBJETO STATEMENT
+		try {	
+			Statement datosBD = miConexionTratamiento.createStatement();
+			log( Level.INFO, "Declaracion en la base de datos", null );
+	
+			//3. EJECUTAMOS LA INSTRUCCION SQL
+			try {
+				datosBD.executeUpdate("INSERT INTO CITA VALUES "+sentencia);
+				log( Level.INFO, "BD tipo buscado\t " + "INSERT INTO CITA VALUES "+sentencia, null );
+	
+				contCitas++;
+	
+	
+			} catch (SQLException e) {
+				log( Level.SEVERE, "Error en BD\t " + "INSERT INTO CITAS", e );
+			}
+			
+			try {
+				if (datosBD!=null) datosBD.close();
+				if (miConexionTratamiento!=null) miConexionTratamiento.close();
+				log( Level.INFO, "Cierre de base de datos", null );
+			} catch (SQLException e) {
+				log( Level.SEVERE, "Error en cierre de base de datos", e );
+			}
+		
+		} catch (SQLException e) {
+		log( Level.SEVERE, "Error en conexión de base de datos " + "osabide", e );
+
+	}
+		
+
+		//5. CERRAMOS LA CONEXION
+
+					
+	
+
+	}catch (SQLException e) {
+		
+		log( Level.SEVERE, "Error en la declaracion de la base de datos", null );
+
+	    System.out.println("Error en las operaciones a base de datos.");
+	    
+	    //e.printStackTrace(System.out);
+		
+	}
+		}else {
+			
+			JOptionPane.showMessageDialog(null, "La conexion con la base de datos no esta establecida");
+
+			
+		}
+		
+		
+	}
+	
+	
 	/////////////////////////////////////////////////////////////////////
 	//                      Logging                                    //
 	/////////////////////////////////////////////////////////////////////
 	
+	public  int getContCitas() {
+		return contCitas;
+	}
+
+	public  void setContCitas(int contCitas) {
+		DatosUsuariosBD.contCitas = contCitas;
+	}
+
+	public static int getContPruebas() {
+		return contPruebas;
+	}
+
+	public static void setContPruebas(int contPruebas) {
+		DatosUsuariosBD.contPruebas = contPruebas;
+	}
+
+	public static int getContTratamientos() {
+		return contTratamientos;
+	}
+
+	public static void setContTratamientos(int contTratamientos) {
+		DatosUsuariosBD.contTratamientos = contTratamientos;
+	}
+
+
 	private static Logger logger = null;
 	
 	// Método local para loggear
@@ -465,7 +579,7 @@ public class DatosUsuariosBD {
 			try {
 				logger.addHandler(new FileHandler("LoggerBDDatos.log.xml",false));//ESTO SE TIENE QUE ARREGLAR PORQUE NO VA
 			} catch (SecurityException | IOException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}

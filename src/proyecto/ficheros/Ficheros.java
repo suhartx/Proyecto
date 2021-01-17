@@ -52,6 +52,12 @@ import proyecto.usuarios.Usuario;
 public class Ficheros { 
 	
 	
+	private static int contCitas= 0;
+	
+	private static int contPruebas=0;
+	
+	private static int contTratamientos=0;
+	
 	 static ArrayList<Usuario> usuariosFicheros =  new ArrayList<Usuario>();
 	static ArrayList<Integer> MedicosCabecera = new ArrayList<>();
 	
@@ -101,7 +107,7 @@ public class Ficheros {
 			pw2.close();	
 			pw.close();
 			
-			JOptionPane.showMessageDialog(null, "record saved");
+			JOptionPane.showMessageDialog(null, "Ficheros CSV sobreescritos");
 			
 		}catch(Exception e){
 			
@@ -345,14 +351,15 @@ public class Ficheros {
 
 
 			if (datos.get(1).equals("Cita")) {
+				contCitas++;
 				usuariosFicheros.get((int) datos.get(8)-1).getCitas().add(new Cita(cod, tit, desc, amb, fec, ti,usuariosFicheros.get((int) datos.get(7)-1)));
 
 			}else if(datos.get(1).equals("Prueba")) {
 				usuariosFicheros.get((int) datos.get(8)-1).getPruebas().add(new Prueba(cod, tit, desc, amb, fec, ti,usuariosFicheros.get((int) datos.get(7)-1)));
-
+				contPruebas++;
 			}else if(datos.get(1).equals("Tratamiento")){
 				usuariosFicheros.get((int) datos.get(8)-1).getTratamientos().add(new Tratamiento(cod, tit, desc, amb, fec, ti,(Medico) usuariosFicheros.get((int) datos.get(7)-1)));
-
+				contTratamientos++;
 			}
 		}else {
 
@@ -372,5 +379,23 @@ public class Ficheros {
 	public static ArrayList<Usuario>devuelvelistaUsuarios(){
 		return Ficheros.usuariosFicheros;
 		
+	}
+	public static int getContCitas() {
+		return contCitas;
+	}
+	public static void setContCitas(int contCitas) {
+		Ficheros.contCitas = contCitas;
+	}
+	public static int getContPruebas() {
+		return contPruebas;
+	}
+	public static void setContPruebas(int contPruebas) {
+		Ficheros.contPruebas = contPruebas;
+	}
+	public static int getContTratamientos() {
+		return contTratamientos;
+	}
+	public static void setContTratamientos(int contTratamientos) {
+		Ficheros.contTratamientos = contTratamientos;
 	}
 } 

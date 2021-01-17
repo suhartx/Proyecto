@@ -113,6 +113,7 @@ public class Cita implements ICSV,  Comparable<Cita>{
 		return codCita + "," +this.getClass().getSimpleName()+","  + titulo + "," + descripcion + "," + ambito + "," + fecha + "," + hora + ","
 				+ sanitarioAsociado.getCodUsuario();
 	}
+	
 
 	@Override
 	public String toString() {
@@ -130,6 +131,9 @@ public class Cita implements ICSV,  Comparable<Cita>{
 			ret= c.titulo.compareToIgnoreCase(titulo);
 			return ret;
 	}
+
+
+
 
 
 

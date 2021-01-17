@@ -30,8 +30,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 
 import java.awt.event.ActionListener;
+import java.sql.Time;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.awt.event.ActionEvent;
@@ -44,9 +47,12 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import herramientas.DateLabelFormatter;
-import java.awt.Toolkit;
+import proyecto.usuarios.Usuario;
 
-public class ventanaProc extends JFrame {
+import java.awt.Toolkit;
+import java.awt.Dialog.ModalityType;
+
+public class VentanaCita extends JFrame {
 
 	private JPanel contenedor;
 	private JScrollPane scroll;
@@ -70,28 +76,18 @@ public class ventanaProc extends JFrame {
 	private JLabel labelDesc;
 	private JTextArea textArea;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ventanaProc frame = new ventanaProc();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	/**
 	 * Create the frame.
+	 * @param posSanitario 
+	 * @param i 
 	 */
-	public ventanaProc() {
+	public VentanaCita(VentanaPrincipal v, Usuario posPersona, int posSanitario) {
+
+		v.setEnabled(false);
 		setTitle("Creador de citas");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ventanaProc.class.getResource("/imagenes/osakidetza.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaCita.class.getResource("/imagenes/osakidetza.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 350);
 		contenedor = new JPanel();
@@ -102,7 +98,7 @@ public class ventanaProc extends JFrame {
 		
 		scroll = new JScrollPane();
 		panelDatos = new JPanel();
-		panelDatos.setBorder(new TitledBorder(null, "Cita para", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelDatos.setBorder(new TitledBorder(null, "Cita para"+ posPersona.getNombre(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		contenedor.add(scroll, BorderLayout.CENTER);
 		scroll.add(panelDatos);
 		scroll.setViewportView(panelDatos);
@@ -251,10 +247,27 @@ public class ventanaProc extends JFrame {
 					JOptionPane.showMessageDialog(
 							   panelBotones,
 							   "Has dejado algun campo vacio");
+					
 
 				}else{
+					//TODO
+					Date fec = null;
+					DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					fec = java.sql.Date.valueOf(datePicker.getJFormattedTextField().getText());
+					
+					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+					
+					sdf.format(spinner.getValue());
+					
+					//System.out.println(sdf.format(spinner.getValue()));
+					
+					//System.out.println(((Date)spinner.getValue()).);
 					
 					
+					
+					v.añadirCitas(posPersona, textTitulo.getText(),textAmbito.getText(), fec, textArea.getText(),Time.valueOf(sdf.format(spinner.getValue())));
+					v.setEnabled(true);
+					setVisible(false);
 					//añadir dentro del arraylist del usuario seleccionado la cita correspondiente
 					//añadir a la base de datos el nuevop fichero si es que se puede
 					//añadir al fichero la nueva cita
