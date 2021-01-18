@@ -13,6 +13,8 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -30,7 +32,11 @@ import javax.swing.border.EmptyBorder;
 
 import proyecto.basededatos.DatosUsuariosBD;
 import proyecto.contenido.Cita;
+import proyecto.contenido.Medicamento;
+import proyecto.contenido.Prueba;
+import proyecto.contenido.Tratamiento;
 import proyecto.ficheros.Ficheros;
+import proyecto.usuarios.Medico;
 import proyecto.usuarios.Paciente;
 import proyecto.usuarios.Usuario;
 import javax.swing.JLabel;
@@ -65,7 +71,7 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 	private JScrollPane panelDatos;
 
 	private JButton btnCrear;
-	private JButton btnModificar;
+
 	private JButton btnEliminar;
 
 	private JTextField panelBusqueda;
@@ -112,14 +118,15 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 				}
 				else if (((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("pruebas"))||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("pruebas")) {
 					
-					
+					llamarVentanaPrueba();
 					
 				}
-				else if (((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("tratamientos"))||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("citas")) {
+				else if (((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("tratamientos"))||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("tratamientos")) {
 					
-					
+					llamarVentanaTratamiento();
 					
 				}else {
+					System.out.println(((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject());
 					JOptionPane.showMessageDialog(
 							   panelDatos,
 							   "No puedes hacer eso");
@@ -127,26 +134,20 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 				
 			}
 		});
-		btnModificar.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if ((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("pruebas")||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("pruebas")) {
-					
-					
-					
-				}
-				
-			}
-		});
+
 		btnEliminar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if ((((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getUserObject()).equals("procedimientos")||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("procedimientos")) {
+				if (((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("tratamientos")||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("pruebas")||((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("citas")) {
 					
+					eliminarContenido();
 					
-					
+				}else {
+					System.out.println(((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject());
+					JOptionPane.showMessageDialog(
+							   panelDatos,
+							   "No puedes hacer eso");
 				}
 			}
 		});
@@ -205,8 +206,7 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		btnCrear = new JButton("Crear");
 		panelBotonera.add(btnCrear);
 		
-		btnModificar = new JButton("Modificar");
-		panelBotonera.add(btnModificar);
+
 
 		
 		btnEliminar = new JButton("Eliminar");
@@ -216,7 +216,7 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 			
 			btnCrear.setEnabled(false);
 			btnEliminar.setEnabled(false);
-			btnModificar.setEnabled(false);
+
 		}
 		
 		
@@ -293,6 +293,12 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		
 		if (nodo.getUserObject().equals("citas")) {
 			
+			
+			if (!usuarios.get(posPersona).getClass().getSimpleName().equals("Paciente")) {
+				
+				btnCrear.setEnabled(true);
+				btnEliminar.setEnabled(true);
+			}
 
 			panelDatos.getViewport().removeAll();
 			panelDatos.getViewport().invalidate();
@@ -311,6 +317,12 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		if (nodo.getUserObject().equals("pruebas")) {
 			
 
+			if (!usuarios.get(posPersona).getClass().getSimpleName().equals("Paciente")) {
+				
+				btnCrear.setEnabled(true);
+				btnEliminar.setEnabled(true);
+			}
+			
 			panelDatos.getViewport().removeAll();
 			panelDatos.getViewport().invalidate();
 
@@ -326,7 +338,13 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 			
 		}
 		if (nodo.getUserObject().equals("tratamientos")) {
-			
+			if (rootPaneCheckingEnabled) {
+				if (usuarios.get(posPersona).getClass().getSimpleName().equals("Enfermero")) {
+					
+					btnCrear.setEnabled(false);
+					btnEliminar.setEnabled(false);
+				}
+			}
 
 			panelDatos.getViewport().removeAll();
 			panelDatos.getViewport().invalidate();
@@ -344,6 +362,12 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		}
 		
 		if (((DefaultMutableTreeNode)nodo.getParent()).getUserObject().equals("citas")) {
+			
+			if (!usuarios.get(posPersona).getClass().getSimpleName().equals("Paciente")) {
+				
+				btnCrear.setEnabled(true);
+				btnEliminar.setEnabled(true);
+			}
 			
 			panelDatos.getViewport().removeAll();
 			panelDatos.getViewport().invalidate();
@@ -369,6 +393,12 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		}
 		if (((DefaultMutableTreeNode)nodo.getParent()).getUserObject().equals("pruebas")) {
 			
+			if (!usuarios.get(posPersona).getClass().getSimpleName().equals("Paciente")) {
+				
+				btnCrear.setEnabled(true);
+				btnEliminar.setEnabled(true);
+			}
+			
 			panelDatos.getViewport().removeAll();
 			panelDatos.getViewport().invalidate();
 			
@@ -392,6 +422,15 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 			
 		}
 		if (((DefaultMutableTreeNode)nodo.getParent()).getUserObject().equals("tratamientos")) {
+			
+			if (rootPaneCheckingEnabled) {
+				if (usuarios.get(posPersona).getClass().getSimpleName().equals("Enfermero")) {
+					
+					btnCrear.setEnabled(false);
+					btnEliminar.setEnabled(false);
+				}
+			}
+
 			
 			panelDatos.getViewport().removeAll();
 			panelDatos.getViewport().invalidate();
@@ -436,7 +475,11 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		VentanaPrueba p = new VentanaPrueba(this, usuarios.get(getPersonaSeleccionada().getCodUsuario()-1), posPersona);
 		p.setVisible(true);
 	}
-	
+	public void llamarVentanaTratamiento() {
+
+		VentanaTratamiento t = new VentanaTratamiento(this, usuarios.get(getPersonaSeleccionada().getCodUsuario()-1), posPersona);
+		t.setVisible(true);
+	}
 	
 	public void anadirCitas(Usuario pac, String titulo, String ambito, Date fec, String descripcion, Time hora) {
 		tree.getSelectionModel().removeTreeSelectionListener(this);
@@ -463,7 +506,7 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 	public void anadirPruebas(Usuario pac, String titulo, String ambito, Date fec, String descripcion, Time hora) {
 		
 		tree.getSelectionModel().removeTreeSelectionListener(this);
-		usuarios.get(pac.getCodUsuario()-1).getCitas().add(new Cita(datos.getContCitas()+1, titulo, descripcion, ambito, fec, hora, usuarios.get(posPersona)));
+		usuarios.get(pac.getCodUsuario()-1).getPruebas().add(new Prueba(datos.getContPruebas()+1, titulo, descripcion, ambito, fec, hora, usuarios.get(posPersona)));
 
 
 		
@@ -473,14 +516,98 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		panelArbol.setViewportView(tree);
 		panelArbol.revalidate();
 		panelArbol.repaint();
-		String sentencia = "('"+(datos.getContCitas()+1)+"',"+ "'" + titulo+"',"+"'" + descripcion+"',"+"'" + ambito+"',"+
+		String sentencia = "('"+(datos.getContPruebas()+1)+"',"+ "'" + titulo+"',"+"'" + descripcion+"',"+"'" + ambito+"',"+
 				"'" + (posPersona+1)+"',"+"'" + pac.getCodUsuario()+"',"+"'" + fec+"',"+"'" + hora+"')";
 		
 		datos.anadirPrueba(sentencia);
 		
 		Ficheros.Escribeficheros(usuarios);
 	}
-	
+	public void anadirtratamientos(Usuario pac, String titulo, String ambito, Date fec, String descripcion, Time hora, ArrayList<Medicamento> medicamentos) {
+		
+		tree.getSelectionModel().removeTreeSelectionListener(this);
+		usuarios.get(pac.getCodUsuario()-1).getTratamientos().add(new Tratamiento(datos.getContTratamientos()+1, titulo, descripcion, ambito, fec, hora, (Medico)usuarios.get(posPersona), medicamentos));
+		
+		
+		
+		inicializarArbol();
+		panelArbol.getViewport().removeAll();
+		panelArbol.getViewport().invalidate();
+		panelArbol.setViewportView(tree);
+		panelArbol.revalidate();
+		panelArbol.repaint();
+		int contTratamiento = datos.getContTratamientos()+1;
+		String sentencia = "('"+(contTratamiento)+"',"+ "'" + titulo+"',"+"'" + descripcion+"',"+"'" + ambito+"',"+
+				"'" + fec+"',"+"'" + hora+"', '" + (posPersona+1)+"',"+"'" + pac.getCodUsuario()+"')";
 
+		
+		datos.anadirTratamiento(sentencia);
+		HashSet<Medicamento> medConcretos= new HashSet<Medicamento>();
+		
+		
+		for (Medicamento medicamento : medicamentos) {
+			medicamento.setContador(1);
+			
+		}
+		for (Medicamento medicamento : medicamentos) {
+			medConcretos.add(medicamento);
+		}
+		Iterator<Medicamento> iterador = medConcretos.iterator();
+		while(iterador.hasNext()) {
+			Medicamento m = iterador.next();
+			String SentenciaMedicamentos = "('"+(contTratamiento)+"',"+ "'" +(m.getCodMedicamento())+"',"+m.getContador()+")";
+			datos.anadirTratamientoAsociado(SentenciaMedicamentos);
+		}
+
+
+
+		
+		Ficheros.Escribeficheros(usuarios);
+	}
+
+	public void eliminarContenido(){
+		
+		int respuesta = JOptionPane.showConfirmDialog(this, "seguro que quieres elimiar esto?");
+		if (respuesta==0) {
+			if (((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("citas")) {
+				
+				//getPersonaSeleccionada().getCitaSeleccionada((String)((DefaultMutableTreeNode) tree.getLastSelectedPathComponent()).getUserObject()).get;
+				HashMap<String, Cita> mapaCitas =  usuarios.get(getPersonaSeleccionada().getCodUsuario()-1).getMapacitas();
+				
+				Cita citaEnCuestion = mapaCitas.get((String)((DefaultMutableTreeNode) tree.getLastSelectedPathComponent()).getUserObject());
+				mapaCitas.remove((String)((DefaultMutableTreeNode) tree.getLastSelectedPathComponent()).getUserObject());
+
+				usuarios.get(getPersonaSeleccionada().getCodUsuario()-1).setCitas(new ArrayList<Cita>(mapaCitas.values()));
+				datos.eliminarCitas(String.valueOf(citaEnCuestion.getCodCita()));
+
+				
+				
+			}else if(((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("pruebas")) {
+				//getPersonaSeleccionada().getCitaSeleccionada((String)((DefaultMutableTreeNode) tree.getLastSelectedPathComponent()).getUserObject()).get;
+				HashMap<String, Prueba> mapaPruebas =  usuarios.get(getPersonaSeleccionada().getCodUsuario()-1).getMapaPruebas();
+				
+				Prueba pruebaEnCuestion = mapaPruebas.get((String)((DefaultMutableTreeNode) tree.getLastSelectedPathComponent()).getUserObject());
+				mapaPruebas.remove((String)((DefaultMutableTreeNode) tree.getLastSelectedPathComponent()).getUserObject());
+
+				usuarios.get(getPersonaSeleccionada().getCodUsuario()-1).setPruebas(new ArrayList<Prueba>(mapaPruebas.values()));
+				datos.eliminarPruebas(String.valueOf(pruebaEnCuestion.getCodPrueba()));
+			}else if(((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject().equals("tratamientos")) {
+				HashMap<String, Tratamiento> mapaTratamientos =  usuarios.get(getPersonaSeleccionada().getCodUsuario()-1).getMapaTratamientos();
+				
+				Tratamiento tratamientoEnCuestion = mapaTratamientos.get((String)((DefaultMutableTreeNode) tree.getLastSelectedPathComponent()).getUserObject());
+				mapaTratamientos.remove((String)((DefaultMutableTreeNode) tree.getLastSelectedPathComponent()).getUserObject());
+
+				usuarios.get(getPersonaSeleccionada().getCodUsuario()-1).setTratamientos(new ArrayList<Tratamiento>(mapaTratamientos.values()));
+				datos.eliminarCitas(String.valueOf(tratamientoEnCuestion.getCodtratamiento()));
+			}
+			Ficheros.Escribeficheros(usuarios);
+			inicializarArbol();
+			panelArbol.getViewport().removeAll();
+			panelArbol.getViewport().invalidate();
+			panelArbol.setViewportView(tree);
+			panelArbol.revalidate();
+			panelArbol.repaint();
+		}
+	}
 
 }

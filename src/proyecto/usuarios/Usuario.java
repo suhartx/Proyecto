@@ -269,6 +269,7 @@ public abstract class Usuario implements ICSV{
 		for (Cita c : citas) {
 			mapaCitas.put(c.getCodCita() + " " + c.getTitulo(), c);
 		}
+		
 		if (mapaCitas.containsKey(cita)) {
 			return mapaCitas.get(cita);
 		}else {
@@ -278,6 +279,15 @@ public abstract class Usuario implements ICSV{
 		}
 		
 	}
+	
+	public HashMap<String, Cita> getMapacitas(){
+		mapaCitas =  new HashMap<String, Cita>();
+		for (Cita c : citas) {
+			mapaCitas.put(c.getCodCita() + " " + c.getTitulo(), c);
+		}
+		return mapaCitas;
+	}
+	
 
 	public void setCitas(ArrayList<Cita> citas) {
 		this.citas = citas;
@@ -319,6 +329,14 @@ public abstract class Usuario implements ICSV{
 			return null;
 		}
 	}
+	
+	public HashMap<String, Tratamiento> getMapaTratamientos(){
+		mapaTratamientos =  new HashMap<String, Tratamiento>();
+		for (Tratamiento t : tratamientos) {
+			mapaTratamientos.put(t.getCodtratamiento() + " " + t.getTitulo(), t);
+		}
+		return mapaTratamientos;
+	}
 
 	public void setTratamientos(ArrayList<Tratamiento> tratamientos) {
 		this.tratamientos = tratamientos;
@@ -356,6 +374,14 @@ public abstract class Usuario implements ICSV{
 			return null;
 		}
 	}
+	public HashMap<String, Prueba> getMapaPruebas(){
+		mapaPruebas =  new HashMap<String, Prueba>();
+		for (Prueba p : pruebas) {
+			mapaPruebas.put(p.getCodPrueba() + " " + p.getTitulo(), p);
+		}
+		return mapaPruebas;
+	}
+	
 
 	public void setPruebas(ArrayList<Prueba> pruebas) {
 		this.pruebas = pruebas;
@@ -478,10 +504,10 @@ public abstract class Usuario implements ICSV{
 
 
 			for (Prueba p : u.getPruebas()) {
-				defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(p.getTitulo()), prueba, prueba.getChildCount());
+				defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(p.getCodPrueba() +" " +p.getTitulo()), prueba, prueba.getChildCount());
 			}			
 			for (Tratamiento tr : u.getTratamientos()) {
-				defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(tr.getTitulo()), tratamiento, tratamiento.getChildCount());
+				defaultTreeModel.insertNodeInto(new DefaultMutableTreeNode(tr.getCodtratamiento() +" " +tr.getTitulo()), tratamiento, tratamiento.getChildCount());
 			}			
 			
 			

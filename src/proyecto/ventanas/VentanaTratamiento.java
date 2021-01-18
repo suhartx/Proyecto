@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -27,9 +28,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
 
@@ -38,6 +42,7 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import herramientas.DateLabelFormatter;
+import proyecto.contenido.Medicamento;
 import proyecto.usuarios.Usuario;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
@@ -46,8 +51,9 @@ import java.awt.Dimension;
 import java.awt.List;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.DefaultListModel;
 
-public class VentanaTratamiento extends JFrame {
+public class VentanaTratamiento extends JFrame implements ListSelectionListener{
 
 
 	private JPanel contenedor;
@@ -72,9 +78,11 @@ public class VentanaTratamiento extends JFrame {
 	private JLabel labelDesc;
 	private JTextArea textArea;
 	private JPanel panelMed;
+	private DefaultListModel modelo;
 	private JList list;
 	private JButton btnAnyadir;
 	private Component horizontalGlue;
+	ArrayList<Medicamento> medicamentosSeleccionados;
 
 
 
@@ -84,7 +92,7 @@ public class VentanaTratamiento extends JFrame {
 	 * @param i 
 	 */
 	public VentanaTratamiento(VentanaPrincipal v, Usuario posPersona, int posSanitario) {
-
+		medicamentosSeleccionados = new ArrayList<>();
 		v.setEnabled(false);
 		setTitle("Creador de Tratamientos");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaTratamiento.class.getResource("/imagenes/osakidetza.png")));
@@ -245,18 +253,19 @@ public class VentanaTratamiento extends JFrame {
 		gbc_panelMed.gridx = 0;
 		gbc_panelMed.gridy = 5;
 		panelDatos.add(panelMed, gbc_panelMed);
+		modelo =  new DefaultListModel();
+		list = new JList(modelo);
+		for (int i = 0; i < v.datos.getMed().size(); i++) {
+			modelo.add(i, v.datos.getMed().get(i).getTitulo());
+		}
 		
-		list = new JList();
+		
 		list.setPreferredSize(new Dimension(150, 90));
-		list.setModel(new AbstractListModel() {
-			String[] values = v.datos.getMed().toArray(new String[0]);
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+
+		list.addListSelectionListener(this);
+
+		
+		
 		panelMed.add(list);
 		
 		
@@ -265,6 +274,14 @@ public class VentanaTratamiento extends JFrame {
 		panelMed.add(horizontalGlue);
 		
 		btnAnyadir = new JButton("Añadir");
+		btnAnyadir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Has añadido el medicamento " +modelo.get(list.getSelectedIndex()));
+				int index = list.getSelectedIndex();
+				medicamentosSeleccionados.add(v.datos.getMed().get(index));
+				
+			}
+		});
 		panelMed.add(btnAnyadir);
 		
 		panelBotones = new JPanel();
@@ -296,7 +313,7 @@ public class VentanaTratamiento extends JFrame {
 					
 					
 					
-					v.anadirPruebas(posPersona, textTitulo.getText(),textAmbito.getText(), fec, textArea.getText(),Time.valueOf(sdf.format(spinner.getValue())));
+					v.anadirtratamientos(posPersona, textTitulo.getText(),textAmbito.getText(), fec, textArea.getText(),Time.valueOf(sdf.format(spinner.getValue())),medicamentosSeleccionados);
 					v.setEnabled(true);
 					setVisible(false);
 
@@ -320,5 +337,27 @@ public class VentanaTratamiento extends JFrame {
 		});
 		panelBotones.add(btnNewButton);
 	}
+
+
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+        if (e.getValueIsAdjusting() == false) {
+        	 
+            if (list.getSelectedIndex() == -1) {
+            //No selection, disable fire button.
+                btnAnyadir.setEnabled(false);
+ 
+            } else {
+            //Selection, enable the fire button.
+                btnAnyadir.setEnabled(true);
+                System.out.println(list.getSelectedIndex());
+            }
+        }
+	}
+
+
+
+
 
 }

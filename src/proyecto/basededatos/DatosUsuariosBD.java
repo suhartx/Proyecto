@@ -475,19 +475,19 @@ public class DatosUsuariosBD {
 
 		if(bdConectada) {
 		
-		Connection miConexionTratamiento = null;
+		Connection miConexion = null;
 		
 		//1. CREAMOS LA CONEXION
 		
 	try {
-		miConexionTratamiento=DriverManager.getConnection("jdbc:mysql://localhost:3306/osabide","root","");
+		miConexion=DriverManager.getConnection("jdbc:mysql://localhost:3306/osabide","root","");
 		log( Level.INFO, "Conectada base de datos " + "osabide", null );
 
 	
 	
 		//2. CREAMOS EL OBJETO STATEMENT
 		try {	
-			Statement datosBD = miConexionTratamiento.createStatement();
+			Statement datosBD = miConexion.createStatement();
 			log( Level.INFO, "Declaracion en la base de datos", null );
 	
 			//3. EJECUTAMOS LA INSTRUCCION SQL
@@ -504,7 +504,7 @@ public class DatosUsuariosBD {
 			
 			try {
 				if (datosBD!=null) datosBD.close();
-				if (miConexionTratamiento!=null) miConexionTratamiento.close();
+				if (miConexion!=null) miConexion.close();
 				log( Level.INFO, "Cierre de base de datos", null );
 			} catch (SQLException e) {
 				log( Level.SEVERE, "Error en cierre de base de datos", e );
@@ -543,6 +543,70 @@ public class DatosUsuariosBD {
 
 		if(bdConectada) {
 		
+		Connection miConexion = null;
+		
+		//1. CREAMOS LA CONEXION
+		
+	try {
+		miConexion=DriverManager.getConnection("jdbc:mysql://localhost:3306/osabide","root","");
+		log( Level.INFO, "Conectada base de datos " + "osabide", null );
+
+	
+	
+		//2. CREAMOS EL OBJETO STATEMENT
+		try {	
+			Statement datosBD = miConexion.createStatement();
+			log( Level.INFO, "Declaracion en la base de datos", null );
+	
+			//3. EJECUTAMOS LA INSTRUCCION SQL
+			try {
+				datosBD.executeUpdate("INSERT INTO PRUEBA VALUES "+sentencia);
+				log( Level.INFO, "BD tipo buscado\t " + "INSERT INTO PRUEBA VALUES "+sentencia, null );
+	
+				contPruebas++;
+	
+	
+			} catch (SQLException e) {
+				log( Level.SEVERE, "Error en BD\t " + "INSERT INTO PRUEBA", e );
+			}
+			
+			try {
+				if (datosBD!=null) datosBD.close();
+				if (miConexion!=null) miConexion.close();
+				log( Level.INFO, "Cierre de base de datos", null );
+			} catch (SQLException e) {
+				log( Level.SEVERE, "Error en cierre de base de datos", e );
+			}
+		
+		} catch (SQLException e) {
+		log( Level.SEVERE, "Error en conexión de base de datos " + "osabide", e );
+
+	}
+		//5. CERRAMOS LA CONEXION
+
+
+	}catch (SQLException e) {
+		
+		log( Level.SEVERE, "Error en la declaracion de la base de datos", null );
+
+	    System.out.println("Error en las operaciones a base de datos.");
+	    
+	    //e.printStackTrace(System.out);
+		
+	}
+		}else {
+			
+			JOptionPane.showMessageDialog(null, "La conexion con la base de datos no esta establecida");
+
+			
+		}
+		
+		
+	}
+	public void anadirTratamiento(String sentencia) {
+
+		if(bdConectada) {
+		
 		Connection miConexionTratamiento = null;
 		
 		//1. CREAMOS LA CONEXION
@@ -560,14 +624,14 @@ public class DatosUsuariosBD {
 	
 			//3. EJECUTAMOS LA INSTRUCCION SQL
 			try {
-				datosBD.executeUpdate("INSERT INTO PRUEBA VALUES "+sentencia);
-				log( Level.INFO, "BD tipo buscado\t " + "INSERT INTO PRUEBA VALUES "+sentencia, null );
+				datosBD.executeUpdate("INSERT INTO TRATAMIENTOS VALUES "+sentencia);
+				log( Level.INFO, "BD tipo buscado\t " + "INSERT INTO TRATAMIENTOS VALUES "+sentencia, null );
 	
-				contCitas++;
+				contTratamientos++;
 	
 	
 			} catch (SQLException e) {
-				log( Level.SEVERE, "Error en BD\t " + "INSERT INTO PRUEBA", e );
+				log( Level.SEVERE, "Error en BD\t " + "INSERT INTO TRATAMIENTOS", e );
 			}
 			
 			try {
@@ -603,6 +667,258 @@ public class DatosUsuariosBD {
 		
 		
 	}
+	public void anadirTratamientoAsociado(String sentencia) {
+		
+		Connection miConexionTratamiento = null;
+		
+		//1. CREAMOS LA CONEXION
+		
+		try {
+			miConexionTratamiento=DriverManager.getConnection("jdbc:mysql://localhost:3306/osabide","root","");
+			log( Level.INFO, "Conectada base de datos " + "osabide", null );
+	
+		
+		
+			//2. CREAMOS EL OBJETO STATEMENT
+			try {	
+				Statement datosBD = miConexionTratamiento.createStatement();
+				log( Level.INFO, "Declaracion en la base de datos", null );
+		
+				//3. EJECUTAMOS LA INSTRUCCION SQL
+				try {
+					datosBD.executeUpdate("INSERT INTO MEDICAMENTO_TRATAMIENTO VALUES "+ sentencia);
+					log( Level.INFO, "BD tipo buscado\t " + "INSERT INTO MEDICAMENTO_TRATAMIENTO VALUES "+sentencia, null );
+		
+					contTratamientos++;
+		
+		
+				} catch (SQLException e) {
+					log( Level.SEVERE, "Error en BD\t " + "INSERT INTO MEDICAMENTO_TRATAMIENTO", e );
+				}
+				
+				try {
+					if (datosBD!=null) datosBD.close();
+					if (miConexionTratamiento!=null) miConexionTratamiento.close();
+					log( Level.INFO, "Cierre de base de datos", null );
+				} catch (SQLException e) {
+					log( Level.SEVERE, "Error en cierre de base de datos", e );
+				}
+			
+			} catch (SQLException e) {
+			log( Level.SEVERE, "Error en conexión de base de datos " + "osabide", e );
+	
+		}
+			//5. CERRAMOS LA CONEXION
+	
+	
+		}catch (SQLException e) {
+			
+			log( Level.SEVERE, "Error en la declaracion de la base de datos", null );
+	
+		    System.out.println("Error en las operaciones a base de datos.");
+		    
+		    //e.printStackTrace(System.out);
+			
+		}
+		
+	}
+	
+	public void eliminarCitas(String codcita) {
+		
+		if(bdConectada) {
+			
+		Connection miConexion = null;
+		
+		//1. CREAMOS LA CONEXION
+		
+	try {
+		miConexion=DriverManager.getConnection("jdbc:mysql://localhost:3306/osabide","root","");
+		log( Level.INFO, "Conectada base de datos " + "osabide", null );
+
+	
+	
+		//2. CREAMOS EL OBJETO STATEMENT
+		try {	
+			Statement datosBD = miConexion.createStatement();
+			log( Level.INFO, "Declaracion en la base de datos", null );
+	
+			//3. EJECUTAMOS LA INSTRUCCION SQL
+			try {
+				datosBD.executeUpdate("DELETE FROM CITA WHERE cod_cita= "+codcita);
+				log( Level.INFO, "BD tipo buscado\t " + "DELETE FROM CITA WHERE cod_cita= "+codcita, null );
+	
+				contTratamientos++;
+	
+	
+			} catch (SQLException e) {
+				log( Level.SEVERE, "Error en BD\t " + "DELETE FROM CITA WHERE cod_cita= ", e );
+			}
+			
+			try {
+				if (datosBD!=null) datosBD.close();
+				if (miConexion!=null) miConexion.close();
+				log( Level.INFO, "Cierre de base de datos", null );
+			} catch (SQLException e) {
+				log( Level.SEVERE, "Error en cierre de base de datos", e );
+			}
+		
+		} catch (SQLException e) {
+		log( Level.SEVERE, "Error en conexión de base de datos " + "osabide", e );
+
+	}
+		//5. CERRAMOS LA CONEXION
+
+
+	}catch (SQLException e) {
+		
+		log( Level.SEVERE, "Error en la declaracion de la base de datos", null );
+
+	    System.out.println("Error en las operaciones a base de datos.");
+	    
+	    //e.printStackTrace(System.out);
+		
+	}
+		}else {
+			
+			JOptionPane.showMessageDialog(null, "La conexion con la base de datos no esta establecida");
+
+			
+		}
+		
+		
+		
+	}
+	
+	public void eliminarPruebas(String cod) {
+		
+		if(bdConectada) {
+			
+		Connection miConexion = null;
+		
+		//1. CREAMOS LA CONEXION
+		
+	try {
+		miConexion=DriverManager.getConnection("jdbc:mysql://localhost:3306/osabide","root","");
+		log( Level.INFO, "Conectada base de datos " + "osabide", null );
+
+	
+	
+		//2. CREAMOS EL OBJETO STATEMENT
+		try {	
+			Statement datosBD = miConexion.createStatement();
+			log( Level.INFO, "Declaracion en la base de datos", null );
+	
+			//3. EJECUTAMOS LA INSTRUCCION SQL
+			try {
+				datosBD.executeUpdate("DELETE FROM PRUEBA WHERE cod_prueba= "+cod);
+				log( Level.INFO, "BD tipo buscado\t " + "DELETE FROM PRUEBA WHERE cod_prueba= "+cod, null );
+	
+				contTratamientos++;
+	
+	
+			} catch (SQLException e) {
+				log( Level.SEVERE, "Error en BD\t " + "DELETE FROM PRUEBA WHERE cod_prueba= ", e );
+			}
+			
+			try {
+				if (datosBD!=null) datosBD.close();
+				if (miConexion!=null) miConexion.close();
+				log( Level.INFO, "Cierre de base de datos", null );
+			} catch (SQLException e) {
+				log( Level.SEVERE, "Error en cierre de base de datos", e );
+			}
+		
+		} catch (SQLException e) {
+		log( Level.SEVERE, "Error en conexión de base de datos " + "osabide", e );
+
+	}
+		//5. CERRAMOS LA CONEXION
+
+
+	}catch (SQLException e) {
+		
+		log( Level.SEVERE, "Error en la declaracion de la base de datos", null );
+
+	    System.out.println("Error en las operaciones a base de datos.");
+	    
+	    //e.printStackTrace(System.out);
+		
+	}
+		}else {
+			
+			JOptionPane.showMessageDialog(null, "La conexion con la base de datos no esta establecida");
+
+			
+		}
+		
+		
+		
+	}
+	public void eliminarTratamientos(String cod) {
+		
+		if(bdConectada) {
+			
+		Connection miConexion = null;
+		
+		//1. CREAMOS LA CONEXION
+		
+	try {
+		miConexion=DriverManager.getConnection("jdbc:mysql://localhost:3306/osabide","root","");
+		log( Level.INFO, "Conectada base de datos " + "osabide", null );
+
+	
+	
+		//2. CREAMOS EL OBJETO STATEMENT
+		try {	
+			Statement datosBD = miConexion.createStatement();
+			log( Level.INFO, "Declaracion en la base de datos", null );
+	
+			//3. EJECUTAMOS LA INSTRUCCION SQL
+			try {
+				datosBD.executeUpdate("DELETE FROM TRATAMIENTOS WHERE cod_tratamiento= "+cod);
+				log( Level.INFO, "DELETE FROM TRATAMIENTOS WHERE cod_tratamiento= "+cod, null );
+	
+				contTratamientos++;
+	
+	
+			} catch (SQLException e) {
+				log( Level.SEVERE, "Error en BD\t " + "DELETE FROM TRATAMIENTOS WHERE cod_tratamiento= ", e );
+			}
+			
+			try {
+				if (datosBD!=null) datosBD.close();
+				if (miConexion!=null) miConexion.close();
+				log( Level.INFO, "Cierre de base de datos", null );
+			} catch (SQLException e) {
+				log( Level.SEVERE, "Error en cierre de base de datos", e );
+			}
+		
+		} catch (SQLException e) {
+		log( Level.SEVERE, "Error en conexión de base de datos " + "osabide", e );
+
+	}
+		//5. CERRAMOS LA CONEXION
+
+
+	}catch (SQLException e) {
+		
+		log( Level.SEVERE, "Error en la declaracion de la base de datos", null );
+
+	    System.out.println("Error en las operaciones a base de datos.");
+	    
+	    //e.printStackTrace(System.out);
+		
+	}
+		}else {
+			
+			JOptionPane.showMessageDialog(null, "La conexion con la base de datos no esta establecida");
+
+			
+		}
+		
+		
+		
+	}
 	
 	/////////////////////////////////////////////////////////////////////
 	//                      Logging                                    //
@@ -616,7 +932,7 @@ public class DatosUsuariosBD {
 		DatosUsuariosBD.contCitas = contCitas;
 	}
 
-	public static int getContPruebas() {
+	public int getContPruebas() {
 		return contPruebas;
 	}
 
@@ -624,7 +940,7 @@ public class DatosUsuariosBD {
 		DatosUsuariosBD.contPruebas = contPruebas;
 	}
 
-	public static int getContTratamientos() {
+	public int getContTratamientos() {
 		return contTratamientos;
 	}
 

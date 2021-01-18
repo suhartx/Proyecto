@@ -103,6 +103,31 @@ public class Medicamento implements ICSV, Comparable<Medicamento>{
 
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + codMedicamento;
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Medicamento other = (Medicamento) obj;
+		if (codMedicamento != other.codMedicamento)
+			return false;
+		other.contador++;
+		return true;
+	}
+
+
+	@Override
 	public int compareTo(Medicamento o) {
 		int ret;
 		ret = codMedicamento-o.codMedicamento;

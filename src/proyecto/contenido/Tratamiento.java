@@ -39,6 +39,21 @@ public class Tratamiento implements ICSV, Comparable<Tratamiento>{
 		this.hora = hora;
 
 	}
+	
+
+
+	public Tratamiento(int codTratamiento, String titulo, String descripcion, String ambito, Date fecha, Time hora,
+			Medico medicoAsociado, ArrayList<Medicamento> medicamentos) {
+		super();
+		this.codTratamiento = codTratamiento;
+		this.titulo = titulo;
+		this.descripcion = descripcion;
+		this.ambito = ambito;
+		this.fecha = fecha;
+		this.hora = hora;
+		this.medicoAsociado = medicoAsociado;
+		this.medicamentos = medicamentos;
+	}
 
 
 	public Tratamiento(int codTratamiento, String titulo, String descripcion, String ambito, Date fecha, Time hora,
@@ -52,6 +67,7 @@ public class Tratamiento implements ICSV, Comparable<Tratamiento>{
 		this.hora = hora;
 		this.medicoAsociado = medicoAsociado;
 	}
+	
 
 
 	public int getCodtratamiento() {
