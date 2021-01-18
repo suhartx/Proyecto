@@ -8,7 +8,11 @@ import java.util.TreeSet;
 
 import proyecto.interfaces.ICSV;
 import proyecto.usuarios.Medico;
-
+/**
+ * clase que contiene informacion a cerca de los tratamientos
+ * @author Suhar
+ *
+ */
 public class Tratamiento implements ICSV, Comparable<Tratamiento>{
 
 	private int codTratamiento;
@@ -143,7 +147,10 @@ public class Tratamiento implements ICSV, Comparable<Tratamiento>{
 	public ArrayList<Medicamento> getMedicamentos() {
 		return medicamentos;
 	}
-
+	/**
+	 * genera un treeset con los medicamentos que contenga
+	 * @return
+	 */
 	public TreeSet<Medicamento> getMedicamentosSet(){
 		if (medicamentosSet==null) {
 			
@@ -173,6 +180,9 @@ public class Tratamiento implements ICSV, Comparable<Tratamiento>{
 		return "Tratamiento [codtratamiento=" + codTratamiento + ", titulo=" + titulo + ", descripcion=" + descripcion
 				+ ", ambito=" + ambito + ", fecha=" + fecha + ", hora=" + hora + "]";
 	}
+	/**
+	 * ordena los medicamentos segun su codigo
+	 */
 	@Override
 	public int compareTo(Tratamiento c) {
 		int ret;

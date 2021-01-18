@@ -32,8 +32,10 @@ public class UsuariosBD {
 	private static boolean LOGGING = true;  // Log a consola de lo que se va leyendo en el CSV
 
 
-	//TODO meter lista de citas pruebas y tratamientos en cada usuario buscar cual es el metodo mas corto
 
+	/**
+	 * genera una lista de información extrayendo informacion acerca de los usuarios
+	 */
 	public UsuariosBD() {
 		
 		Connection miConexion = null;
@@ -197,6 +199,10 @@ public class UsuariosBD {
 			}
 		}	
 	}	
+	/**
+	 * metodo que devuelve la lista deusuarios creada
+	 * @return
+	 */
 	public static ArrayList<Usuario> getUsuarios() {
 		UsuariosBD usuarios = new UsuariosBD();
 		return usuarios.listaUsuariosBD;

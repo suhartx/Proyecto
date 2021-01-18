@@ -57,7 +57,9 @@ public class DatosUsuariosBD {
 	public DatosUsuariosBD() {
 		//CON ESTOS MÉTODOS INTRODUCIMOS LOS DATOS EN LAS LISTAS
 
-
+		/**
+		 * si no hay conexión con la base de datos
+		 */
 		if (usuarios.isEmpty()) {
 				
 			bdConectada= false;
@@ -101,7 +103,9 @@ public class DatosUsuariosBD {
 		
 
 	}
-	
+	/**
+	 * añade las citas a los usuarios
+	 */
 	public void añadirCitas(){
 		
 		Connection miConexionCita = null;
@@ -169,7 +173,9 @@ public class DatosUsuariosBD {
 			
 		}
 	}
-			
+	/**
+	 * añade las pruebas a los usuarios
+	 */
 	public void añadirPruebas(){
 		
 		Connection miConexionPrueba = null;
@@ -204,11 +210,8 @@ public class DatosUsuariosBD {
 					
 					usuarios.get(mirResultSetDatos.getInt("paciente_asociado")-1).getPruebas().add(p);
 					p.setSanitarioAsociado(usuarios.get(mirResultSetDatos.getInt("sanitario_asociado")-1));
-	
-	
-					//System.out.println(usuarios.get(mirResultSetDatos.getInt("paciente_asociado")-1).getNombre());
-					//System.out.println(p.toString());				
-					//System.out.println("Sanitario asociado: "+p.getSanitarioAsociado().getNombre());
+
+
 					
 				}
 			} catch (SQLException e) {
@@ -238,7 +241,9 @@ public class DatosUsuariosBD {
 		}
 	}
 		
-		
+	/**
+	 * añade los tratamientos a los usuarios
+	 */
 	public void añadirTratamientos(){
 
 		
@@ -279,10 +284,8 @@ public class DatosUsuariosBD {
 					usuarios.get(mirResultSetTratamientos.getInt("paciente_asociado")-1).getTratamientos().add(t);
 					t.setMedicoAsociado((Medico)usuarios.get(mirResultSetTratamientos.getInt("medico_asociado")-1));
 					
-					
-	//				System.out.println(usuarios.get(mirResultSetTratamientos.getInt("paciente_asociado")-1).getNombre());
-	//				System.out.println(t.toString());				
-	//				System.out.println("Sanitario asociado: "+t.getMedicoAsociado().getNombre());
+
+
 					
 				}
 			} catch (SQLException e) {
@@ -310,7 +313,9 @@ public class DatosUsuariosBD {
 			
 		}
 	}		
-	
+	/**
+	 * añade los medicamentos
+	 */
 	public void añadirMedicamentos(){
 		
 		Connection miConexionMedicamento=null;
@@ -369,7 +374,9 @@ public class DatosUsuariosBD {
 		}
 	}
 				
-
+	/**
+	 * añade los medicamentos a los tratamientos
+	 */
 	public void añadirMedicamentosAsociados(){
 		
 		Connection miConexionMedicamentoAsociado =null;
@@ -539,6 +546,10 @@ public class DatosUsuariosBD {
 		
 		
 	}
+	/**
+	 * añade una preuba a las base de datoa
+	 * @param sentencia
+	 */
 	public void anadirPrueba(String sentencia) {
 
 		if(bdConectada) {
@@ -603,6 +614,10 @@ public class DatosUsuariosBD {
 		
 		
 	}
+	/**
+	 * añade un tratamiento a la base de de datos
+	 * @param sentencia
+	 */
 	public void anadirTratamiento(String sentencia) {
 
 		if(bdConectada) {
@@ -667,6 +682,10 @@ public class DatosUsuariosBD {
 		
 		
 	}
+	/**
+	 * añade los medicamento asoviados al tratamiento en cuestion
+	 * @param sentencia
+	 */
 	public void anadirTratamientoAsociado(String sentencia) {
 		
 		Connection miConexionTratamiento = null;
@@ -722,7 +741,10 @@ public class DatosUsuariosBD {
 		}
 		
 	}
-	
+	/**
+	 * elimina la cita seleccionada de la abse de datos
+	 * @param codcita
+	 */
 	public void eliminarCitas(String codcita) {
 		
 		if(bdConectada) {
@@ -788,7 +810,10 @@ public class DatosUsuariosBD {
 		
 		
 	}
-	
+	/**
+	 * elimina la prueba de la base de datos selecconada
+	 * @param cod
+	 */
 	public void eliminarPruebas(String cod) {
 		
 		if(bdConectada) {
@@ -854,6 +879,10 @@ public class DatosUsuariosBD {
 		
 		
 	}
+	/**
+	 * elimina el tratamiento de la base de datos seleccionada
+	 * @param cod
+	 */
 	public void eliminarTratamientos(String cod) {
 		
 		if(bdConectada) {
@@ -920,9 +949,7 @@ public class DatosUsuariosBD {
 		
 	}
 	
-	/////////////////////////////////////////////////////////////////////
-	//                      Logging                                    //
-	/////////////////////////////////////////////////////////////////////
+
 	
 	public  int getContCitas() {
 		return contCitas;
@@ -964,6 +991,9 @@ public class DatosUsuariosBD {
 	public HashMap<String, Usuario> getUsuariosMapNombre() {
 		return usuariosMapNombre;
 	}
+	/////////////////////////////////////////////////////////////////////
+	//                      Logging                                    //
+	/////////////////////////////////////////////////////////////////////
 
 	public static boolean isLOGGING() {
 		return LOGGING;

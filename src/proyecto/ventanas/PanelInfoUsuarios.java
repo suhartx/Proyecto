@@ -17,17 +17,13 @@ import javax.swing.border.Border;
 import proyecto.usuarios.Usuario;
 
 /**
- * Clase que devuelve unpanel de informacion de usuarios
+ * Clase que devuelve un panel de informacion de usuarios
  * @author Suhar
  *
  */
 public class PanelInfoUsuarios extends JPanel{
-	
-//	String[] keys = {"Nombre: ", "Apellidos: ", "DNI: ", "sexo: ",
-//	  "Peso: ", "Altura: ", "Alergias: ",
-//	  "Colesterol: ", "Tensión: ", "Enfermedades: ", "Tipo de sangre: ", 
-//	  "Medico de cabecera: "};	
-	
+
+
 	private JLabel nombreInfo;
 	
 	private JLabel apeInfo;
@@ -172,58 +168,12 @@ public class PanelInfoUsuarios extends JPanel{
 		alergiasPanel.add(alergiasInfo);
 		
 		add(alergiasPanel);			
-		
-		
-//////////////////////
-		
-//			
-//
-//			  String[] values = {nombre , apellido, dni, Character.toString(sexo).toUpperCase(),
-//	                    Float.toString(peso)+ " kg", Integer.toString(altura)+" cm", Alergias.replace("-", ", "), Integer.toString(colesterol),
-//	                    Integer.toString(tension), enfermedades.replace("-", ", "), tipoSangre, medicoCabecera.getNombre()+" "+ medicoCabecera.getApellido()};
-//
-//			JPanel panel = new JPanel(new FlowLayout());
-//			GridBagConstraints gbc;
-//			JLabel valor = null;
-//			int maxWidth = 0;
-//			
-//			JLabel[] labels = new JLabel[keys.length];
-//			
-//		    for (int i = 0; i < keys.length; i++)
-//		    {
-//		      labels[i] = new JLabel(keys[i]);
-//		      maxWidth = Math.max(labels[i].getPreferredSize().width, maxWidth);
-//		    }
-//
-//		    JPanel[] panels = new JPanel[keys.length];
-//
-//		    for (int i = 0; i < keys.length; i++)
-//		    {
-//		      panels[i] = new JPanel(new GridBagLayout());
-//
-//		      gbc = new GridBagConstraints();
-//		      gbc.gridx = 0;
-//		      gbc.gridy = 0;
-//		      gbc.anchor = GridBagConstraints.LINE_START;
-//		      gbc.insets = new Insets(1,1,1,1);
-//		      panels[i].add(Box.createHorizontalStrut(maxWidth), gbc);
-//
-//		      gbc.gridy = 1;
-//		      panels[i].add(labels[i], gbc);
-//
-//		      valor = new JLabel(values[i]);
-//
-//		      gbc.gridx = 1;
-//		      panels[i].add(valor, gbc);
-//
-//		      panel.add(panels[i]);
-//		    }
-//		    panel.setPreferredSize(new Dimension(300, 300));
-//			return panel;
-//			
-//		
+
 	}
-	
+	/**
+	 * con este metodo escribimos la informacion del usuario que queremos
+	 * @param u usuario en cuestion
+	 */
 	public void setInfoUsuario(Usuario u) {
 		
 		//System.out.println("esto funciona");

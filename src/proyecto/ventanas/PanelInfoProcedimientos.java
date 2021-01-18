@@ -19,7 +19,12 @@ import proyecto.contenido.Tratamiento;
 import proyecto.usuarios.Usuario;
 
 
-
+/**
+ * Clase que genera un jpanel con información a cerca de los procedimientos que tiene cada usuario
+ * se puede rellenar de citas, pruebas y tratamientos
+ * @author Suhar
+ *
+ */
 public class PanelInfoProcedimientos extends JPanel{
 	
 	BoxLayout layoutPrincipal;
@@ -37,7 +42,10 @@ public class PanelInfoProcedimientos extends JPanel{
 
 		
 	}
-	
+	/**
+	 * rellena el panel de citas 
+	 * @param u datos del usuario del cual rellenaremos la información
+	 */
 	public void RellenarDeCitas(Usuario u) {
 		
 		layoutPrincipal = new BoxLayout(this, BoxLayout.Y_AXIS);
@@ -109,12 +117,17 @@ public class PanelInfoProcedimientos extends JPanel{
 	}
 	
 	
-	
+	/**
+	 * limpiamos el panel por dentro con este metodo
+	 */
 	public void limpiarInterior() {
 		
 		removeAll();
 	}
-	
+	/**
+	 * rellena el panel de tratamientos
+	 * @param u datos del usuario del cual rellenaremos la información
+	 */
 	public void RellenarDeTReatamentos(Usuario u) {
 		
 		
@@ -185,7 +198,10 @@ public class PanelInfoProcedimientos extends JPanel{
 				add(p);
 		}
 	}
-	
+	/**
+	 * rellena el panel de información de las pruebas
+	 * @param u informacion del usuario del cual rellaremos las citas
+	 */
 	public void RellenarDePruebas(Usuario u) {
 		
 		layoutPrincipal = new BoxLayout(this, BoxLayout.Y_AXIS);

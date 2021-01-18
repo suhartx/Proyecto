@@ -39,7 +39,11 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import herramientas.DateLabelFormatter;
 import proyecto.usuarios.Usuario;
-
+/**
+ * ventana con un formulario para crear un a nueva prueba
+ * @author Suhar
+ *
+ */
 public class VentanaPrueba extends JFrame {
 
 	private JPanel contenedor;

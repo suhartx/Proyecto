@@ -48,7 +48,11 @@ import proyecto.usuarios.Usuario;
 
 
 
-
+/**
+ * clase que sirve para escribir un fichero csv formado con datos
+ * @author Suhar
+ *
+ */
 public class Ficheros { 
 	
 	
@@ -113,6 +117,11 @@ public class Ficheros {
 			
 		}
 	}
+	/**
+	 * procesa un fichero csv
+	 * @param file
+	 * @throws IOException
+	 */
 	public static void processCSV( File file ) 
 	throws IOException // Error de I/O
 	{
@@ -376,6 +385,10 @@ public class Ficheros {
 		//System.out.println(Usuarios);
 
 	}
+	/**
+	 * devuelve la lista de usuarios que haya genrado
+	 * @return
+	 */
 	public static ArrayList<Usuario>devuelvelistaUsuarios(){
 		return Ficheros.usuariosFicheros;
 		

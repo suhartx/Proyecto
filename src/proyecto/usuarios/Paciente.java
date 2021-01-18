@@ -24,7 +24,9 @@ public class Paciente extends Usuario {
 		super(codusuario, nombre, apellido, dni, sexo, contrasenya, peso, altura, alergias, colesterol, tension, enfermedades, tipoSangre);
 		// TODO Auto-generated constructor stub
 	}
-
+	/**
+	 * devuelve el jtree de su propio usuario
+	 */
 	@Override
 	public JTree cargarJTree(ArrayList<Usuario> user) {
 		

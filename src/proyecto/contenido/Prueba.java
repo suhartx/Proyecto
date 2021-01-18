@@ -7,7 +7,11 @@ import proyecto.basededatos.UsuariosBD;
 import proyecto.interfaces.ICSV;
 import proyecto.usuarios.Medico;
 import proyecto.usuarios.Usuario;
-
+/**
+ * case que contiene informacion a cerca de las pruebas
+ * @author Suhar
+ *
+ */
 public class Prueba implements ICSV, Comparable<Prueba>{
 
 	private int codPrueba;

@@ -51,7 +51,12 @@ import javax.swing.JSplitPane;
 import java.awt.Dimension;
 import java.awt.ComponentOrientation;
 import java.awt.Rectangle;
-
+/**
+ * metodo que genera la ventana principal del programa
+ * @author Suhar
+ *
+ */
+@SuppressWarnings("serial")
 public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 
 
@@ -80,7 +85,9 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 
 
 	/**
-	 * Create the frame.
+	 * crea el frame
+	 * @param datos de los usuarios que hemos generado
+	 * @param posPersona posicion de la personal logueada dentro del arraylist de usuarios
 	 */
 	public VentanaPrincipal(DatosUsuariosBD datos, int posPersona) {
 		
@@ -155,7 +162,9 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 	}
 	
 	
-	
+	/**
+	 * metodo que inicializa los paneles internos
+	 */
 	public void inicializarPaneles() {
 		
 		
@@ -211,7 +220,6 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		
 		btnEliminar = new JButton("Eliminar");
 		panelBotonera.add(btnEliminar);
-		//System.out.println(usuarios.get(posPersona).getClass().getSimpleName());
 		if (usuarios.get(posPersona).getClass().getSimpleName().equals("Paciente")) {
 			
 			btnCrear.setEnabled(false);
@@ -221,7 +229,9 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		
 		
 	}
-	
+	/**
+	 * metodo que inicializa el arbol 
+	 */
 	public void inicializarArbol() {
 		
 
@@ -243,20 +253,11 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		
 		panelInformeProcedimiento =  new PanelInformeProcedimiento();
 		
-		
-		
-		
-		//TODO los paneles restantes
 
 
-		
 	}
+
 	
-
-
-
-
-
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		
@@ -456,6 +457,10 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		}
 	}
 	
+	/**
+	 * devuelve el usuario de la rama del arbol que hayas seleccionado
+	 * @return
+	 */
 	public Usuario getPersonaSeleccionada() {
 		
 		if (usuariosMapNombre.containsKey(((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getUserObject())) {
@@ -465,22 +470,33 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 			return usuariosMapNombre.get(((DefaultMutableTreeNode)((DefaultMutableTreeNode)((DefaultMutableTreeNode) (tree.getLastSelectedPathComponent())).getParent()).getParent()).getUserObject());			
 		}
 	}
+	/**
+	 * llama a la ventana cita
+	 */
 	public void llamarVentanaCita() {
 
 		VentanaCita v = new VentanaCita(this, usuarios.get(getPersonaSeleccionada().getCodUsuario()-1), posPersona);
 		v.setVisible(true);
 	}
+	/**
+	 * llama a la ventana prueba
+	 */
 	public void llamarVentanaPrueba() {
 
 		VentanaPrueba p = new VentanaPrueba(this, usuarios.get(getPersonaSeleccionada().getCodUsuario()-1), posPersona);
 		p.setVisible(true);
 	}
+	/**
+	 * llama a la ventana tratamiento
+	 */
 	public void llamarVentanaTratamiento() {
 
 		VentanaTratamiento t = new VentanaTratamiento(this, usuarios.get(getPersonaSeleccionada().getCodUsuario()-1), posPersona);
 		t.setVisible(true);
 	}
-	
+	/**
+	 * añade la cita al arbol y a la base de datos y los ficheros
+	 */
 	public void anadirCitas(Usuario pac, String titulo, String ambito, Date fec, String descripcion, Time hora) {
 		tree.getSelectionModel().removeTreeSelectionListener(this);
 			usuarios.get(pac.getCodUsuario()-1).getCitas().add(new Cita(datos.getContCitas()+1, titulo, descripcion, ambito, fec, hora, usuarios.get(posPersona)));
@@ -503,6 +519,9 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 
 		
 	}
+	/**
+	 * Añade la prueba al arbo a las bases de datos y al fichero
+	 */
 	public void anadirPruebas(Usuario pac, String titulo, String ambito, Date fec, String descripcion, Time hora) {
 		
 		tree.getSelectionModel().removeTreeSelectionListener(this);
@@ -523,6 +542,9 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		
 		Ficheros.Escribeficheros(usuarios);
 	}
+	/*
+	 * añade el tratamiento a la ventana al fichero y a las bases de datos
+	 */
 	public void anadirtratamientos(Usuario pac, String titulo, String ambito, Date fec, String descripcion, Time hora, ArrayList<Medicamento> medicamentos) {
 		
 		tree.getSelectionModel().removeTreeSelectionListener(this);
@@ -564,7 +586,9 @@ public class VentanaPrincipal extends JFrame implements TreeSelectionListener {
 		
 		Ficheros.Escribeficheros(usuarios);
 	}
-
+	/**
+	 * elimina el contenido que hayas seleccionado
+	 */
 	public void eliminarContenido(){
 		
 		int respuesta = JOptionPane.showConfirmDialog(this, "seguro que quieres elimiar esto?");

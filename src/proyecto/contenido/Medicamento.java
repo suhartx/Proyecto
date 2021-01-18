@@ -5,7 +5,11 @@ import java.util.Comparator;
 import java.util.Date;
 
 import proyecto.interfaces.ICSV;
-
+/**
+ * clase que contiene informacion acerca de los medicamentos
+ * @author Suhar
+ *
+ */
 public class Medicamento implements ICSV, Comparable<Medicamento>{
 	
 	private int codMedicamento;

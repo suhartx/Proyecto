@@ -52,7 +52,11 @@ import java.awt.List;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
-
+/**
+ * ventana con un formulario para generar un tratameinto
+ * @author Suhar
+ *
+ */
 public class VentanaTratamiento extends JFrame implements ListSelectionListener{
 
 
@@ -168,18 +172,15 @@ public class VentanaTratamiento extends JFrame implements ListSelectionListener{
 		
 		labelFecha = new JLabel("Fecha: ");
 		panelFecha.add(labelFecha);
-		
-//		textField_3 = new JTextField();
-//		panelFecha.add(textField_3);
-//		textField_3.setColumns(20);
+
+
 		UtilDateModel model = new UtilDateModel();
-		//model.setDate(20,04,2014);
-		// Need this...
+
 		Properties p = new Properties();
 		p.put("text.today", "Today");
 		p.put("text.month", "Month");
 		p.put("text.year", "Year");
-		//model.setDate(1990, 8, 24);
+
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		 
@@ -199,11 +200,8 @@ public class VentanaTratamiento extends JFrame implements ListSelectionListener{
 		
 		labelHora = new JLabel("Hora: ");
 		panelHora.add(labelHora);
-		
-//		textField_4 = new JTextField();
-//		panelHora.add(textField_4);
-//		textField_4.setColumns(20);
-		
+
+
 		
 	    Calendar calendar = new GregorianCalendar();
 	    calendar.set(Calendar.HOUR_OF_DAY, 13); // 1pm

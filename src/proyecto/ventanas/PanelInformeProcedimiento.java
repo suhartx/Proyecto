@@ -24,7 +24,11 @@ import proyecto.contenido.Medicamento;
 import proyecto.contenido.Prueba;
 import proyecto.contenido.Tratamiento;
 import proyecto.usuarios.Usuario;
-
+/**
+ * clase que genera informacion del procedimiento que seleccionamos en el jtree mediante un panel
+ * @author Suhar
+ *
+ */
 public class PanelInformeProcedimiento extends JPanel{
 
 	LayoutManager layoutPrincipal;
@@ -49,12 +53,18 @@ public class PanelInformeProcedimiento extends JPanel{
 
 	
 
+
 	public PanelInformeProcedimiento() {
 		
 		JScrollBar b = new JScrollBar();
 
 		
 	}
+	/**
+	 * genera el informe de citas del usuario u la cita en concreto
+	 * @param u
+	 * @param c
+	 */
 	public void informeCitas(Usuario u, Cita c) {
 		
 		layoutPrincipal = new BoxLayout(this, BoxLayout.Y_AXIS);
@@ -151,6 +161,11 @@ public class PanelInformeProcedimiento extends JPanel{
 		add(desc);
 	
 	}
+	/**
+	 * generamos el informe de la prueba que haiamos generado
+	 * @param u usuario de la prueba
+	 * @param c prueba en cuestion
+	 */
 	public void informePruebas(Usuario u, Prueba c) {
 		
 		layoutPrincipal = new BoxLayout(this, BoxLayout.Y_AXIS);
@@ -249,6 +264,11 @@ public class PanelInformeProcedimiento extends JPanel{
 		add(desc);
 	
 	}
+	/**
+	 * genera el informe del tratamiento que seleccionemos en cuestión
+	 * @param u usuarion al que le pertenece el tratamiento
+	 * @param c tratamiento en cuestión
+	 */
 	public void informeTratamientos(Usuario u, Tratamiento c) {
 		
 		layoutPrincipal = new BoxLayout(this, BoxLayout.Y_AXIS);
@@ -264,7 +284,7 @@ public class PanelInformeProcedimiento extends JPanel{
 		p.setLayout(new GridLayout(3, 2));
 
 		JPanel codPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JLabel codLabel = new JLabel("Codigo de cita: ");
+		JLabel codLabel = new JLabel("Codigo de tratamiento: ");
 		codInfo = new JLabel();
 		
 		codPanel.add(codLabel);
@@ -470,7 +490,9 @@ public class PanelInformeProcedimiento extends JPanel{
 
 
 	
-	
+	/**
+	 * con este metodo limpiamos el interior
+	 */
 	public void limpiarInterior() {
 		
 		removeAll();

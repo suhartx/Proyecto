@@ -245,7 +245,10 @@ public abstract class Usuario implements ICSV{
 	public ArrayList<Cita> getCitas() {
 		return citas;
 	}
-	
+	/**
+	 * devuelve un treeset de citas ordenadas
+	 * @return
+	 */
 	public TreeSet<Cita> getCitasOrdenadas(){
 		TreeSet<Cita> citasOrdenadas =  new TreeSet<Cita>();
 		
@@ -254,7 +257,10 @@ public abstract class Usuario implements ICSV{
 		}
 		return citasOrdenadas;
 	}
-	
+	/**
+	 * genera una lista de Strings de citas
+	 * @return
+	 */
 	public ArrayList<String> getListaCitas() {
 		ArrayList<String> CitasLista = new ArrayList<String>();
 		for (Cita p : citas) {
@@ -263,6 +269,11 @@ public abstract class Usuario implements ICSV{
 		return CitasLista;
 	}
 
+	/**
+	 * devuelve la cita con el nombre y codigo que hayas generado
+	 * @param cita cod de cita + nombre
+	 * @return
+	 */
 	public Cita getCitaSeleccionada(String cita){
 		
 		mapaCitas =  new HashMap<String, Cita>();
@@ -279,7 +290,10 @@ public abstract class Usuario implements ICSV{
 		}
 		
 	}
-	
+	/**
+	 * devuelve un hashmap de citas
+	 * @return
+	 */
 	public HashMap<String, Cita> getMapacitas(){
 		mapaCitas =  new HashMap<String, Cita>();
 		for (Cita c : citas) {
@@ -293,13 +307,15 @@ public abstract class Usuario implements ICSV{
 		this.citas = citas;
 
 	}
-	
 
 
 	public ArrayList<Tratamiento> getTratamientos() {
 		return tratamientos;
 	}
-	
+	/**
+	 * genera un treeset ordenado de los tratamientos
+	 * @return treeset de tratamientos
+	 */
 	public TreeSet<Tratamiento> getTratamientosOrdenados(){
 		TreeSet<Tratamiento> tratamientosOrdenados =  new TreeSet<Tratamiento>();
 		
@@ -308,7 +324,9 @@ public abstract class Usuario implements ICSV{
 		}
 		return tratamientosOrdenados;
 	}
-	
+	/**
+	 * devuelve un arraylist de Strings con los nombres de tratamientos
+	 */
 	public ArrayList<String> getListaTratamientos() {
 		ArrayList<String> TratamientosLista = new ArrayList<String>();
 		for (Tratamiento p : tratamientos) {
@@ -316,7 +334,11 @@ public abstract class Usuario implements ICSV{
 		}
 		return TratamientosLista;
 	}
-	
+	/**
+	 * te devuelve el tratamiento seleccionado
+	 * @param tratamiento cod + nombre del tratamiento que quieras seleccionar
+	 * @return
+	 */
 	public Tratamiento getTratamientoSeleccionado(String tratamiento) {
 		mapaTratamientos = new HashMap<String, Tratamiento>();
 		for (Tratamiento t : tratamientos) {
@@ -329,7 +351,10 @@ public abstract class Usuario implements ICSV{
 			return null;
 		}
 	}
-	
+	/**
+	 * devuelve un hashmap de los tratamientos
+	 * @return
+	 */
 	public HashMap<String, Tratamiento> getMapaTratamientos(){
 		mapaTratamientos =  new HashMap<String, Tratamiento>();
 		for (Tratamiento t : tratamientos) {
@@ -346,6 +371,10 @@ public abstract class Usuario implements ICSV{
 	public ArrayList<Prueba> getPruebas() {
 		return pruebas;
 	}
+	/**
+	 * devuelve unna lista de Strings de las pruebas
+	 * @return
+	 */
 	public ArrayList<String> getListaPruebas() {
 		ArrayList<String> pruebasLista = new ArrayList<String>();
 		for (Prueba p : pruebas) {
@@ -354,6 +383,10 @@ public abstract class Usuario implements ICSV{
 		return pruebasLista;
 	}
 
+	/**
+	 * devuelve un treeset de las pruebas ordenadas
+	 * @return
+	 */
 	public TreeSet<Prueba> getPruebasOrdenadas(){
 		TreeSet<Prueba> pruebasOrdenadas =  new TreeSet<Prueba>();
 		
@@ -362,6 +395,11 @@ public abstract class Usuario implements ICSV{
 		}
 		return pruebasOrdenadas;
 	}
+	/**
+	 * devuelve la prueva que hayas seleccionado
+	 * @param prueba cod + nombre de prueba separados por un espacio
+	 * @return
+	 */
 	public Prueba getPruebaSeleccionada(String prueba) {
 		mapaPruebas =  new HashMap<String, Prueba>();
 		for (Prueba p : pruebas) {
@@ -374,6 +412,10 @@ public abstract class Usuario implements ICSV{
 			return null;
 		}
 	}
+	/**
+	 * devcuelve un hashmap de las pruebas
+	 * @return
+	 */
 	public HashMap<String, Prueba> getMapaPruebas(){
 		mapaPruebas =  new HashMap<String, Prueba>();
 		for (Prueba p : pruebas) {
@@ -386,7 +428,9 @@ public abstract class Usuario implements ICSV{
 	public void setPruebas(ArrayList<Prueba> pruebas) {
 		this.pruebas = pruebas;
 	}
-
+	/**
+	 * genera un string en el formato adecuado para subirlo a un csv
+	 */
 	@Override
 	public String getCSV() {
 		return codUsuario + "," + nombre + "," + apellido + "," + dni + "," + sexo + "," + contrasenya + "," + peso
@@ -396,7 +440,7 @@ public abstract class Usuario implements ICSV{
 	
 	
 	
-
+	
 	@Override
 	public String toString() {
 		return "Usuario [codUsuario=" + codUsuario + ", nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni
@@ -416,59 +460,12 @@ public abstract class Usuario implements ICSV{
 		
 		
 	}
-	
-//	public JPanel devuelvePanelInformación() {
-//		
-//		  String[] keys = {"Nombre: ", "Apellidos: ", "DNI: ", "sexo: ",
-//                  "Peso: ", "Altura: ", "Alergias: ",
-//                  "Colesterol: ", "Tensión: ", "Enfermedades: ", "Tipo de sangre: ", 
-//                  "Medico de cabecera: "};
-//		  String[] values = {nombre , apellido, dni, Character.toString(sexo).toUpperCase(),
-//                    Float.toString(peso)+ " kg", Integer.toString(altura)+" cm", Alergias.replace("-", ", "), Integer.toString(colesterol),
-//                    Integer.toString(tension), enfermedades.replace("-", ", "), tipoSangre, medicoCabecera.getNombre()+" "+ medicoCabecera.getApellido()};
-//
-//		JPanel panel = new JPanel(new FlowLayout());
-//		GridBagConstraints gbc;
-//		JLabel valor = null;
-//		int maxWidth = 0;
-//		
-//		JLabel[] labels = new JLabel[keys.length];
-//		
-//	    for (int i = 0; i < keys.length; i++)
-//	    {
-//	      labels[i] = new JLabel(keys[i]);
-//	      maxWidth = Math.max(labels[i].getPreferredSize().width, maxWidth);
-//	    }
-//
-//	    JPanel[] panels = new JPanel[keys.length];
-//
-//	    for (int i = 0; i < keys.length; i++)
-//	    {
-//	      panels[i] = new JPanel(new GridBagLayout());
-//
-//	      gbc = new GridBagConstraints();
-//	      gbc.gridx = 0;
-//	      gbc.gridy = 0;
-//	      gbc.anchor = GridBagConstraints.LINE_START;
-//	      gbc.insets = new Insets(1,1,1,1);
-//	      panels[i].add(Box.createHorizontalStrut(maxWidth), gbc);
-//
-//	      gbc.gridy = 1;
-//	      panels[i].add(labels[i], gbc);
-//
-//	      valor = new JLabel(values[i]);
-//
-//	      gbc.gridx = 1;
-//	      panels[i].add(valor, gbc);
-//
-//	      panel.add(panels[i]);
-//	    }
-//	    panel.setPreferredSize(new Dimension(300, 300));
-//		return panel;
-//		
-//	}
-	
-//TODO
+
+	/**
+	 * carga el jtree de los usuarios en cuestion
+	 * @param user
+	 * @return
+	 */
 	public JTree cargarJTree(ArrayList<Usuario> user) {
 		
 		JTree arbol = new JTree();

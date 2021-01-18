@@ -28,10 +28,8 @@ public class Main {
 
 		DatosUsuariosBD datos = new DatosUsuariosBD();
 		
-//		for (Cita c: usuarios.get(0).getCitas()) {
-//			System.out.println(c.getCSV());
-//		}
-		
+
+
 		//INICIALIZAMOS LA VENTANA
 		
         VentanaLogin frame = new VentanaLogin(datos);

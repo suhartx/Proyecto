@@ -57,7 +57,6 @@ public class VentanaLogin extends JFrame {
         
         JLabel userLabel = new JLabel("Usuario:");
 		userLabel.setBounds(50, 100, 80, 25);
-		//userLabel.setBounds((int)(getBounds().width*0.2),(int)(getBounds().height*0.3),80, 25);//mirar como crear contenido dinamico
 		contenido.add(userLabel);
 		
 		userText = new JTextField(20);

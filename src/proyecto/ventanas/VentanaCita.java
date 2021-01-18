@@ -51,7 +51,11 @@ import proyecto.usuarios.Usuario;
 
 import java.awt.Toolkit;
 import java.awt.Dialog.ModalityType;
-
+/**
+ * ventana para crear un formulario de cita
+ * @author Suhar
+ *
+ */
 public class VentanaCita extends JFrame {
 
 	private JPanel contenedor;

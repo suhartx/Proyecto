@@ -5,7 +5,11 @@ import java.util.Date;
 
 import proyecto.interfaces.ICSV;
 import proyecto.usuarios.Usuario;
-
+/**
+ * clase que genera informacion acerca de las citas
+ * @author Suhar
+ *
+ */
 public class Cita implements ICSV,  Comparable<Cita>{
 
 	private int codCita;
